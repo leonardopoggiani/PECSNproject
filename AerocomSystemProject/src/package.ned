@@ -1,3 +1,0 @@
-package aerocomsystemproject;
-
-@license(LGPL);
