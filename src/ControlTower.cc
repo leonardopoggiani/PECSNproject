@@ -4,7 +4,7 @@ Define_Module(ControlTower);
 
 void ControlTower::initialize()
 {
-    cMessage* msg = new Message("End");
+    cMessage* msg = new cMessage("End");
 }
 
 void ControlTower::handleMessage(cMessage *msg)

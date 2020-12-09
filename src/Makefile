@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for AerocomSystemProject
+# OMNeT++/OMNEST Makefile for PECSNproject
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep
 #
 
 # Name of target to be created (-o option)
-TARGET = AerocomSystemProject$(D)$(EXE_SUFFIX)
+TARGET = PECSNproject$(D)$(EXE_SUFFIX)
 TARGET_DIR = .
 
 # User interface (uncomment one) (-u option)
@@ -30,11 +30,7 @@ PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
-<<<<<<< HEAD
 OBJS = $O/Aircraft.o $O/ControlTower.o $O/DataLink.o $O/LinkSelector.o $O/PacketGenerator.o
-=======
-OBJS = $O/Aircraft.o $O/ControlTower.o $O/DataLink.o
->>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
 
 # Message files
 MSGFILES =
@@ -132,8 +128,4 @@ cleanall:
 	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 # include all dependencies
-<<<<<<< HEAD
 -include $(OBJS:%=%.d) $(MSGFILES:%.msg=$O/%_m.h.d)
-=======
--include $(OBJS:%=%.d) $(MSGFILES:%.msg=$O/%_m.h.d)
->>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92

@@ -2,28 +2,31 @@
 
 Define_Module(LinkSelector);
 
-void DataLink::initialize()
+void LinkSelector::initialize()
 {
 
 }
 
-void DataLink::handleMessage(cMessage *msg)
-{
+void LinkSelector::handleMessage(cMessage *msg){
 }
 
-void DataLink::handlePacketArrival(AircraftPacket* ap){
+/*void LinkSelector::handlePacketArrival(AircraftPacket* ap){
 
-}
+}*/
 
-void DataLink::handleSetCapacity(cMessage* msg){
-
-}
-
-int DataLink::getCapacity(){
+void LinkSelector::handlePacketArrival(cMessage* msg){
 
 }
 
-void DataLink::scheduleSetCapacity(){
+void LinkSelector::handleSetCapacity(cMessage* msg){
+
+}
+
+int LinkSelector::getCapacity(){
+    return 1;
+}
+
+void LinkSelector::scheduleCheckCapacity(){
 
 }
 
