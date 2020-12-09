@@ -13,20 +13,17 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "PacketGenerator.h"
+#include "Aircraft.h"
 
-<<<<<<< HEAD
+Define_Module(Aircraft);
 
-Define_Module(PacketGenerator);
-
-void PacketGenerator::initialize()
+void Aircraft::initialize()
 {
     // TODO - Generated method body
 }
 
-void PacketGenerator::handleMessage(cMessage *msg)
+void Aircraft::handleMessage(cMessage *msg)
 {
     // TODO - Generated method body
 }
-=======
->>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
+

@@ -13,20 +13,17 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "PacketGenerator.h"
+#ifndef CONTROLTOWER_H_
+#define CONTROLTOWER_H_
 
-<<<<<<< HEAD
+#include <omnetpp.h>
 
-Define_Module(PacketGenerator);
+using namespace omnetpp;
 
-void PacketGenerator::initialize()
+class ControlTower : public cSimpleModule
 {
-    // TODO - Generated method body
-}
-
-void PacketGenerator::handleMessage(cMessage *msg)
-{
-    // TODO - Generated method body
-}
-=======
->>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+};
+#endif /* CONTROLTOWER_H_ */

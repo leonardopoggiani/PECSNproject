@@ -13,20 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "PacketGenerator.h"
+#include "LinkSelector.h"
 
-<<<<<<< HEAD
+Define_Module(LinkSelector);
 
-Define_Module(PacketGenerator);
-
-void PacketGenerator::initialize()
+void LinkSelector::initialize()
 {
     // TODO - Generated method body
 }
 
-void PacketGenerator::handleMessage(cMessage *msg)
+void LinkSelector::handleMessage(cMessage *msg)
 {
     // TODO - Generated method body
 }
-=======
->>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92

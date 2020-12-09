@@ -16,6 +16,7 @@
 #ifndef LINKSELECTOR_H_
 #define LINKSELECTOR_H_
 
+<<<<<<< HEAD
 #include <omnetpp.h>
 
 using namespace omnetpp;
@@ -29,4 +30,9 @@ class LinkSelector : public cSimpleModule
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 };
+=======
+class LinkSelector {
+};
+
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
 #endif /* LINKSELECTOR_H_ */

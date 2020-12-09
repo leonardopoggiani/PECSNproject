@@ -13,20 +13,21 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "PacketGenerator.h"
+#ifndef PACKETGENERATOR_H_
+#define PACKETGENERATOR_H_
 
-<<<<<<< HEAD
+#include <omnetpp.h>
 
-Define_Module(PacketGenerator);
+using namespace omnetpp;
 
-void PacketGenerator::initialize()
+/**
+ * TODO - Generated class
+ */
+class PacketGenerator : public cSimpleModule
 {
-    // TODO - Generated method body
-}
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+};
 
-void PacketGenerator::handleMessage(cMessage *msg)
-{
-    // TODO - Generated method body
-}
-=======
->>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
+#endif /* PACKETGENERATOR_H_ */

@@ -13,20 +13,18 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "PacketGenerator.h"
+package aerocomsystemproject;
 
-<<<<<<< HEAD
-
-Define_Module(PacketGenerator);
-
-void PacketGenerator::initialize()
+simple LinkSelector
 {
-    // TODO - Generated method body
+    parameters:
+      int DLMaxCapacity;
+      double t;
+      bool trasmitting;
+      int nDL;
+   	gates:
+      output out[nDL];	//collegamento con gate dell'aereo
+      input in; //collegamento con pachetGenerator
+          
+      
 }
-
-void PacketGenerator::handleMessage(cMessage *msg)
-{
-    // TODO - Generated method body
-}
-=======
->>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92

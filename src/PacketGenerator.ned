@@ -21,7 +21,11 @@ simple PacketGenerator
     parameters:
        // TODO
        int k; 
+<<<<<<< HEAD
     gates:
        output out;
     
+=======
+   
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
 }
