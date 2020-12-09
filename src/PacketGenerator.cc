@@ -15,3 +15,18 @@
 
 #include "PacketGenerator.h"
 
+<<<<<<< HEAD
+
+Define_Module(PacketGenerator);
+
+void PacketGenerator::initialize()
+{
+    // TODO - Generated method body
+}
+
+void PacketGenerator::handleMessage(cMessage *msg)
+{
+    // TODO - Generated method body
+}
+=======
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92

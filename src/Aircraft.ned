@@ -15,11 +15,24 @@ module Aircraft
 
     submodules:
         packetGenerator: PacketGenerator {
+<<<<<<< HEAD
+            @display("p=64,160");
+=======
             @display("p=201,172");
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
         }
         linkSelector: LinkSelector {
 
 
             @display("p=57,37");
         }
+<<<<<<< HEAD
+    connections:
+        for j=0..nDL-1 {
+            linkSelector.out[j] --> out[j];
+        }
+
+        packetGenerator.out --> linkSelector.in;
+=======
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
 }
