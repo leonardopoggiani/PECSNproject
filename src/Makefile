@@ -30,7 +30,11 @@ PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
+<<<<<<< HEAD
+OBJS = $O/Aircraft.o $O/ControlTower.o $O/DataLink.o $O/LinkSelector.o $O/PacketGenerator.o
+=======
 OBJS = $O/Aircraft.o $O/ControlTower.o $O/DataLink.o
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
 
 # Message files
 MSGFILES =
@@ -128,4 +132,8 @@ cleanall:
 	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 # include all dependencies
+<<<<<<< HEAD
 -include $(OBJS:%=%.d) $(MSGFILES:%.msg=$O/%_m.h.d)
+=======
+-include $(OBJS:%=%.d) $(MSGFILES:%.msg=$O/%_m.h.d)
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92

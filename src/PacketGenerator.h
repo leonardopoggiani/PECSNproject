@@ -16,7 +16,22 @@
 #ifndef PACKETGENERATOR_H_
 #define PACKETGENERATOR_H_
 
+<<<<<<< HEAD
+#include <omnetpp.h>
+
+using namespace omnetpp;
+
+/**
+ * TODO - Generated class
+ */
+class PacketGenerator : public cSimpleModule
+{
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+=======
 class PacketGenerator {
+>>>>>>> 343b348c6a25c26a8b3c24d332d768cd8a585b92
 };
 
 #endif /* PACKETGENERATOR_H_ */
