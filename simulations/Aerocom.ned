@@ -30,11 +30,11 @@ network Aerocom
     submodules:
         aircraft[nDL]: Aircraft {
             //@display("p=18200.729,11600.464");
-            @display("p=210,88");
+            // @display("p=210,88");
         }
         dataLink[nDL]: DataLink {
             //@display("p=18200.729,11600.464");
-            @display("p=144,30");
+            // @display("p=144,30");
         }
         controlTower: ControlTower {
             //@display("p=39,73");
