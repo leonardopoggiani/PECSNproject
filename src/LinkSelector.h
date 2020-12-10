@@ -11,10 +11,11 @@ class LinkSelector : public cSimpleModule
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
   private:
-    // quando definiremo AircraftPacket void handlePacketArrival(AircraftPacket* ap);
+    int operationMode;
+
     void handlePacketArrival(cMessage *msg);
     int getCapacity();
-    void handleSetCapacity(cMessage* msg);
+    void handleSetCapacity();
     void scheduleCheckCapacity();
 };
 
