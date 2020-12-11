@@ -19,7 +19,7 @@ Define_Module(Aircraft);
 
 void Aircraft::initialize()
 {
-    // TODO - Generated method body
+    m = par("m");
 }
 
 void Aircraft::handleMessage(cMessage *msg)
@@ -27,3 +27,6 @@ void Aircraft::handleMessage(cMessage *msg)
     // TODO - Generated method body
 }
 
+int Aircraft::getMonitorTime(){
+    return m;
+}

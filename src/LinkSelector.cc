@@ -10,12 +10,11 @@ void LinkSelector::initialize()
         EV << "Monitoraggio non attivo\n";
     } else {
         // monitoraggio ogni m secondi
-        // cModule* aircraft = getModuleByPath("Aircraft"); //God mode, inserisci una getter
-        // double m = aircraft->getMonitorTime();
+        double m = getAncestorPar("m");
         cMessage* checkingMaxCapacity = new cMessage("schedule");
 
-        scheduleAt(simTime() + 2, checkingMaxCapacity);
-        EV << "Schedulato monitoraggio ogni " << 2 << " secondi\n";
+        scheduleAt(simTime() + m, checkingMaxCapacity);
+        EV << "Schedulato monitoraggio ogni " << m << " secondi\n";
     }
 }
 
