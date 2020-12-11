@@ -21,9 +21,6 @@
 using namespace omnetpp;
 using namespace std;
 
-/**
- * TODO - Generated class
- */
 class DataLink : public cSimpleModule
 {
   protected:
