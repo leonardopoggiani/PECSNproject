@@ -1,6 +1,5 @@
 package aerocomsystemproject;
 
-
 simple DataLink
 {
      double t @unit(s); //Ogni quanto controlla la capacità dei data-link (VA)

@@ -32,7 +32,6 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
     nextCapacity = rand() % dimPoolMax_ + dimPoolMin_;
     lastCapacityTime = simTime();
     scheduleSetNextCapacity(msg);
-
 }
 
 /***********************************************

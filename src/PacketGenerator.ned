@@ -1,6 +1,5 @@
 package aerocomsystemproject;
 
-
 simple PacketGenerator
 {
     parameters:

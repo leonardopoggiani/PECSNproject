@@ -1,6 +1,4 @@
 #include "LinkSelector.h"
-#include <vector>
-#include <algorithm>
 
 Define_Module(LinkSelector);
 
@@ -56,8 +54,10 @@ int LinkSelector::getMaxIndexCapacity(){
     for(int i = 0; i < nDL; i++){
         cModule* temp;
         temp = getModuleByPath("dataLink[i]");
-        DataLink* dl = check_and_cast<DataLink*> (temp);
+        DataLink* dl;
+        dl = check_and_cast<DataLink*> (temp);
         int actualCapacity = dl->getCapacity();
+        EV << actualCapacity << "\n";
         capacities.push_back(actualCapacity);
     }
 
