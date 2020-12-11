@@ -13,6 +13,9 @@ class LinkSelector : public cSimpleModule
 
   private:
     int operationMode;
+    double monitoringTime;
+    int maxCapacityDataLinkIndex;
+    int nDL;
 
     void handlePacketArrival(cMessage *msg);
     int getCapacity();

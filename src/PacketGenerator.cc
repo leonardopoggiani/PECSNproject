@@ -4,11 +4,13 @@ Define_Module(PacketGenerator);
 
 void PacketGenerator::initialize()
 {
-    // TODO - Generated method body
+    // solo roba per provare che effettivamente viene cambiato il dataLink con la massima capacità
+    cMessage* msg = new cMessage("Messaggio");
+    scheduleAt(simTime()+10,msg);
 }
 
 void PacketGenerator::handleMessage(cMessage *msg)
 {
-    // TODO - Generated method body
+    send(msg,"out");
 }
 
