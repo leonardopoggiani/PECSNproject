@@ -44,23 +44,24 @@ void LinkSelector::handlePacketArrival(cMessage* msg){
 void LinkSelector::handleSetCapacity(){
     // ad ogni monitoringTime controllo la capacità dei DL e aggiorno il DL a capacità max
     // dovrei prendere le capacità attuali dei DL e trovo il max
-    std::vector<int> capacities;
-
-    for(int i = 0; i < nDL; i++){
-        cModule* temp;
-        temp = getModuleByPath("dataLink[i]");
-        int actualCapacity = temp->par("actualCapacity");
-        capacities.push_back(actualCapacity);
-    }
-
-    int max = std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
+    int max = getMaxIndexCapacity();
     EV << "The index of the highest capacity DL is " << max;
     maxCapacityDataLinkIndex = max;
 
 }
 
-int LinkSelector::getCapacity(){
-    return 1;
+int LinkSelector::getMaxIndexCapacity(){
+    std::vector<int> capacities;
+
+    for(int i = 0; i < nDL; i++){
+        cModule* temp;
+        temp = getModuleByPath("dataLink[i]");
+        DataLink* dl = check_and_cast<DataLink*> (temp);
+        int actualCapacity = dl->getCapacity();
+        capacities.push_back(actualCapacity);
+    }
+
+    return std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
 }
 
 void LinkSelector::scheduleCheckCapacity(){

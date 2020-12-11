@@ -2,11 +2,14 @@
 #define __AEROCOMSYSTEMPROJECT_DATALINK_H_
 
 #include <omnetpp.h>
+#include "DataLink.h"
 
 using namespace omnetpp;
 
 class LinkSelector : public cSimpleModule
 {
+    int getMaxIndexCapacity();
+
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
@@ -18,7 +21,6 @@ class LinkSelector : public cSimpleModule
     int nDL;
 
     void handlePacketArrival(cMessage *msg);
-    int getCapacity();
     void handleSetCapacity();
     void scheduleCheckCapacity();
 };
