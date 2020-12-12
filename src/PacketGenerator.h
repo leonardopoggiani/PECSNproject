@@ -12,6 +12,8 @@ class PacketGenerator : public cSimpleModule
     virtual void handleMessage(cMessage* msg);
     virtual void createSendPacket();
     virtual void scheduleArrival(cMessage* msg);
+  private:
+    double k_;
 
 };
 

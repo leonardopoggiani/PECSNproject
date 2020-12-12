@@ -15,8 +15,9 @@ class DataLink : public cSimpleModule
     virtual void handleMessage(cMessage *msg);
 
   private:
-    cPacketQueue queue;
     double t_;
+    cPacketQueue queue;
+    double mean;
     double k_;
     int size_;
     std::string setCapacityDistribution_;

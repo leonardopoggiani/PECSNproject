@@ -4,7 +4,6 @@ simple LinkSelector
 {
     parameters:
       int DLMaxCapacity;
-      double t; 
       bool trasmitting;
       int nDL;
       int operationMode;

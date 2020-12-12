@@ -4,7 +4,7 @@ Define_Module(LinkSelector);
 
 void LinkSelector::initialize()
 {
-    maxCapacityDataLinkIndex = 1;
+    maxCapacityDataLinkIndex = 0;
     operationMode = par("operationMode");
     nDL_ = par("nDL");
     if(operationMode == 1){
@@ -53,11 +53,12 @@ int LinkSelector::getMaxIndexCapacity(){
 
     for(int i = 0; i < nDL_; i++){
         cModule* temp;
-        temp = getModuleByPath("dataLink[i]");
+        std::string path = "dataLink[" + std::to_string(i) + "]";
+        temp = getModuleByPath(path.c_str());
         DataLink* dl;
         dl = check_and_cast<DataLink*> (temp);
+        EV << dl << endl;
         int actualCapacity = dl->getCapacity();
-        EV << actualCapacity << "\n";
         capacities.push_back(actualCapacity);
     }
 

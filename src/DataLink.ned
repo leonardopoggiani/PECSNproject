@@ -2,7 +2,7 @@ package aerocomsystemproject;
 
 simple DataLink
 {
-     double t @unit(s); //Ogni quanto controlla la capacità dei data-link (VA)
+     double mean @unit(s); //Ogni quanto controlla la capacità dei data-link (VA)
      double k @unit(s);
      //int actualCapacity; //Capacità attuale del DL (VA)
      int dimPoolMax; //Const
