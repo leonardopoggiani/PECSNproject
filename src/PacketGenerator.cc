@@ -12,5 +12,6 @@ void PacketGenerator::initialize()
 void PacketGenerator::handleMessage(cMessage *msg)
 {
     send(msg,"out");
+
 }
 
