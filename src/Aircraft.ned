@@ -8,6 +8,8 @@ module Aircraft
         double m @unit(s); //Tempo di monitoraggio (Cost)
         int size @unit(byte);	//Dimensione dei pacchetti (Cost)
         int serving; //Interfaccia sulla quale sta trasmettendo (1..nDL)
+        string distribution;
+       
 
     gates:
         output out[nDL];

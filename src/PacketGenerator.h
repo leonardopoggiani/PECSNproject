@@ -9,7 +9,9 @@ class PacketGenerator : public cSimpleModule
 {
   protected:
     virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage* msg);
+    virtual void createSendPacket();
+    virtual void scheduleArrival(cMessage* msg);
 
 };
 
