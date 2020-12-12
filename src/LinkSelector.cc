@@ -6,7 +6,7 @@ void LinkSelector::initialize()
 {
     maxCapacityDataLinkIndex = 1;
     operationMode = par("operationMode");
-    nDL = par("nDL");
+    nDL_ = par("nDL");
     if(operationMode == 1){
         // non monitoro, ricerco il DL con capacità più alta e tengo quello
         EV << "Monitoraggio non attivo\n";
@@ -14,7 +14,7 @@ void LinkSelector::initialize()
         handleSetCapacity();
     } else {
         // monitoraggio ogni m secondi
-        monitoringTime = getAncestorPar("m");
+        m_ = getAncestorPar("m");
         scheduleCheckCapacity();
     }
 }
@@ -40,7 +40,7 @@ void LinkSelector::handlePacketArrival(cMessage* msg){
 
 
 void LinkSelector::handleSetCapacity(){
-    // ad ogni monitoringTime controllo la capacità dei DL e aggiorno il DL a capacità max
+    // ad ogni m_ controllo la capacità dei DL e aggiorno il DL a capacità max
     // dovrei prendere le capacità attuali dei DL e trovo il max
     int max = getMaxIndexCapacity();
     EV << "The index of the highest capacity DL is " << max;
@@ -51,7 +51,7 @@ void LinkSelector::handleSetCapacity(){
 int LinkSelector::getMaxIndexCapacity(){
     std::vector<int> capacities;
 
-    for(int i = 0; i < nDL; i++){
+    for(int i = 0; i < nDL_; i++){
         cModule* temp;
         temp = getModuleByPath("dataLink[i]");
         DataLink* dl;
@@ -67,7 +67,7 @@ int LinkSelector::getMaxIndexCapacity(){
 void LinkSelector::scheduleCheckCapacity(){
     cMessage* checkingMaxCapacity = new cMessage("schedule");
 
-    scheduleAt(simTime() + monitoringTime, checkingMaxCapacity);
-    EV << "Schedulato monitoraggio ogni " << monitoringTime << " secondi\n";
+    scheduleAt(simTime() + m_, checkingMaxCapacity);
+    EV << "Schedulato monitoraggio ogni " << m_ << " secondi\n";
 }
 

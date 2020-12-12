@@ -9,6 +9,7 @@ class DataLink : public cSimpleModule
 {
   public:
     int getCapacity();
+
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
