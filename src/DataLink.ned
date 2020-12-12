@@ -9,6 +9,7 @@ simple DataLink
      int dimPoolMin; //Const
      double X;
      int nDL;
+     int size @unit(byte);
      string setCapacityDistribution = default("exponential");
      
      

@@ -17,6 +17,7 @@ class DataLink : public cSimpleModule
     cPacketQueue queue;
     double t_;
     double k_;
+    int size_;
     std::string setCapacityDistribution_;
     int nextCapacity;
     int lastCapacity;
