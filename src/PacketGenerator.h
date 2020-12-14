@@ -10,8 +10,8 @@ class PacketGenerator : public cSimpleModule
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage* msg);
-    virtual void createSendPacket();
-    virtual void scheduleArrival(cMessage* msg);
+    virtual void createSendPacket(cMessage *msg);
+    virtual void scheduleCreateSendPacket(cMessage* msg);
   private:
     double k_;
 

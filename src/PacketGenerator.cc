@@ -1,5 +1,6 @@
 #include "PacketGenerator.h"
 #include <string>
+#include "AircraftPacket_m.h"
 
 using namespace std;
 
@@ -16,22 +17,24 @@ void PacketGenerator::initialize()
 void PacketGenerator::handleMessage(cMessage* msg)
 {
     if (msg->isSelfMessage()){
-        createSendPacket();
+        createSendPacket(msg);
     }
 }
 
-void PacketGenerator::createSendPacket(){
-    cMessage* msg = new cMessage("PacketSend");
+void PacketGenerator::createSendPacket(cMessage* msg){
+    AircraftPacket* ap = new AircraftPacket("AircraftPacket");
+    ap->setAircraftID(getIndex());
 
     //Send the packet to LinkSelector
-    send(msg, "out");
+    send(ap, "out");
+    EV << "Sono PackGenerator, ho inviato il pacchetto: " << ap->getAircraftID();
 
     //Riattivo il timer
-    scheduleArrival(new cMessage("PacketArrival"));
+    scheduleCreateSendPacket(msg);
 
 }
 
-void PacketGenerator::scheduleArrival(cMessage* msg){
+void PacketGenerator::scheduleCreateSendPacket(cMessage* msg){
 
     string distribution = getAncestorPar("distribution").stdstringValue();
 

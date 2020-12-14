@@ -28,11 +28,13 @@ class DataLink : public cSimpleModule
     simtime_t lastCapacityTime;
     int dimPoolMax_;
     int dimPoolMin_;
+    bool transmitting;
 
     void handlePacketArrival(cMessage* msg);
     void sendPacket();
     void handleSetNextCapacity(cMessage* msg);
     void scheduleSetNextCapacity(cMessage* msg);
+    void handlePacketSent(cMessage *msg);
 };
 
 #endif

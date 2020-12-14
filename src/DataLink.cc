@@ -1,10 +1,12 @@
 #include "DataLink.h"
 #include "simtime.h"
+#include "AircraftPacket_m.h"
 
 Define_Module(DataLink);
 
 void DataLink::initialize()
 {
+   transmitting = false;
    mean = par("mean").doubleValue();
    k_ = par("k").doubleValue();
    size_ = par("size");
@@ -30,7 +32,7 @@ void DataLink::initialize()
    EV << "First Actual capacity is: " << actualCapacity << endl;
 
    //serviceTime = size_/actualCapacity;
-
+   serviceTime = 2;
    //EV <<"Service time is: " << serviceTime <<endl;
    EV << "First last capacity is: " << lastCapacity <<endl;
    EV << "First next capacity is: " << nextCapacity <<endl;
@@ -45,9 +47,15 @@ void DataLink::initialize()
 void DataLink::handleMessage(cMessage *msg)
 {
     if ( msg->isSelfMessage() ) {
-            if ( strcmp(msg->getName(), "setNextCapacity") == 0 ) {
+            if ( strcmp(msg->getName(), "setNextCapacity") == 0 )
                 handleSetNextCapacity(msg);
-        }
+            else if ( strcmp(msg->getName(), "packetSent") == 0 )
+                handlePacketSent(msg);
+    }
+    //Packet arrived from aircraft
+    else
+    {
+        handlePacketArrival(msg);
     }
 }
 
@@ -60,6 +68,47 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
     EV << "Actual capacity is: " << actualCapacity <<endl;
     scheduleSetNextCapacity(msg);
 }
+
+void DataLink::handlePacketArrival(cMessage *msg) {
+    EV_INFO << "==> PacketArrival";
+    EV_INFO << ", queue length: " << queue.getLength() << ", transmitting: " << transmitting << endl;
+    AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
+    queue.insert(pa);
+    if ( !transmitting ) {
+           // Try to send a new packet
+          sendPacket();
+       }
+}
+
+void DataLink::sendPacket() {
+    if ( !queue.isEmpty()) {
+
+        AircraftPacket* ap = (AircraftPacket*) queue.front();
+        queue.pop();
+
+        transmitting = true;
+        //scheduleAt(simTime() + s, new cMessage("packetSent"));
+        EV_INFO << "==> SendPacket " << ap->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime <<endl;
+        scheduleAt(simTime() + serviceTime, new cMessage("packetSent"));
+
+        send(ap, "out");
+    }
+}
+
+void DataLink::handlePacketSent(cMessage *msg) {
+    transmitting = false;
+    // Try to send a new packet
+    sendPacket();
+
+   /* if (schedulePenalty) {
+        EV_INFO << "Penalty started, "<< simTime() <<endl;
+        EV_INFO << "Penalty should end at " << simTime().dbl() +p << endl;
+        scheduleAt(simTime().dbl() + p, new cMessage("penaltyTimeElapsed"));
+        schedulePenalty = false;
+    }*/
+    delete msg;
+}
+
 
 /***********************************************
 ***************** UTILITY **********************
