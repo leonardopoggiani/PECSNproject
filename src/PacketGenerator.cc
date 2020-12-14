@@ -9,9 +9,10 @@ Define_Module(PacketGenerator);
 void PacketGenerator::initialize()
 {
     // solo roba per provare che effettivamente viene cambiato il dataLink con la massima capacita
-    cMessage* msg = new cMessage("Messaggio");
+   cMessage* msg = new cMessage("Messaggio");
+    k_ = getAncestorPar("k").doubleValue();
+    distribution = getAncestorPar("distribution").stdstringValue();
     scheduleAt(simTime()+100,msg);
-    k_ = getAncestorPar("k");
 }
 
 void PacketGenerator::handleMessage(cMessage* msg)
@@ -36,7 +37,6 @@ void PacketGenerator::createSendPacket(cMessage* msg){
 
 void PacketGenerator::scheduleCreateSendPacket(cMessage* msg){
 
-    string distribution = getAncestorPar("distribution").stdstringValue();
 
    if ( strcmp(distribution.c_str(), "lognormal") == 0)
         scheduleAt(simTime() + lognormal(k_,0,0), msg);
