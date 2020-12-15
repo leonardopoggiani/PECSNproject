@@ -8,6 +8,6 @@ void ControlTower::initialize()
 
 void ControlTower::handleMessage(cMessage *msg)
 {
-    // the control tower just drop the message
+    // La torre di controllo semplicemente butta il messaggio
     delete msg;
 }

@@ -8,11 +8,10 @@ Define_Module(PacketGenerator);
 
 void PacketGenerator::initialize()
 {
-    // solo roba per provare che effettivamente viene cambiato il dataLink con la massima capacita
    cMessage* msg = new cMessage("Messaggio");
     k_ = getAncestorPar("k").doubleValue();
     distribution = getAncestorPar("distribution").stdstringValue();
-    scheduleAt(simTime()+100,msg);
+    scheduleAt(simTime()+k_,msg);
 }
 
 void PacketGenerator::handleMessage(cMessage* msg)
@@ -28,7 +27,6 @@ void PacketGenerator::createSendPacket(cMessage* msg){
 
     //Send the packet to LinkSelector
     send(ap, "out");
-    EV << "Sono PackGenerator, ho inviato il pacchetto: " << ap->getAircraftID();
 
     //Riattivo il timer
     scheduleCreateSendPacket(msg);

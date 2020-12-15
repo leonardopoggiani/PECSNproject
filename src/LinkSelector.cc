@@ -4,31 +4,30 @@ Define_Module(LinkSelector);
 
 void LinkSelector::initialize()
 {
-    maxCapacityDataLinkIndex = 0;
-    operationMode = par("operationMode");
+    maxCapacityDataLinkIndex = -1; // DataLink su cui invierò perchè ha la capacità più alta
+    operationMode = par("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e quello rimane
     nDL_ = par("nDL");
+    handleSetCapacity();
     if(operationMode == 1){
         // non monitoro, ricerco il DL con capacità più alta e tengo quello
         EV << "Monitoraggio non attivo\n";
         // scelgo il DL una volta e mai più
-        handleSetCapacity();
     } else {
         // monitoraggio ogni m secondi
         m_ = getAncestorPar("m");
+        // avvio la schedulazione dei pacchetti di monitoraggio dei DataLink
         scheduleCheckCapacity();
     }
 }
 
 void LinkSelector::handleMessage(cMessage* msg){
     if(msg->isSelfMessage()){
-        EV << "Monitoraggio del data link\n";
-
+        // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacità dei dataLink
         scheduleCheckCapacity();
         handleSetCapacity();
         delete msg;
     } else {
-        // mi è arrivato un messaggio da packetGenerator
-        EV << "Arrivato un pacchetto da packetGenerator\n";
+        // mi è arrivato un messaggio da packetGenerator che va inoltrato
         handlePacketArrival(msg);
     }
 }
@@ -43,7 +42,7 @@ void LinkSelector::handleSetCapacity(){
     // ad ogni m_ controllo la capacità dei DL e aggiorno il DL a capacità max
     // dovrei prendere le capacità attuali dei DL e trovo il max
     int max = getMaxIndexCapacity();
-    EV << "The index of the highest capacity DL is " << max;
+    EV_INFO << "The index of the highest capacity DL is " << max;
     maxCapacityDataLinkIndex = max;
 
 }
@@ -53,22 +52,20 @@ int LinkSelector::getMaxIndexCapacity(){
 
     for(int i = 0; i < nDL_; i++){
         cModule* temp;
+        // scorro tutti i dataLink
         std::string path = "dataLink[" + std::to_string(i) + "]";
         temp = getModuleByPath(path.c_str());
         DataLink* dl;
         dl = check_and_cast<DataLink*> (temp);
-        EV << dl << endl;
         int actualCapacity = dl->getCapacity();
         capacities.push_back(actualCapacity);
     }
-
+    // indice che corrisponde al dataLink di capacità maggiore
     return std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
 }
 
 void LinkSelector::scheduleCheckCapacity(){
     cMessage* checkingMaxCapacity = new cMessage("schedule");
-
     scheduleAt(simTime() + m_, checkingMaxCapacity);
-    EV << "Schedulato monitoraggio ogni " << m_ << " secondi\n";
 }
 

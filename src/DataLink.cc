@@ -7,40 +7,36 @@ Define_Module(DataLink);
 void DataLink::initialize()
 {
    transmitting = false;
-   mean = par("mean").doubleValue();
+   mean = par("mean").doubleValue(); // il valore della media per lognormal ed exponential
    k_ = par("k").doubleValue();
-   size_ = par("size");
-   dimPoolMax_ = par("dimPoolMax");
-   dimPoolMin_ = par("dimPoolMin");
-   // lastCapacity = rand() % dimPoolMax_ + dimPoolMin_;
-   lastCapacity = uniform(dimPoolMin_,dimPoolMax_);
-   nextCapacity = uniform(dimPoolMin_,dimPoolMax_);
-   // nextCapacity = rand() % dimPoolMax_ + dimPoolMin_;
+   size_ = par("size"); // la dimensione di un pacchetto
+   dimPoolMax_ = par("dimPoolMax"); // massima capacità del DL
+   dimPoolMin_ = par("dimPoolMin"); // minima capacità del DL
+   lastCapacity = uniform(dimPoolMin_,dimPoolMax_); // ultima capacità, in occasione della initialize va estratta casualmente
+   nextCapacity = uniform(dimPoolMin_,dimPoolMax_); // verrà riestratta ogni monitoringTime
 
-   // lastCapacityTime =simTime()+uniform(0,2);
-   lastCapacityTime = 0;
+   lastCapacityTime = 0; // tempo in cui si è effettuato l'ultimo aggiornamento della capacità
 
-   int tempLast;
-   //Li ordino per trovare actualCapacity
+   int tempLast = 0;
+   // Li ordino per trovare actualCapacity
    if(lastCapacity > nextCapacity)
    {
        tempLast = lastCapacity;
        lastCapacity = nextCapacity;
        nextCapacity = tempLast;
    }
-   actualCapacity = uniform(lastCapacity,nextCapacity);
+
+   actualCapacity = uniform(lastCapacity,nextCapacity); // capacità attuale del DL, la prima va estratta, poi varierà linearmente
    EV << "First Actual capacity is: " << actualCapacity << endl;
 
    //serviceTime = size_/actualCapacity;
    serviceTime = 2;
    //EV <<"Service time is: " << serviceTime <<endl;
-   EV << "First last capacity is: " << lastCapacity <<endl;
-   EV << "First next capacity is: " << nextCapacity <<endl;
 
+   setCapacityDistribution_ = par("setCapacityDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
-   setCapacityDistribution_ = par("setCapacityDistribution").stdstringValue();
    cMessage * msg = new cMessage("setNextCapacity");
-   scheduleSetNextCapacity(msg);
+   scheduleSetNextCapacity(msg); // schedulazione del prossimo aggiornamento della capacità
 
 }
 
@@ -52,20 +48,22 @@ void DataLink::handleMessage(cMessage *msg)
             else if ( strcmp(msg->getName(), "packetSent") == 0 )
                 handlePacketSent(msg);
     }
-    //Packet arrived from aircraft
     else
     {
+        // Pacchetto arrivato da Aircraft
         handlePacketArrival(msg);
     }
 }
 
+/* Aggiornamento della capacità: viene estratta la prossima capacità da raggiungere e si varia linearmente dall'ultima capacità
+ * estratta alla prossima. In qualsiasi tempo tra l'ultimo aggiornamento e il prossimo la capacità viene ritornata da getCapacity().
+ */
 void DataLink::handleSetNextCapacity(cMessage *msg)
 {
 
-    lastCapacity = nextCapacity;
-    nextCapacity = uniform(dimPoolMin_,dimPoolMax_);
+    lastCapacity = nextCapacity; // l'ultima capacità viene aggiornata
+    nextCapacity = uniform(dimPoolMin_,dimPoolMax_); // estratta la capacità da raggiungere tra t_
     lastCapacityTime = simTime();
-    EV << "Actual capacity is: " << actualCapacity <<endl;
     scheduleSetNextCapacity(msg);
 }
 
