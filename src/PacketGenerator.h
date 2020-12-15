@@ -14,6 +14,7 @@ class PacketGenerator : public cSimpleModule
     virtual void scheduleCreateSendPacket(cMessage* msg);
   private:
     double k_;
+    std::string distribution;
 
 };
 
