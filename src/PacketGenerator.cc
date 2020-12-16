@@ -8,10 +8,14 @@ Define_Module(PacketGenerator);
 
 void PacketGenerator::initialize()
 {
-   cMessage* msg = new cMessage("Messaggio");
+    // ** SIGNAL ** //
+    registerSignal("computeArrivalTime");
+
+    cMessage* msg = new cMessage("Messaggio");
     k_ = getAncestorPar("k").doubleValue();
     distribution = getAncestorPar("distribution").stdstringValue();
-    scheduleAt(simTime()+k_,msg);
+    scheduleAt(simTime() + k_,msg);
+
 }
 
 void PacketGenerator::handleMessage(cMessage* msg)
@@ -24,6 +28,7 @@ void PacketGenerator::handleMessage(cMessage* msg)
 void PacketGenerator::createSendPacket(cMessage* msg){
     AircraftPacket* ap = new AircraftPacket("AircraftPacket");
     ap->setAircraftID(getIndex());
+    ap->setSendTime(simTime().dbl()); // nome
 
     //Send the packet to LinkSelector
     send(ap, "out");

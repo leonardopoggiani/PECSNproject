@@ -24,8 +24,8 @@
  * packet AircraftPacket
  * {
  *     int aircraftID;
+ *     simtime_t sendTime;
  *     simtime_t arrivalTime;
- * 
  * }
  * </pre>
  */
@@ -33,6 +33,7 @@ class AircraftPacket : public ::omnetpp::cPacket
 {
   protected:
     int aircraftID;
+    ::omnetpp::simtime_t sendTime;
     ::omnetpp::simtime_t arrivalTime;
 
   private:
@@ -54,6 +55,8 @@ class AircraftPacket : public ::omnetpp::cPacket
     // field getter/setter methods
     virtual int getAircraftID() const;
     virtual void setAircraftID(int aircraftID);
+    virtual ::omnetpp::simtime_t getSendTime() const;
+    virtual void setSendTime(::omnetpp::simtime_t sendTime);
     virtual ::omnetpp::simtime_t getArrivalTime() const;
     virtual void setArrivalTime(::omnetpp::simtime_t arrivalTime);
 };

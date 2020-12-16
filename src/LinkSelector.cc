@@ -8,11 +8,8 @@ void LinkSelector::initialize()
     operationMode = par("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e quello rimane
     nDL_ = par("nDL");
     handleSetCapacity();
-    if(operationMode == 1){
-        // non monitoro, ricerco il DL con capacità più alta e tengo quello
-        EV << "Monitoraggio non attivo\n";
-        // scelgo il DL una volta e mai più
-    } else {
+
+    if(operationMode == 0){
         // monitoraggio ogni m secondi
         m_ = getAncestorPar("m");
         // avvio la schedulazione dei pacchetti di monitoraggio dei DataLink
@@ -58,6 +55,7 @@ int LinkSelector::getMaxIndexCapacity(){
         DataLink* dl;
         dl = check_and_cast<DataLink*> (temp);
         int actualCapacity = dl->getCapacity();
+        EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
         capacities.push_back(actualCapacity);
     }
     // indice che corrisponde al dataLink di capacità maggiore

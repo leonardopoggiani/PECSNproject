@@ -35,6 +35,10 @@ class DataLink : public cSimpleModule
     void handleSetNextCapacity(cMessage* msg);
     void scheduleSetNextCapacity(cMessage* msg);
     void handlePacketSent(cMessage *msg);
+
+    simsignal_t computeResponseTime_;
+    simsignal_t computeWaitingTime_;
+    simsignal_t computeQueueLength_;
 };
 
 #endif

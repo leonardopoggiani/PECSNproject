@@ -16,6 +16,7 @@ class PacketGenerator : public cSimpleModule
     double k_;
     std::string distribution;
 
+
 };
 
 #endif /* PACKETGENERATOR_H_ */

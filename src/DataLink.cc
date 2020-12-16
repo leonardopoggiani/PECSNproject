@@ -6,6 +6,11 @@ Define_Module(DataLink);
 
 void DataLink::initialize()
 {
+   //** SIGNALS **//
+   computeResponseTime_ = registerSignal("computeResponseTime");
+   computeWaitingTime_ = registerSignal("computeWaitingTime");
+   computeQueueLength_ = registerSignal("computeQueueLength");
+
    transmitting = false;
    mean = par("mean").doubleValue(); // il valore della media per lognormal ed exponential
    k_ = par("k").doubleValue();
@@ -71,6 +76,7 @@ void DataLink::handlePacketArrival(cMessage *msg) {
     EV_INFO << "==> PacketArrival";
     EV_INFO << ", queue length: " << queue.getLength() << ", transmitting: " << transmitting << endl;
     AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
+    pa->setArrivalTime(simTime().dbl());
     queue.insert(pa);
     if ( !transmitting ) {
            // Try to send a new packet
@@ -84,8 +90,14 @@ void DataLink::sendPacket() {
         AircraftPacket* ap = (AircraftPacket*) queue.front();
         queue.pop();
 
+        emit(computeQueueLength_, queue.getLength());
+
+        emit(computeWaitingTime_, simTime() - ap->getArrivalTime());
+        EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl;
         transmitting = true;
-        //scheduleAt(simTime() + s, new cMessage("packetSent"));
+        emit(computeResponseTime_, simTime() - ap->getSendTime()  + serviceTime);
+        EV << "ResponseTime: " << simTime() - ap->getSendTime()  + serviceTime << endl;
+        // scheduleAt(simTime() + s, new cMessage("packetSent"));
         EV_INFO << "==> SendPacket " << ap->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime <<endl;
         scheduleAt(simTime() + serviceTime, new cMessage("packetSent"));
 
