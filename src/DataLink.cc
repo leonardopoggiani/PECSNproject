@@ -32,11 +32,10 @@ void DataLink::initialize()
    }
 
    actualCapacity = uniform(lastCapacity,nextCapacity); // capacità attuale del DL, la prima va estratta, poi varierà linearmente
-   EV << "First Actual capacity is: " << actualCapacity << endl;
+   // EV << "First Actual capacity is: " << actualCapacity << endl;
 
-   //serviceTime = size_/actualCapacity;
-   serviceTime = 2;
-   //EV <<"Service time is: " << serviceTime <<endl;
+   serviceTime = size_/actualCapacity;
+   EV <<"Service time is: " << serviceTime <<endl;
 
    setCapacityDistribution_ = par("setCapacityDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
@@ -50,8 +49,8 @@ void DataLink::handleMessage(cMessage *msg)
     if ( msg->isSelfMessage() ) {
             if ( strcmp(msg->getName(), "setNextCapacity") == 0 )
                 handleSetNextCapacity(msg);
-            else if ( strcmp(msg->getName(), "packetSent") == 0 )
-                handlePacketSent(msg);
+            else if (strcmp(msg->getName(), "serviceTimeElapsed") == 0)
+                handleServiceTimeElapsed(msg);
     }
     else
     {
@@ -73,42 +72,53 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 }
 
 void DataLink::handlePacketArrival(cMessage *msg) {
-    EV_INFO << "==> PacketArrival";
-    EV_INFO << ", queue length: " << queue.getLength() << ", transmitting: " << transmitting << endl;
+    // EV_INFO << "==> PacketArrival";
+    EV_INFO << ", queue length: " << queue.getLength() << endl;
+    emit(computeQueueLength_, queue.getLength());
     AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
     pa->setArrivalTime(simTime().dbl());
+
     queue.insert(pa);
     if ( !transmitting ) {
-           // Try to send a new packet
-          sendPacket();
-       }
+        // Try to send a new packet
+        sendPacket();
+    }
 }
 
-void DataLink::sendPacket() {
+void DataLink::sendPacket() { //elaboratePacket
     if ( !queue.isEmpty()) {
 
         AircraftPacket* ap = (AircraftPacket*) queue.front();
         queue.pop();
-
-        emit(computeQueueLength_, queue.getLength());
-
-        emit(computeWaitingTime_, simTime() - ap->getArrivalTime());
         EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl;
-        transmitting = true;
-        emit(computeResponseTime_, simTime() - ap->getSendTime()  + serviceTime);
-        EV << "ResponseTime: " << simTime() - ap->getSendTime()  + serviceTime << endl;
-        // scheduleAt(simTime() + s, new cMessage("packetSent"));
-        EV_INFO << "==> SendPacket " << ap->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime <<endl;
-        scheduleAt(simTime() + serviceTime, new cMessage("packetSent"));
+        emit(computeWaitingTime_, simTime() - ap->getArrivalTime());
 
-        send(ap, "out");
+        transmitting = true;
+
+        actualCapacity = getCapacity();
+        serviceTime = size_/actualCapacity;
+        processing = ap;
+        scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
+        EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
+
     }
+}
+
+void DataLink::handleServiceTimeElapsed(cMessage *msg){
+
+    emit(computeResponseTime_, simTime() - processing->getSendTime()  + serviceTime);
+    EV << "ResponseTime: " << simTime() - processing->getSendTime()  + serviceTime << endl;
+
+    send(processing, "out");
+    transmitting = false;
+    delete msg;
+    sendPacket();
 }
 
 void DataLink::handlePacketSent(cMessage *msg) {
     transmitting = false;
     // Try to send a new packet
-    sendPacket();
+
 
    /* if (schedulePenalty) {
         EV_INFO << "Penalty started, "<< simTime() <<endl;
@@ -126,7 +136,6 @@ void DataLink::handlePacketSent(cMessage *msg) {
 
 void DataLink::scheduleSetNextCapacity(cMessage *msg)
 {
-    // TODO
     if ( strcmp(setCapacityDistribution_.c_str(), "lognormal") == 0){
                 t_ = lognormal(mean,0);
                 scheduleAt(simTime() + t_, msg);
@@ -143,7 +152,6 @@ int DataLink::getCapacity()
     int deltaCapacity = nextCapacity - lastCapacity;
 
     if(deltaCapacity < 0){
-        EV << " scendo " << endl;
         int tmp = abs(deltaCapacity);
         deltaCapacity = tmp;
         discesa = true;
@@ -158,8 +166,8 @@ int DataLink::getCapacity()
     } else {
         ret = lastCapacity + increment;
     }
-    EV << "increment: " << increment << " , ratio: " << ratio << endl;
-    EV << "last: " << lastCapacity << " , next: " << nextCapacity << " , actual: " << ret << endl;
+    // EV << "increment: " << increment << " , ratio: " << ratio << endl;
+    // EV << "last: " << lastCapacity << " , next: " << nextCapacity << " , actual: " << ret << endl;
 
     return ret;
 }

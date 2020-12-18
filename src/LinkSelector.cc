@@ -39,7 +39,7 @@ void LinkSelector::handleSetCapacity(){
     // ad ogni m_ controllo la capacità dei DL e aggiorno il DL a capacità max
     // dovrei prendere le capacità attuali dei DL e trovo il max
     int max = getMaxIndexCapacity();
-    EV_INFO << "The index of the highest capacity DL is " << max;
+    // EV_INFO << "The index of the highest capacity DL is " << max;
     maxCapacityDataLinkIndex = max;
 
 }
@@ -55,7 +55,7 @@ int LinkSelector::getMaxIndexCapacity(){
         DataLink* dl;
         dl = check_and_cast<DataLink*> (temp);
         int actualCapacity = dl->getCapacity();
-        EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
+        // EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
         capacities.push_back(actualCapacity);
     }
     // indice che corrisponde al dataLink di capacità maggiore

@@ -2,6 +2,7 @@
 #define __AEROCOMSYSTEMPROJECT_DATALINK_H_
 
 #include <omnetpp.h>
+#include "AircraftPacket_m.h"
 
 using namespace omnetpp;
 
@@ -29,12 +30,14 @@ class DataLink : public cSimpleModule
     int dimPoolMax_;
     int dimPoolMin_;
     bool transmitting;
+    AircraftPacket* processing;
 
     void handlePacketArrival(cMessage* msg);
     void sendPacket();
     void handleSetNextCapacity(cMessage* msg);
     void scheduleSetNextCapacity(cMessage* msg);
     void handlePacketSent(cMessage *msg);
+    void handleServiceTimeElapsed(cMessage* msg);
 
     simsignal_t computeResponseTime_;
     simsignal_t computeWaitingTime_;
