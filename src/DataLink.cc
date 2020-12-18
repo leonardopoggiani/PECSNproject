@@ -12,13 +12,13 @@ void DataLink::initialize()
    computeQueueLength_ = registerSignal("computeQueueLength");
 
    transmitting = false;
-   mean = par("mean").doubleValue(); // il valore della media per lognormal ed exponential
-   k_ = par("k").doubleValue();
-   size_ = par("size"); // la dimensione di un pacchetto
-   dimPoolMax_ = par("dimPoolMax"); // massima capacità del DL
-   dimPoolMin_ = par("dimPoolMin"); // minima capacità del DL
-   lastCapacity = uniform(dimPoolMin_,dimPoolMax_); // ultima capacità, in occasione della initialize va estratta casualmente
-   nextCapacity = uniform(dimPoolMin_,dimPoolMax_); // verrà riestratta ogni monitoringTime
+   t = getAncestorPar("t").doubleValue(); // il valore della media per lognormal ed exponential
+   k = getAncestorPar("k").doubleValue();
+   size = par("s"); // la dimensione di un pacchetto
+   dimPoolMax = par("dimPoolMax"); // massima capacità del DL
+   dimPoolMin = par("dimPoolMin"); // minima capacità del DL
+   lastCapacity = uniform(dimPoolMin,dimPoolMax); // ultima capacità, in occasione della initialize va estratta casualmente
+   nextCapacity = uniform(dimPoolMin,dimPoolMax); // verrà riestratta ogni monitoringTime
 
    lastCapacityTime = 0; // tempo in cui si è effettuato l'ultimo aggiornamento della capacità
 
@@ -34,7 +34,7 @@ void DataLink::initialize()
    actualCapacity = uniform(lastCapacity,nextCapacity); // capacità attuale del DL, la prima va estratta, poi varierà linearmente
    // EV << "First Actual capacity is: " << actualCapacity << endl;
 
-   serviceTime = size_/actualCapacity;
+   serviceTime = size/actualCapacity;
    EV <<"Service time is: " << serviceTime <<endl;
 
    setCapacityDistribution_ = par("setCapacityDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
@@ -66,13 +66,12 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 {
 
     lastCapacity = nextCapacity; // l'ultima capacità viene aggiornata
-    nextCapacity = uniform(dimPoolMin_,dimPoolMax_); // estratta la capacità da raggiungere tra t_
+    nextCapacity = uniform(dimPoolMin,dimPoolMax); // estratta la capacità da raggiungere tra t_
     lastCapacityTime = simTime();
     scheduleSetNextCapacity(msg);
 }
 
 void DataLink::handlePacketArrival(cMessage *msg) {
-    // EV_INFO << "==> PacketArrival";
     EV_INFO << ", queue length: " << queue.getLength() << endl;
     emit(computeQueueLength_, queue.getLength());
     AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
@@ -96,7 +95,7 @@ void DataLink::sendPacket() { //elaboratePacket
         transmitting = true;
 
         actualCapacity = getCapacity();
-        serviceTime = size_/actualCapacity;
+        serviceTime = size/actualCapacity;
         processing = ap;
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
@@ -119,7 +118,6 @@ void DataLink::handlePacketSent(cMessage *msg) {
     transmitting = false;
     // Try to send a new packet
 
-
    /* if (schedulePenalty) {
         EV_INFO << "Penalty started, "<< simTime() <<endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() +p << endl;
@@ -137,11 +135,11 @@ void DataLink::handlePacketSent(cMessage *msg) {
 void DataLink::scheduleSetNextCapacity(cMessage *msg)
 {
     if ( strcmp(setCapacityDistribution_.c_str(), "lognormal") == 0){
-                t_ = lognormal(mean,0);
-                scheduleAt(simTime() + t_, msg);
+        interval = lognormal(t,0);
+        scheduleAt(simTime() + interval, msg);
     } else if (strcmp(setCapacityDistribution_.c_str(), "exponential") == 0 ){
-                t_ = exponential(mean,0);
-                scheduleAt(simTime() + t_, msg);
+        interval = exponential(t,0);
+        scheduleAt(simTime() + interval, msg);
     }
 }
 
@@ -157,7 +155,7 @@ int DataLink::getCapacity()
         discesa = true;
     }
 
-    double ratio = (timeInterval.dbl()/t_);
+    double ratio = (timeInterval.dbl()/interval);
     double increment = ratio*deltaCapacity;
 
     int ret = 0;

@@ -1,3 +1,7 @@
+[General]
+last-configname=Exponential-selection-capacity-exponential-interarrival-time
+last-runnumber=6
+
 [RunModeProfiles]
 run-playback-speed=100
 run-min-playback-speed=0.01

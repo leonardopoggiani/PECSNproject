@@ -16,19 +16,19 @@ class DataLink : public cSimpleModule
     virtual void handleMessage(cMessage *msg);
 
   private:
-    double t_;
+    double t;
+    double interval;
     cPacketQueue queue;
-    double mean;
-    double k_;
-    int size_;
+    double k;
+    int size;
     std::string setCapacityDistribution_;
     int nextCapacity;
     int lastCapacity;
     int actualCapacity; //Sempre vecchia ma mi serve come appoggio
     simtime_t serviceTime; //Sempre vecchio ma mi serve come appoggio
     simtime_t lastCapacityTime;
-    int dimPoolMax_;
-    int dimPoolMin_;
+    int dimPoolMax;
+    int dimPoolMin;
     bool transmitting;
     AircraftPacket* processing;
 

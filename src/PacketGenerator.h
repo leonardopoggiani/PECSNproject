@@ -13,7 +13,7 @@ class PacketGenerator : public cSimpleModule
     virtual void createSendPacket(cMessage *msg);
     virtual void scheduleCreateSendPacket(cMessage* msg);
   private:
-    double k_;
+    double k;
     std::string distribution;
 
 

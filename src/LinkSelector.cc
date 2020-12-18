@@ -6,12 +6,12 @@ void LinkSelector::initialize()
 {
     maxCapacityDataLinkIndex = -1; // DataLink su cui invierò perchè ha la capacità più alta
     operationMode = par("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e quello rimane
-    nDL_ = par("nDL");
+    nDL = par("nDL");
     handleSetCapacity();
 
     if(operationMode == 0){
         // monitoraggio ogni m secondi
-        m_ = getAncestorPar("m");
+        m = getAncestorPar("m");
         // avvio la schedulazione dei pacchetti di monitoraggio dei DataLink
         scheduleCheckCapacity();
     }
@@ -47,7 +47,7 @@ void LinkSelector::handleSetCapacity(){
 int LinkSelector::getMaxIndexCapacity(){
     std::vector<int> capacities;
 
-    for(int i = 0; i < nDL_; i++){
+    for(int i = 0; i < nDL; i++){
         cModule* temp;
         // scorro tutti i dataLink
         std::string path = "dataLink[" + std::to_string(i) + "]";
@@ -64,6 +64,6 @@ int LinkSelector::getMaxIndexCapacity(){
 
 void LinkSelector::scheduleCheckCapacity(){
     cMessage* checkingMaxCapacity = new cMessage("schedule");
-    scheduleAt(simTime() + m_, checkingMaxCapacity);
+    scheduleAt(simTime() + m, checkingMaxCapacity);
 }
 

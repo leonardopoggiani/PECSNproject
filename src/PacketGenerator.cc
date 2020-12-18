@@ -12,9 +12,9 @@ void PacketGenerator::initialize()
     registerSignal("computeArrivalTime");
 
     cMessage* msg = new cMessage("Messaggio");
-    k_ = getAncestorPar("k").doubleValue();
+    k = getAncestorPar("k").doubleValue();
     distribution = getAncestorPar("distribution").stdstringValue();
-    scheduleAt(simTime() + k_,msg);
+    scheduleAt(simTime() + k,msg);
 
 }
 
@@ -39,11 +39,9 @@ void PacketGenerator::createSendPacket(cMessage* msg){
 }
 
 void PacketGenerator::scheduleCreateSendPacket(cMessage* msg){
-
-
    if ( strcmp(distribution.c_str(), "lognormal") == 0)
-        scheduleAt(simTime() + lognormal(k_,0,0), msg);
+        scheduleAt(simTime() + lognormal(k,0,0), msg);
    else if (strcmp(distribution.c_str(), "exponential") == 0 )
-        scheduleAt(simTime() + exponential(k_, 0), msg );
+        scheduleAt(simTime() + exponential(k, 0), msg );
 }
 
