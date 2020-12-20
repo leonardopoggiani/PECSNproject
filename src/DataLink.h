@@ -31,6 +31,10 @@ class DataLink : public cSimpleModule
     int dimPoolMin;
     bool transmitting;
     AircraftPacket* processing;
+    double malusX;
+    bool malusPenality;
+    bool scheduleMalus;
+
 
     void handlePacketArrival(cMessage* msg);
     void sendPacket();
@@ -38,6 +42,9 @@ class DataLink : public cSimpleModule
     void scheduleSetNextCapacity(cMessage* msg);
     void handlePacketSent(cMessage *msg);
     void handleServiceTimeElapsed(cMessage* msg);
+    void handleStartMalusPenality(cMessage *msg);
+    void handleMalusElapsed(cMessage *msg);
+
 
     simsignal_t computeResponseTime_;
     simsignal_t computeWaitingTime_;

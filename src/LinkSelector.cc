@@ -51,12 +51,16 @@ int LinkSelector::getMaxIndexCapacity(){
         cModule* temp;
         // scorro tutti i dataLink
         std::string path = "dataLink[" + std::to_string(i) + "]";
-        temp = getModuleByPath(path.c_str());
+        temp =  gate("out",i)->getPathEndGate()->getOwnerModule();
         DataLink* dl;
         dl = check_and_cast<DataLink*> (temp);
         int actualCapacity = dl->getCapacity();
         // EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
         capacities.push_back(actualCapacity);
+
+        cMessage* newmsg = new cMessage("startMalusPenality");
+        send(newmsg,"out",i);
+
     }
     // indice che corrisponde al dataLink di capacità maggiore
     return std::max_element(capacities.begin(),capacities.end()) - capacities.begin();

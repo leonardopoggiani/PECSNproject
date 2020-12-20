@@ -6,5 +6,5 @@ simple ControlTower
         int nDL;	//Numero di data-link
         
     gates:
-        input in[nDL];  
+        input in[nDL*nDL];  
 }
