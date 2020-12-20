@@ -40,7 +40,7 @@ void PacketGenerator::createSendPacket(cMessage* msg){
 
 void PacketGenerator::scheduleCreateSendPacket(cMessage* msg){
    if ( strcmp(distribution.c_str(), "lognormal") == 0)
-        scheduleAt(simTime() + lognormal(k,0,0), msg);
+        scheduleAt(simTime() + lognormal(k,0), msg);
    else if (strcmp(distribution.c_str(), "exponential") == 0 )
         scheduleAt(simTime() + exponential(k, 0), msg );
 }
