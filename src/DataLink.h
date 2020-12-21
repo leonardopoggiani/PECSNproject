@@ -19,7 +19,6 @@ class DataLink : public cSimpleModule
     double t;
     double interval;
     cPacketQueue queue;
-    double k;
     int size;
     std::string setCapacityDistribution_;
     int nextCapacity;
@@ -35,16 +34,14 @@ class DataLink : public cSimpleModule
     bool malusPenality;
     bool scheduleMalus;
 
-
     void handlePacketArrival(cMessage* msg);
     void sendPacket();
     void handleSetNextCapacity(cMessage* msg);
     void scheduleSetNextCapacity(cMessage* msg);
     void handlePacketSent(cMessage *msg);
-    void handleServiceTimeElapsed(cMessage* msg);
-    void handleStartMalusPenality(cMessage *msg);
-    void handleMalusElapsed(cMessage *msg);
-
+    void handleServiceTimeElapsed();
+    void handleStartMalusPenality();
+    void handleMalusElapsed();
 
     simsignal_t computeResponseTime_;
     simsignal_t computeWaitingTime_;

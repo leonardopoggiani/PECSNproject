@@ -16,7 +16,6 @@ void DataLink::initialize()
    scheduleMalus = false;
    malusX = par("X").doubleValue();
    t = getAncestorPar("t").doubleValue(); // il valore della media per lognormal ed exponential
-   k = getAncestorPar("k").doubleValue();
    size = par("s").doubleValue(); // la dimensione di un pacchetto
    dimPoolMax = par("dimPoolMax"); // massima capacitï¿½ del DL
    dimPoolMin = par("dimPoolMin"); // minima capacitï¿½ del DL
@@ -50,19 +49,23 @@ void DataLink::initialize()
 void DataLink::handleMessage(cMessage *msg)
 {
     if ( msg->isSelfMessage() ) {
-            if ( strcmp(msg->getName(), "setNextCapacity") == 0 )
-                handleSetNextCapacity(msg);
-            else if (strcmp(msg->getName(), "serviceTimeElapsed") == 0)
-                handleServiceTimeElapsed(msg);
+        if ( strcmp(msg->getName(), "setNextCapacity") == 0 )
+            handleSetNextCapacity(msg);
+        else if (strcmp(msg->getName(), "serviceTimeElapsed") == 0){
+            handleServiceTimeElapsed();
+            delete msg;
+        } else if(strcmp(msg->getName(), "malusElapsed") == 0){
+            handleMalusElapsed();
+            delete msg;
+        }
     }
     else
     {
         if(strcmp(msg->getName(), "startMalusPenality") == 0){
-            handleStartMalusPenality(msg);
-            EV << "Effettivamente mi � arrivato un pacchetto penality" << endl;
+            handleStartMalusPenality();
+            delete msg;
         } else {
             // Pacchetto arrivato da Aircraft
-            EV << "Effettivamente mi � arrivato un pacchetto" << endl;
             handlePacketArrival(msg);
         }
 
@@ -107,40 +110,35 @@ void DataLink::sendPacket() { //elaboratePacket
         actualCapacity = getCapacity();
         serviceTime = size/actualCapacity;
         processing = ap;
+
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
+        send(processing,"out");
+        emit(computeResponseTime_, simTime() - processing->getSendTime()  + serviceTime);
+
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
-
-    }  else {
-        EV_INFO << ", queue length: " << queue.getLength() << " malusPenality �: " << malusPenality << endl;
-        EV << "Effettivamente non ho inviato un cazzo" << endl;
     }
-
 }
 
-void DataLink::handleServiceTimeElapsed(cMessage *msg){
+void DataLink::handleServiceTimeElapsed(){
 
-    emit(computeResponseTime_, simTime() - processing->getSendTime()  + serviceTime);
     EV << "ResponseTime: " << simTime() - processing->getSendTime()  + serviceTime << endl;
 
-    send(processing, "out");
     transmitting = false;
 
     sendPacket();
 
     if (malusPenality) {
        EV_INFO << "Penalty started, "<< simTime() <<endl;
-       EV_INFO << "Penalty should end at " << simTime().dbl() +malusX << endl;
+       EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
        malusPenality = false;
     }
-
-    delete(msg);
 }
 
-void DataLink::handleStartMalusPenality(cMessage *msg) {
+void DataLink::handleStartMalusPenality() {
     if ( !transmitting ) {
         EV_INFO << "Penalty started, "<< simTime() <<endl;
-        EV_INFO << "Penalty should end at " << simTime().dbl() +malusX << endl;
+        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
@@ -148,11 +146,10 @@ void DataLink::handleStartMalusPenality(cMessage *msg) {
     }
 }
 
-void DataLink::handleMalusElapsed(cMessage *msg) {
+void DataLink::handleMalusElapsed() {
     EV_INFO << "==> PenaltyTimeElapsed: handover completed, transmissions restored, "<< simTime() << endl;
     malusPenality = false;
     sendPacket();
-    delete msg;
 }
 
 /***********************************************
@@ -191,8 +188,6 @@ int DataLink::getCapacity()
     } else {
         ret = lastCapacity + increment;
     }
-    // EV << "increment: " << increment << " , ratio: " << ratio << endl;
-    // EV << "last: " << lastCapacity << " , next: " << nextCapacity << " , actual: " << ret << endl;
 
     return ret;
 }
