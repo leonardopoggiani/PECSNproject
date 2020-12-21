@@ -33,6 +33,7 @@ class DataLink : public cSimpleModule
     double malusX;
     bool malusPenality;
     bool scheduleMalus;
+    int operationMode;
 
     void handlePacketArrival(cMessage* msg);
     void sendPacket();

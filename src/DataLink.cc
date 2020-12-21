@@ -11,6 +11,8 @@ void DataLink::initialize()
    computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeQueueLength_ = registerSignal("computeQueueLength");
 
+
+   operationMode = par("operationMode");
    transmitting = false;
    malusPenality = false;
    scheduleMalus = false;
@@ -85,7 +87,7 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 }
 
 void DataLink::handlePacketArrival(cMessage *msg) {
-    EV_INFO << ", queue length: " << queue.getLength() << endl;
+    EV_INFO << "queue length: " << queue.getLength() << endl;
     emit(computeQueueLength_, queue.getLength());
     AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
     pa->setArrivalTime(simTime().dbl());
@@ -117,12 +119,12 @@ void DataLink::sendPacket() { //elaboratePacket
         emit(computeResponseTime_, simTime() - processing->getSendTime()  + serviceTime);
 
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
+    } else {
+        EV << "Non sono entrato " << endl;
     }
 }
 
 void DataLink::handleServiceTimeElapsed(){
-
-
 
     transmitting = false;
 

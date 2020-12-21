@@ -6,6 +6,7 @@ simple DataLink
          double t @unit(s); //Ogni quanto controlla la capacità dei data-link (VA)
          int dimPoolMax; //Const
          int dimPoolMin; //Const
+         int operationMode;
          double X;
          double s @unit(byte);
          int nDL;
