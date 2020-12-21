@@ -113,6 +113,7 @@ void DataLink::sendPacket() { //elaboratePacket
 
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
         send(processing,"out");
+        EV << "ResponseTime: " << simTime() - processing->getSendTime()  + serviceTime << endl;
         emit(computeResponseTime_, simTime() - processing->getSendTime()  + serviceTime);
 
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
@@ -121,7 +122,7 @@ void DataLink::sendPacket() { //elaboratePacket
 
 void DataLink::handleServiceTimeElapsed(){
 
-    EV << "ResponseTime: " << simTime() - processing->getSendTime()  + serviceTime << endl;
+
 
     transmitting = false;
 
