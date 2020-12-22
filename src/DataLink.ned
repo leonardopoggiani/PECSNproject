@@ -21,6 +21,15 @@ simple DataLink
        	 @signal[computeQueueLength](type=long);
        	 @statistic[queueLength](source=computeQueueLength; record=vector;);
         
+        @signal[computeCapacity](type=long);
+       	@statistic[capacity](source=computeCapacity; record=vector;);
+       	
+       	@signal[computeActualCapacity](type=long);
+       	@statistic[actualCapacity](source=computeActualCapacity; record=vector;);
+       	
+       	@signal[computeMeanMalus](type=long);
+       	@statistic[meanMalus](source=computeMeanMalus; record=vector;);
+       	
      gates:
          input in;
          output out;

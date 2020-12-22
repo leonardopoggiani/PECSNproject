@@ -10,6 +10,9 @@ void DataLink::initialize()
    computeResponseTime_ = registerSignal("computeResponseTime");
    computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeQueueLength_ = registerSignal("computeQueueLength");
+   computeCapacity_ = registerSignal("computeCapacity");
+   computeActualCapacity_ = registerSignal("computeActualCapacity");
+   computeMeanMalus_ = registerSignal("computeMeanMalus");
 
    operationMode = par("operationMode");
    transmitting = false;
@@ -36,6 +39,8 @@ void DataLink::initialize()
 
    actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacitï¿½ attuale del DL, la prima va estratta, poi varierï¿½ linearmente
    // EV << "First Actual capacity is: " << actualCapacity << endl;
+   emit(computeCapacity_,actualCapacity);
+   emit(computeActualCapacity_,actualCapacity);
 
    serviceTime = size/actualCapacity;
    EV <<"Service time is: " << serviceTime <<endl;
@@ -81,6 +86,7 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 
     lastCapacity = nextCapacity; // l'ultima capacitï¿½ viene aggiornata
     nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // estratta la capacitï¿½ da raggiungere tra t_
+    emit(computeCapacity_,nextCapacity);
     lastCapacityTime = simTime();
     scheduleSetNextCapacity(msg);
 }
@@ -133,6 +139,7 @@ void DataLink::handleServiceTimeElapsed(){
        EV_INFO << "Penalty started, "<< simTime() <<endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
+       emit(computeMeanMalus_,simTime() + malusX);
        malusPenality = false;
     }
 }
@@ -141,6 +148,7 @@ void DataLink::handleStartMalusPenality() {
     if ( !transmitting ) {
         EV_INFO << "Penalty started, "<< simTime() <<endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
+        emit(computeMeanMalus_,simTime() + malusX);
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
@@ -191,5 +199,6 @@ int DataLink::getCapacity()
         ret = lastCapacity + increment;
     }
 
+    emit(computeActualCapacity_,ret);
     return ret;
 }
