@@ -11,7 +11,6 @@ void DataLink::initialize()
    computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeQueueLength_ = registerSignal("computeQueueLength");
 
-
    operationMode = par("operationMode");
    transmitting = false;
    malusPenality = false;
