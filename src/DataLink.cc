@@ -45,7 +45,7 @@ void DataLink::initialize()
    serviceTime = size/actualCapacity;
    EV <<"Service time is: " << serviceTime <<endl;
 
-   setCapacityDistribution_ = par("setCapacityDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
+   tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
    cMessage * msg = new cMessage("setNextCapacity");
    scheduleSetNextCapacity(msg); // schedulazione del prossimo aggiornamento della capacitï¿½
@@ -124,8 +124,6 @@ void DataLink::sendPacket() { //elaboratePacket
         emit(computeResponseTime_, simTime() - processing->getSendTime()  + serviceTime);
 
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
-    } else {
-        EV << "Non sono entrato " << endl;
     }
 }
 
@@ -168,10 +166,10 @@ void DataLink::handleMalusElapsed() {
 
 void DataLink::scheduleSetNextCapacity(cMessage *msg)
 {
-    if ( strcmp(setCapacityDistribution_.c_str(), "lognormal") == 0){
+    if ( strcmp(tDistribution.c_str(), "lognormal") == 0){
         interval = lognormal(t,2);
         scheduleAt(simTime() + interval, msg);
-    } else if (strcmp(setCapacityDistribution_.c_str(), "exponential") == 0 ){
+    } else if (strcmp(tDistribution.c_str(), "exponential") == 0 ){
         interval = exponential(t,2);
         scheduleAt(simTime() + interval, msg);
     }

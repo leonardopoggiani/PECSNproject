@@ -6,7 +6,6 @@ module Aircraft
         int nDL = default(2);//(Cost)
         double k @unit(s); // Ogni quanto genera i pacchetti (VA)
         double m @unit(s); //Tempo di monitoraggio (Cost)
-        string distribution;
 
 		@display("bgb=461,189");
     gates:
