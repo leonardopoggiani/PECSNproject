@@ -20,7 +20,7 @@ class DataLink : public cSimpleModule
     double interval;
     cPacketQueue queue;
     int size;
-    std::string setCapacityDistribution_;
+    std::string tDistribution;
     int nextCapacity;
     int lastCapacity;
     int actualCapacity; //Sempre vecchia ma mi serve come appoggio
@@ -47,9 +47,6 @@ class DataLink : public cSimpleModule
     simsignal_t computeResponseTime_;
     simsignal_t computeWaitingTime_;
     simsignal_t computeQueueLength_;
-    simsignal_t computeCapacity_;
-    simsignal_t computeActualCapacity_;
-    simsignal_t computeMeanMalus_;
 };
 
 #endif

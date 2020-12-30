@@ -10,15 +10,15 @@ simple DataLink
          double X;
          double s @unit(byte);
          int nDL;
-         string setCapacityDistribution = default("exponential");     
+         string tDistribution = default("exponential");     
          
-         @signal[computeResponseTime](type=long);
+         @signal[computeResponseTime](type="simtime_t");
        	 @statistic[responseTime](source=computeResponseTime; record=vector;);
        	 
-       	 @signal[computeWaitingTime](type=long);
+       	 @signal[computeWaitingTime](type="long");
        	 @statistic[waitingTime](source=computeWaitingTime; record=vector;);
        	 
-       	 @signal[computeQueueLength](type=long);
+       	 @signal[computeQueueLength](type=int);
        	 @statistic[queueLength](source=computeQueueLength; record=vector;);
         
         @signal[computeCapacity](type=long);
