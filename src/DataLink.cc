@@ -43,7 +43,7 @@ void DataLink::initialize()
    //emit(computeActualCapacity_,actualCapacity);
 
    serviceTime = size/actualCapacity;
-   EV <<"Service time is: " << serviceTime <<endl;
+   EV <<"Service time is: " << serviceTime << endl;
 
    tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
