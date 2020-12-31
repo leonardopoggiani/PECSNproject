@@ -39,10 +39,13 @@ void DataLink::initialize()
 
    actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacitï¿½ attuale del DL, la prima va estratta, poi varierï¿½ linearmente
    // EV << "First Actual capacity is: " << actualCapacity << endl;
-   // emit(computeCapacity_,actualCapacity);
-   // emit(computeActualCapacity_,actualCapacity);
+   //emit(computeCapacity_,actualCapacity);
+   //emit(computeActualCapacity_,actualCapacity);
 
-   serviceTime = size/actualCapacity;
+
+   long s = (long) size;
+   long ac = (long)actualCapacity;
+   serviceTime = s/ac;
    EV <<"Service time is: " << serviceTime <<endl;
 
    tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
@@ -86,7 +89,7 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 
     lastCapacity = nextCapacity; // l'ultima capacitï¿½ viene aggiornata
     nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // estratta la capacitï¿½ da raggiungere tra t_
-    // emit(computeCapacity_,nextCapacity);
+    //emit(computeCapacity_,nextCapacity);
     lastCapacityTime = simTime();
     scheduleSetNextCapacity(msg);
 }
@@ -115,7 +118,9 @@ void DataLink::sendPacket() { //elaboratePacket
         transmitting = true;
 
         actualCapacity = getCapacity();
-        serviceTime = size/actualCapacity;
+        long s = (long) size;
+        long ac = (long)actualCapacity;
+        serviceTime = s/ac;
         processing = ap;
 
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
@@ -197,6 +202,6 @@ int DataLink::getCapacity()
         ret = lastCapacity + increment;
     }
 
-    // emit(computeActualCapacity_,ret);
+    //emit(computeActualCapacity_,ret);
     return ret;
 }
