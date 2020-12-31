@@ -10,9 +10,9 @@ void DataLink::initialize()
    computeResponseTime_ = registerSignal("computeResponseTime");
    computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeQueueLength_ = registerSignal("computeQueueLength");
-   computeCapacity_ = registerSignal("computeCapacity");
-   computeActualCapacity_ = registerSignal("computeActualCapacity");
-   computeMeanMalus_ = registerSignal("computeMeanMalus");
+   //computeCapacity_ = registerSignal("computeCapacity");
+   //computeActualCapacity_ = registerSignal("computeActualCapacity");
+   //computeMeanMalus_ = registerSignal("computeMeanMalus");
 
    operationMode = par("operationMode");
    transmitting = false;
@@ -45,7 +45,7 @@ void DataLink::initialize()
    serviceTime = size/actualCapacity;
    EV <<"Service time is: " << serviceTime <<endl;
 
-   setCapacityDistribution_ = par("setCapacityDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
+   tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
    cMessage * msg = new cMessage("setNextCapacity");
    scheduleSetNextCapacity(msg); // schedulazione del prossimo aggiornamento della capacitï¿½
@@ -167,10 +167,10 @@ void DataLink::handleMalusElapsed() {
 
 void DataLink::scheduleSetNextCapacity(cMessage *msg)
 {
-    if ( strcmp(setCapacityDistribution_.c_str(), "lognormal") == 0){
+    if ( strcmp(tDistribution.c_str(), "lognormal") == 0){
         interval = lognormal(t,2);
         scheduleAt(simTime() + interval, msg);
-    } else if (strcmp(setCapacityDistribution_.c_str(), "exponential") == 0 ){
+    } else if (strcmp(tDistribution.c_str(), "exponential") == 0 ){
         interval = exponential(t,2);
         scheduleAt(simTime() + interval, msg);
     }
