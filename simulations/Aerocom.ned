@@ -10,12 +10,13 @@ import aerocomsystemproject.PacketGenerator;
 network Aerocom
 {
     parameters:
+        int nA = default(1);
         int nDL = default(2);
         // @display("bgb=296,147");	
 
     	//@display("bgb=355,202");
     submodules:
-        aircraft[nDL]: Aircraft {
+        aircraft[nA]: Aircraft {
             //@display("p=18200.729,11600.464");
             // @display("p=210,88");
         }
@@ -26,7 +27,7 @@ network Aerocom
 
 
     connections:
-        for i=0..nDL-1, for j=0..nDL-1 {
+        for i=0..nA-1, for j=0..nDL-1 {
             aircraft[i].out[j] --> controlTower.in[(i*nDL)+j];
         }
         

@@ -174,6 +174,7 @@ void DataLink::scheduleSetNextCapacity(cMessage *msg)
 {
     if ( strcmp(tDistribution.c_str(), "lognormal") == 0){
         interval = lognormal(t,2);
+
         scheduleAt(simTime() + interval, msg);
     } else if (strcmp(tDistribution.c_str(), "exponential") == 0 ){
         interval = exponential(t,2);
