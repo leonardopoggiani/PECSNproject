@@ -42,8 +42,11 @@ void DataLink::initialize()
    //emit(computeCapacity_,actualCapacity);
    //emit(computeActualCapacity_,actualCapacity);
 
-   serviceTime = size/actualCapacity;
-   EV <<"Service time is: " << serviceTime << endl;
+
+   long s = (long) size;
+   long ac = (long)actualCapacity;
+   serviceTime = s/ac;
+   EV <<"Service time is: " << serviceTime <<endl;
 
    tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
@@ -115,7 +118,9 @@ void DataLink::sendPacket() { //elaboratePacket
         transmitting = true;
 
         actualCapacity = getCapacity();
-        serviceTime = size/actualCapacity;
+        long s = (long) size;
+        long ac = (long)actualCapacity;
+        serviceTime = s/ac;
         processing = ap;
 
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));

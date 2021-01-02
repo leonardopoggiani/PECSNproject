@@ -47,6 +47,8 @@ class DataLink : public cSimpleModule
     simsignal_t computeResponseTime_;
     simsignal_t computeWaitingTime_;
     simsignal_t computeQueueLength_;
+    simsignal_t computeCapacity_;
+    simsignal_t  computeActualCapacity_;
 };
 
 #endif
