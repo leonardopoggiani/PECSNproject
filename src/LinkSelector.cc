@@ -4,7 +4,7 @@ Define_Module(LinkSelector);
 
 void LinkSelector::initialize()
 {
-    maxCapacityDataLinkIndex = -1; // DataLink su cui invierò perchè ha la capacità più alta
+    maxCapacityDataLinkIndex = -1; // DataLink su cui invierï¿½ perchï¿½ ha la capacitï¿½ piï¿½ alta
     operationMode = par("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e quello rimane
     nDL = par("nDL");
     handleSetCapacity();
@@ -14,30 +14,32 @@ void LinkSelector::initialize()
         m = getAncestorPar("m");
         // avvio la schedulazione dei pacchetti di monitoraggio dei DataLink
         scheduleCheckCapacity();
+
     }
+
 }
 
 void LinkSelector::handleMessage(cMessage* msg){
     if(msg->isSelfMessage()){
-        // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacità dei dataLink
+        // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacitï¿½ dei dataLink
         scheduleCheckCapacity();
         handleSetCapacity();
         delete msg;
     } else {
-        // mi è arrivato un messaggio da packetGenerator che va inoltrato
+        // mi ï¿½ arrivato un messaggio da packetGenerator che va inoltrato
         handlePacketArrival(msg);
     }
 }
 
 void LinkSelector::handlePacketArrival(cMessage* msg){
-    // qui mi è arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
+    // qui mi ï¿½ arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
     send(msg, "out", maxCapacityDataLinkIndex);
 }
 
 
 void LinkSelector::handleSetCapacity(){
-    // ad ogni m_ controllo la capacità dei DL e aggiorno il DL a capacità max
-    // dovrei prendere le capacità attuali dei DL e trovo il max
+    // ad ogni m_ controllo la capacitï¿½ dei DL e aggiorno il DL a capacitï¿½ max
+    // dovrei prendere le capacitï¿½ attuali dei DL e trovo il max
     int max = getMaxIndexCapacity();
     // EV_INFO << "The index of the highest capacity DL is " << max;
     maxCapacityDataLinkIndex = max;
@@ -62,7 +64,7 @@ int LinkSelector::getMaxIndexCapacity(){
         send(newmsg,"out",i);
 
     }
-    // indice che corrisponde al dataLink di capacità maggiore
+    // indice che corrisponde al dataLink di capacitï¿½ maggiore
     return std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
 }
 

@@ -7,7 +7,7 @@ simple DataLink
          int dimPoolMax; //Const
          int dimPoolMin; //Const
          int operationMode;
-         double X;
+         double X @unit(s);
          double s @unit(byte);
          int nDL;
          string tDistribution = default("exponential");     
