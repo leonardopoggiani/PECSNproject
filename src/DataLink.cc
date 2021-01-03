@@ -1,5 +1,4 @@
 #include "DataLink.h"
-#include "simtime.h"
 #include "AircraftPacket_m.h"
 
 Define_Module(DataLink);
@@ -10,9 +9,10 @@ void DataLink::initialize()
    computeResponseTime_ = registerSignal("computeResponseTime");
    computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeQueueLength_ = registerSignal("computeQueueLength");
-   // computeCapacity_ = registerSignal("computeCapacity");
-   // computeActualCapacity_ = registerSignal("computeActualCapacity");
-   // computeMeanMalus_ = registerSignal("computeMeanMalus");
+   computeTDistribution_ = registerSignal("computeTDistribution");
+   //computeCapacity_ = registerSignal("computeCapacity");
+   computeActualCapacity_ = registerSignal("computeActualCapacity");
+   computeMeanMalus_ = registerSignal("computeMeanMalus");
 
    operationMode = par("operationMode");
    transmitting = false;
@@ -40,11 +40,11 @@ void DataLink::initialize()
    actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacitï¿½ attuale del DL, la prima va estratta, poi varierï¿½ linearmente
    // EV << "First Actual capacity is: " << actualCapacity << endl;
    //emit(computeCapacity_,actualCapacity);
-   //emit(computeActualCapacity_,actualCapacity);
+   emit(computeActualCapacity_,actualCapacity);
 
 
-   long s = (long) size;
-   long ac = (long)actualCapacity;
+   double s = (double) size;
+   double ac = (double)actualCapacity;
    serviceTime = s/ac;
    EV <<"Service time is: " << serviceTime <<endl;
 
@@ -118,17 +118,19 @@ void DataLink::sendPacket() { //elaboratePacket
         transmitting = true;
 
         actualCapacity = getCapacity();
-        long s = (long) size;
-        long ac = (long)actualCapacity;
-        serviceTime = s/ac;
+        double s = (double) size;
+        double ac = (double)actualCapacity;
+        serviceTime = (s/ac);
         processing = ap;
 
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
         send(processing,"out");
-        EV << "ResponseTime: " << simTime() - processing->getSendTime()  + serviceTime << endl;
-        emit(computeResponseTime_, simTime() - processing->getSendTime()  + serviceTime);
+        EV << "ResponseTime: " << simTime().dbl() - processing->getSendTime()  + serviceTime << endl;
+        emit(computeResponseTime_, simTime().dbl() - processing->getSendTime()  + serviceTime);
 
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
+    } else {
+        EV << "Non sono entrato " << endl;
     }
 }
 
@@ -142,7 +144,7 @@ void DataLink::handleServiceTimeElapsed(){
        EV_INFO << "Penalty started, "<< simTime() <<endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
-       // emit(computeMeanMalus_,simTime() + malusX);
+       emit(computeMeanMalus_, malusX);
        malusPenality = false;
     }
 }
@@ -151,7 +153,6 @@ void DataLink::handleStartMalusPenality() {
     if ( !transmitting ) {
         EV_INFO << "Penalty started, "<< simTime() <<endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
-        // emit(computeMeanMalus_,simTime() + malusX);
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
@@ -174,9 +175,11 @@ void DataLink::scheduleSetNextCapacity(cMessage *msg)
     if ( strcmp(tDistribution.c_str(), "lognormal") == 0){
         interval = lognormal(t,2);
         scheduleAt(simTime() + interval, msg);
+        emit(computeTDistribution_,  interval);
     } else if (strcmp(tDistribution.c_str(), "exponential") == 0 ){
         interval = exponential(t,2);
         scheduleAt(simTime() + interval, msg);
+        emit(computeTDistribution_,  interval);
     }
 }
 
@@ -202,6 +205,6 @@ int DataLink::getCapacity()
         ret = lastCapacity + increment;
     }
 
-    //emit(computeActualCapacity_,ret);
+    emit(computeActualCapacity_,ret);
     return ret;
 }

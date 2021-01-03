@@ -14,6 +14,8 @@ class PacketGenerator : public cSimpleModule
   private:
     double k;
     std::string distribution;
+    simsignal_t  computeArrivalTime_;
+
 
 
 };

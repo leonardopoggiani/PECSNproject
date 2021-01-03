@@ -20,9 +20,13 @@ simple DataLink
        	 
        	 @signal[computeQueueLength](type=int);
        	 @statistic[queueLength](source=computeQueueLength; record=vector;);
+        	
+         @signal[computeTDistribution](type=long);
+       	 @statistic[tDistribution](source=computeTDistribution; record=vector;);
+       	
         
-        @signal[computeCapacity](type=long);
-       	@statistic[capacity](source=computeCapacity; record=vector;);
+        //@signal[computeCapacity](type=long);
+       	//@statistic[capacity](source=computeCapacity; record=vector;);
        	
        	@signal[computeActualCapacity](type=long);
        	@statistic[actualCapacity](source=computeActualCapacity; record=vector;);

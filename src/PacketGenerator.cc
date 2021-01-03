@@ -9,11 +9,14 @@ Define_Module(PacketGenerator);
 void PacketGenerator::initialize()
 {
     // ** SIGNAL ** //
-    registerSignal("computeArrivalTime");
+    computeArrivalTime_ = registerSignal("computeArrivalTime");
 
     cMessage* msg = new cMessage("Messaggio");
     k = getAncestorPar("k").doubleValue();
-    scheduleAt(simTime() + exponential(k, 0), msg );
+    simtime_t arrivalTime = exponential(k,0);
+
+    scheduleAt(simTime() + arrivalTime, msg );
+    emit(computeArrivalTime_, arrivalTime);
 
 }
 
@@ -33,6 +36,10 @@ void PacketGenerator::createSendPacket(cMessage* msg){
     send(ap, "out");
 
     //Riattivo il timer
-    scheduleAt(simTime() + exponential(k, 0), msg );
+    simtime_t arrivalTime = exponential(k,0);
+
+    scheduleAt(simTime() + arrivalTime, msg );
+    emit(computeArrivalTime_, arrivalTime);
+
 
 }

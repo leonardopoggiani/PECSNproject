@@ -24,7 +24,7 @@ class DataLink : public cSimpleModule
     int nextCapacity;
     int lastCapacity;
     int actualCapacity; //Sempre vecchia ma mi serve come appoggio
-    simtime_t serviceTime; //Sempre vecchio ma mi serve come appoggio
+    double serviceTime; //Sempre vecchio ma mi serve come appoggio
     simtime_t lastCapacityTime;
     int dimPoolMax;
     int dimPoolMin;
@@ -47,8 +47,11 @@ class DataLink : public cSimpleModule
     simsignal_t computeResponseTime_;
     simsignal_t computeWaitingTime_;
     simsignal_t computeQueueLength_;
-    simsignal_t computeCapacity_;
+    simsignal_t computeTDistribution_;
+    simsignal_t computeMeanMalus_;
+    //simsignal_t computeCapacity_;
     simsignal_t  computeActualCapacity_;
+
 };
 
 #endif
