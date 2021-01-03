@@ -144,7 +144,7 @@ void DataLink::handleServiceTimeElapsed(){
        EV_INFO << "Penalty started, "<< simTime() <<endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
-       emit(computeMeanMalus_, malusX);
+       //emit(computeMeanMalus_, malusX);
        malusPenality = false;
     }
 }
@@ -179,7 +179,7 @@ void DataLink::scheduleSetNextCapacity(cMessage *msg)
     } else if (strcmp(tDistribution.c_str(), "exponential") == 0 ){
         interval = exponential(t,2);
         scheduleAt(simTime() + interval, msg);
-        // emit(computeTDistribution_,  interval);
+        //emit(computeTDistribution_,  interval);
     }
 }
 
@@ -205,6 +205,6 @@ int DataLink::getCapacity()
         ret = lastCapacity + increment;
     }
 
-    emit(computeActualCapacity_,ret);
+    //emit(computeActualCapacity_,ret);
     return ret;
 }
