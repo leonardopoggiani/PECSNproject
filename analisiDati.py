@@ -129,7 +129,7 @@ def parse_run(s):
 
 
 def vector_parse():
-    path_csv = "C:\\Users\\leona\\OneDrive\\Desktop\\non-monitoring-10s.csv"
+    path_csv = "C:\\Users\\leona\\OneDrive\\Desktop\\non-monitoring-5s.csv"
 
     # vec files are huge, try to reduce their size ASAP!!
     data = pd.read_csv(path_csv,
@@ -682,6 +682,7 @@ def main():
     describe_attribute_vec(df, "responseTime", iteration=0)
     describe_attribute_vec(df, "waitingTime", iteration=0)
 
+    gini(df, precision=3)
 
 if __name__ == '__main__':
     main()
