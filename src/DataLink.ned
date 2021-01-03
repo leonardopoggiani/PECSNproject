@@ -34,6 +34,9 @@ simple DataLink
        	@signal[computeMeanMalus](type=long);
        	@statistic[meanMalus](source=computeMeanMalus; record=vector;);
        	
+       	@signal[computeServiceTime](type=long);
+       	@statistic[serviceTime](source=computeServiceTime; record=vector;);
+       	
      gates:
          input in;
          output out;

@@ -10,9 +10,9 @@ void DataLink::initialize()
    computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeQueueLength_ = registerSignal("computeQueueLength");
    computeTDistribution_ = registerSignal("computeTDistribution");
-   // computeCapacity_ = registerSignal("computeCapacity");
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeMeanMalus_ = registerSignal("computeMeanMalus");
+   computeServiceTime_ = registerSignal("computeServiceTime");
 
    operationMode = par("operationMode");
    transmitting = false;
@@ -38,14 +38,13 @@ void DataLink::initialize()
    }
 
    actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacitï¿½ attuale del DL, la prima va estratta, poi varierï¿½ linearmente
-   // EV << "First Actual capacity is: " << actualCapacity << endl;
-   // emit(computeCapacity_,actualCapacity);
    emit(computeActualCapacity_,actualCapacity);
 
 
    double s = (double) size;
    double ac = (double)actualCapacity;
    serviceTime = s/ac;
+   emit(computeServiceTime_,serviceTime);
    EV <<"Service time is: " << serviceTime <<endl;
 
    tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
@@ -121,6 +120,7 @@ void DataLink::sendPacket() { //elaboratePacket
         double s = (double) size;
         double ac = (double)actualCapacity;
         serviceTime = (s/ac);
+        emit(computeServiceTime_,serviceTime);
         processing = ap;
 
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
@@ -175,11 +175,11 @@ void DataLink::scheduleSetNextCapacity(cMessage *msg)
     if ( strcmp(tDistribution.c_str(), "lognormal") == 0){
         interval = lognormal(t,2);
         scheduleAt(simTime() + interval, msg);
-        emit(computeTDistribution_,  interval);
+        // emit(computeTDistribution_,  interval);
     } else if (strcmp(tDistribution.c_str(), "exponential") == 0 ){
         interval = exponential(t,2);
         scheduleAt(simTime() + interval, msg);
-        emit(computeTDistribution_,  interval);
+        // emit(computeTDistribution_,  interval);
     }
 }
 

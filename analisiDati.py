@@ -169,6 +169,14 @@ def plot_mean_vectors(data, attribute, start=10000, duration=150000, iterations=
         plt.title("responseTime")
     elif attribute == "waitingTime":
         plt.title("waitingTime")
+    elif attribute == "meanMalus":
+        plt.title("meanMalus")
+    elif attribute == "actualCapacity":
+        plt.title("actualCapacity")
+    elif attribute == "arrivalTime":
+        plt.title("arrivalTime")
+    elif attribute == "tDistribution":
+        plt.title("tDistribution")
 
     plt.xlim(start, duration)
     plt.show()
@@ -489,7 +497,7 @@ def check_iid(samples, attribute, aggregate=False, save=False):
 ####################################################
 
 
-def plot_winavg_vectors(data, attribute, start=0, duration=100, iterations=[0], win=1000):
+def plot_winavg_vectors(data, attribute, start=0, duration=100, iterations=[0], win=100):
     sel = data[data.name == attribute]
 
     # plot a mean vector for each iteration
@@ -505,6 +513,14 @@ def plot_winavg_vectors(data, attribute, start=0, duration=100, iterations=[0], 
         plt.title("responseTime")
     elif attribute == "waitingTime":
         plt.title("waitingTime")
+    elif attribute == "meanMalus":
+        plt.title("meanMalus")
+    elif attribute == "actualCapacity":
+        plt.title("actualCapacity")
+    elif attribute == "arrivalTime":
+        plt.title("arrivalTime")
+    elif attribute == "tDistribution":
+        plt.title("tDistribution")
 
     # plot the data
     plt.xlim(start, duration)
@@ -661,28 +677,49 @@ def main():
     plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    plot_mean_vectors(df, "actualCapacity", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    plot_mean_vectors(df, "meanMalus", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=1000)
-    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=1000)
-    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=1000)
+
+    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
+    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
+    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
+    plot_winavg_vectors(df, "tDistribution", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                        win=30000)
+    plot_winavg_vectors(df, "actualCapacity", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
+    plot_winavg_vectors(df, "meanMalus", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
 
     plot_ecdf_vec(df, "queueLength", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "waitingTime", iteration=0, sample_size=1000, replace=False)
+    plot_ecdf_vec(df, "tDistribution", iteration=0, sample_size=1000, replace=False)
+    plot_ecdf_vec(df, "actualCapacity", iteration=0, sample_size=1000, replace=False)
+    plot_ecdf_vec(df, "meanMalus", iteration=0, sample_size=1000, replace=False)
 
     check_iid_vec(df, "queueLength", iteration=0, sample_size=1000, seed=42, save=False)
     check_iid_vec(df, "responseTime", iteration=0, sample_size=1000, seed=42, save=False)
     check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
+    check_iid_vec(df, "tDistribution", iteration=0, sample_size=1000, seed=42, save=False)
+    check_iid_vec(df, "actualCapacity", iteration=0, sample_size=1000, seed=42, save=False)
+    check_iid_vec(df, "meanMalus", iteration=0, sample_size=1000, seed=42, save=False)
 
     lorenz_curve_vec(df, "queueLength")
     lorenz_curve_vec(df, "responseTime")
     lorenz_curve_vec(df, "waitingTime")
+    lorenz_curve_vec(df, "tDistribution")
+    lorenz_curve_vec(df, "actualCapacity")
+    lorenz_curve_vec(df, "meanMalus")
 
     vector_stats(df, group=False)
 
     describe_attribute_vec(df, "queueLength", iteration=0)
     describe_attribute_vec(df, "responseTime", iteration=0)
     describe_attribute_vec(df, "waitingTime", iteration=0)
+    describe_attribute_vec(df, "tDistribution", iteration=0)
+    describe_attribute_vec(df, "actualCapacity", iteration=0)
+    describe_attribute_vec(df, "meanMalus", iteration=0)
 
 
 if __name__ == '__main__':
