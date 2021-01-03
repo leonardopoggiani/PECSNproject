@@ -10,7 +10,7 @@ void DataLink::initialize()
    computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeQueueLength_ = registerSignal("computeQueueLength");
    computeTDistribution_ = registerSignal("computeTDistribution");
-   //computeCapacity_ = registerSignal("computeCapacity");
+   // computeCapacity_ = registerSignal("computeCapacity");
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeMeanMalus_ = registerSignal("computeMeanMalus");
 
@@ -39,7 +39,7 @@ void DataLink::initialize()
 
    actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacitï¿½ attuale del DL, la prima va estratta, poi varierï¿½ linearmente
    // EV << "First Actual capacity is: " << actualCapacity << endl;
-   //emit(computeCapacity_,actualCapacity);
+   // emit(computeCapacity_,actualCapacity);
    emit(computeActualCapacity_,actualCapacity);
 
 
@@ -89,7 +89,7 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 
     lastCapacity = nextCapacity; // l'ultima capacitï¿½ viene aggiornata
     nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // estratta la capacitï¿½ da raggiungere tra t_
-    //emit(computeCapacity_,nextCapacity);
+    // emit(computeCapacity_,nextCapacity);
     lastCapacityTime = simTime();
     scheduleSetNextCapacity(msg);
 }
