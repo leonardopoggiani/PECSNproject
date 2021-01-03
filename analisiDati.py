@@ -684,7 +684,6 @@ def main():
     describe_attribute_vec(df, "responseTime", iteration=0)
     describe_attribute_vec(df, "waitingTime", iteration=0)
 
-    gini(df, precision=3)
 
 if __name__ == '__main__':
     main()
