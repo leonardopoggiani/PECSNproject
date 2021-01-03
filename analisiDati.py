@@ -125,11 +125,11 @@ def parse_name(s):
 
 
 def parse_run(s):
-    return int(s.split('-')[2]) if s else None
+    return int(s.split('-')[6]) if s else None
 
 
 def vector_parse():
-    path_csv = "C:\\Users\\leona\\OneDrive\\Desktop\\non-monitoring-5s.csv"
+    path_csv = "C:\\Users\\leona\\OneDrive\\Desktop\\exponential.csv"
 
     # vec files are huge, try to reduce their size ASAP!!
     data = pd.read_csv(path_csv,
@@ -157,7 +157,7 @@ def plot_mean_vectors(data, attribute, start=10000, duration=150000, iterations=
 
     # plot a mean vector for each iteration
     for i in iterations:
-        tmp = sel[sel.run == (i + 20)]
+        tmp = sel[sel.run == (i)]
 
         for row in tmp.itertuples():
             plt.plot(row.time, running_avg(row.value))
@@ -202,7 +202,7 @@ def describe_attribute_sca(data, name, value='value'):
 
 
 def describe_attribute_vec(data, name, iteration=0):
-    values = pd.Series(data[data.name == name].value.iloc[iteration + 20])
+    values = pd.Series(data[data.name == name].value.iloc[iteration])
     print(values.describe(percentiles=[.25, .50, .75, .95]))
     return
 
@@ -411,7 +411,7 @@ def plot_ecdf(data):
 def plot_ecdf_vec(data, attribute, iteration=0, sample_size=1000, replace=False):
     # consider only what i need
     sample = data[data.name == attribute]
-    sample = sample.value.iloc[iteration + 20]
+    sample = sample.value.iloc[iteration]
 
     # consider a sample
     if sample_size is not None:
@@ -442,7 +442,7 @@ def check_iid_sca(data, attribute, aggregate=False, users=range(0, NUM_USERS), s
 
 
 def check_iid_vec(data, attribute, iteration=0, sample_size=1000, seed=42, save=False):
-    samples = pd.Series(data[data.name == attribute].value.iloc[iteration + 20])
+    samples = pd.Series(data[data.name == attribute].value.iloc[iteration])
 
     # consider a sample
     if sample_size != None:
@@ -494,7 +494,7 @@ def plot_winavg_vectors(data, attribute, start=0, duration=100, iterations=[0], 
 
     # plot a mean vector for each iteration
     for i in iterations:
-        tmp = sel[sel.run == (i + 20)]
+        tmp = sel[sel.run == (i)]
         for row in tmp.itertuples():
             plt.plot(row.time, winavg(row.value, win))
 
@@ -655,7 +655,9 @@ def tidy_scalar(mode, lambda_val):
 
 def main():
     print("\n\nPerformance Evaluation - Python Data Analysis\n")
+
     df = vector_parse()
+
     plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
