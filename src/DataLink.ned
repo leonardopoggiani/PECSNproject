@@ -24,18 +24,17 @@ simple DataLink
          @signal[computeTDistribution](type=long);
        	 @statistic[tDistribution](source=computeTDistribution; record=vector;);
        	
-        
-        //@signal[computeCapacity](type=long);
-       	//@statistic[capacity](source=computeCapacity; record=vector;);
-       	
        	@signal[computeActualCapacity](type=long);
-       	@statistic[actualCapacity](source=computeActualCapacity; record=vector;);
+       	@statistic[actualCapacity](source=computeActualCapacity; record=mean;);
        	
        	@signal[computeMeanMalus](type=long);
-       	@statistic[meanMalus](source=computeMeanMalus; record=vector;);
+       	@statistic[meanMalus](source=computeMeanMalus; record=sum;);
        	
        	@signal[computeServiceTime](type=long);
        	@statistic[serviceTime](source=computeServiceTime; record=vector;);
+       	
+       	@signal[computeUtilization](type=long);
+       	@statistic[utilization](source=computeUtilization; record=mean;);
        	
      gates:
          input in;

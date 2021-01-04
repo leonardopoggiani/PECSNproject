@@ -1,17 +1,20 @@
 # core stuff
-import pandas as pd
-import numpy  as np
 import csv
-
-# scipy whatever
-import scipy
-from scipy import stats
-import statsmodels.api as sm
-
+import math
 # plotty stuff
 import matplotlib.pyplot as plt
+import numpy  as np
+import pandas as pd
 import seaborn as sns
+from scipy.stats import linregress as regr
+
+# scipy whatever
 sns.set(style="whitegrid")
+
+import seaborn as sns
+import matplotlib
+matplotlib.rcParams['font.family'] = "serif"
+plt.style.use('ggplot')
 
 
 # CONSTANTS
@@ -125,11 +128,11 @@ def parse_name(s):
 
 
 def parse_run(s):
-    return int(s.split('-')[6]) if s else None
+    return int(s.split('-')[2]) if s else None
 
 
 def vector_parse():
-    path_csv = "C:\\Users\\leona\\OneDrive\\Desktop\\exponential.csv"
+    path_csv = "C:\\Users\\leona\\OneDrive\\Desktop\\nonmonitoring-prova.csv"
 
     # vec files are huge, try to reduce their size ASAP!!
     data = pd.read_csv(path_csv,
@@ -669,58 +672,186 @@ def tidy_scalar(mode, lambda_val):
     return tidy_data
 
 
+def histogram(df, nbin, name, k):
+    plt.figure()
+    n, bins, patches = plt.hist(
+        df['Mean_' + name], nbin, density=True, facecolor='g', alpha=0.75)
+    plt.title('Histogram of ' + name + ' ' + k + 's')
+    plt.grid(True)
+    plt.show()
+
+
+def serviceTimeCDF(s):
+    if s < 0:
+        Fs = 0
+    elif s <= T*M**2/4:
+        Fs = math.pi * s/(T*M**2)
+    elif s <= T*M**2/2:
+        Fs = math.pi * s/(T*M**2) - 4*s/(T*M**2)*math.acos(M /
+                                                           2*math.sqrt(T/s)) + math.sqrt(4*s/(T*M**2)-1)
+    else:
+        Fs = 1.0
+    return Fs
+
+
+'''
+    Distance Cumulative Distribution Function F(d)
+'''
+
+M = 25000
+T = 0.00000000425603
+
+def distanceCDF(d):
+    if d < 0:
+        Fd = 0
+    elif d <= M/2:
+        Fd = math.pi*d**2/M**2
+    elif d <= M/2*math.sqrt(2):
+        Fd = math.pi*d**2/M**2 - 4/M**2*d**2 * \
+            math.acos(M/(2*d)) + d/M*math.sqrt((4*d**2-M**2)/d**2)
+    else:
+        Fd = 1.0
+    return Fd
+
+
+'''
+    look for x such that F(x) = P{X < x} = quantile, with an error of maxError
+'''
+
+
+def findQuantile(quantile, name, maxError):
+    x = 0.0
+    if name == 'serviceTime':
+        error = quantile - serviceTimeCDF(x)
+        while error > maxError:
+            x += 0.1*error
+            error = quantile - serviceTimeCDF(x)
+    elif name == 'distance':
+        error = quantile - distanceCDF(x)
+        while error > maxError:
+            x += 0.3*error
+            error = quantile - distanceCDF(x)
+    return x
+
+
+'''
+     find every quantile for both theoretical and sample distribution
+'''
+
+
+def fitDistribution(df, name, maxError):
+    theoreticalQ = []
+    sampleQ = []
+    for i in range(1, len(df)):
+        quantile = (i-0.5)/len(df)
+        sq = df[name].quantile(quantile)
+        tq = findQuantile(quantile, name, maxError)
+        sampleQ.append(sq)
+        theoreticalQ.append(tq)
+        print(quantile, tq, sq)
+    return [theoreticalQ, sampleQ]
+
+
+'''
+     draw a qq plot
+'''
+
+
+def qqPlot(theoreticalQ, sampleQ, name):
+    slope, intercept, r_value, p_value, std_err = regr(theoreticalQ, sampleQ)
+
+    plt.figure()
+    plt.scatter(theoreticalQ, sampleQ, s=0.8, label=name, c='blue')
+    y = [x*slope + intercept for x in theoreticalQ]
+    plt.plot(theoreticalQ, y, 'r', label='Trend line')
+    plt.text(0, max(sampleQ)*0.6, '\n\n$R^2$ = ' + str('%.6f' % r_value**2))
+    if intercept > 0:
+        plt.text(0, max(sampleQ)*0.55, 'y = ' + str('%.6f' %
+                                                    slope) + 'x + ' + str('%.6f' % intercept))
+    else:
+        plt.text(0, max(sampleQ)*0.55, 'y = ' + str('%.6f' %
+                                                    slope) + 'x ' + str('%.6f' % intercept))
+
+    plt.xlabel('Theoretical Quantile')
+    plt.ylabel('Sample Quantile')
+    plt.title('QQ plot ' + name)
+    plt.grid(True)
+    plt.legend()
+
+'''
+    Find every column of dataframe that starts with "stat"
+'''
+
+
+def splitStat(df, stat):
+    statDf = df[df.columns[pd.Series(df.columns).str.startswith(stat)]]
+    return statDf
+
+
+'''
+    Sort every column of dataframe and perform a mean per row
+'''
+
+
+def meanPerRow(df, stat):
+    orderedStat = df.apply(lambda x: x.sort_values().values)
+    orderedStat = orderedStat.apply(lambda x: x.dropna())
+    return pd.DataFrame(orderedStat.mean(axis=1), columns=[stat])
+
+
 def main():
     print("\n\nPerformance Evaluation - Python Data Analysis\n")
 
     df = vector_parse()
 
-    plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    plot_mean_vectors(df, "actualCapacity", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    plot_mean_vectors(df, "meanMalus", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    print("Mean vectors")
+    plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_mean_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
 
+    print("Mean windows vectors")
+    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
+    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
+    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
+    plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
+    plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
 
-    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
-    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
-    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
-    plot_winavg_vectors(df, "tDistribution", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-                        win=30000)
-    plot_winavg_vectors(df, "actualCapacity", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
-    plot_winavg_vectors(df, "meanMalus", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], win=30000)
-
+    print("ECDF vectors")
     plot_ecdf_vec(df, "queueLength", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "waitingTime", iteration=0, sample_size=1000, replace=False)
-    plot_ecdf_vec(df, "tDistribution", iteration=0, sample_size=1000, replace=False)
-    plot_ecdf_vec(df, "actualCapacity", iteration=0, sample_size=1000, replace=False)
-    plot_ecdf_vec(df, "meanMalus", iteration=0, sample_size=1000, replace=False)
+    plot_ecdf_vec(df, "arrivalTime", iteration=0, sample_size=1000, replace=False)
+    plot_ecdf_vec(df, "serviceTime", iteration=0, sample_size=1000, replace=False)
 
+    print("Check IID")
     check_iid_vec(df, "queueLength", iteration=0, sample_size=1000, seed=42, save=False)
     check_iid_vec(df, "responseTime", iteration=0, sample_size=1000, seed=42, save=False)
     check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
-    check_iid_vec(df, "tDistribution", iteration=0, sample_size=1000, seed=42, save=False)
-    check_iid_vec(df, "actualCapacity", iteration=0, sample_size=1000, seed=42, save=False)
-    check_iid_vec(df, "meanMalus", iteration=0, sample_size=1000, seed=42, save=False)
 
+    print("Lorenz curve vectors")
     lorenz_curve_vec(df, "queueLength")
     lorenz_curve_vec(df, "responseTime")
     lorenz_curve_vec(df, "waitingTime")
-    lorenz_curve_vec(df, "tDistribution")
-    lorenz_curve_vec(df, "actualCapacity")
-    lorenz_curve_vec(df, "meanMalus")
+    lorenz_curve_vec(df, "arrivalTime")
 
+    print("Vectors stats")
     vector_stats(df, group=False)
 
     describe_attribute_vec(df, "queueLength", iteration=0)
     describe_attribute_vec(df, "responseTime", iteration=0)
     describe_attribute_vec(df, "waitingTime", iteration=0)
-    describe_attribute_vec(df, "tDistribution", iteration=0)
-    describe_attribute_vec(df, "actualCapacity", iteration=0)
-    describe_attribute_vec(df, "meanMalus", iteration=0)
+    describe_attribute_vec(df, "arrivalTime", iteration=0)
 
+    # print("Service time fitting")
+    # serviceTime30Rep = splitStat(df, 'serviceTime')
+    # serviceTime = meanPerRow(serviceTime30Rep, 'serviceTime')
+
+    # serviceTime = serviceTime.sample(n=1000)
+
+    # theoreticalQ, sampleQ = fitDistribution(serviceTime, 'serviceTime', 0.0001)
+    # qqPlot(theoreticalQ, sampleQ, 'serviceTime' )
 
 if __name__ == '__main__':
     main()

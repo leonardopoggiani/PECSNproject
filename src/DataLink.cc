@@ -13,6 +13,7 @@ void DataLink::initialize()
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeMeanMalus_ = registerSignal("computeMeanMalus");
    computeServiceTime_ = registerSignal("computeServiceTime");
+   computeUtilization_ = registerSignal("computeUtilization");
 
    operationMode = par("operationMode");
    transmitting = false;
