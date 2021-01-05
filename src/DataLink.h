@@ -53,7 +53,6 @@ class DataLink : public cSimpleModule
     simsignal_t  computeServiceTime_;
     simsignal_t  computeUtilization_;
 
-
 };
 
 #endif
