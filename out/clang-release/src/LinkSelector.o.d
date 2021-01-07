@@ -1,10 +1,9 @@
 ../out/clang-release/src/LinkSelector.o: LinkSelector.cc LinkSelector.h \
-  C:/Users/leona/Downloads/omnetpp-5.6.2/include\omnetpp.h DataLink.h \
-  AircraftPacket_m.h
+  C:/omnetpp-5.5.1/include\omnetpp.h DataLink.h AircraftPacket_m.h
 
 LinkSelector.h:
 
-C:/Users/leona/Downloads/omnetpp-5.6.2/include\omnetpp.h:
+C:/omnetpp-5.5.1/include\omnetpp.h:
 
 DataLink.h:
 
