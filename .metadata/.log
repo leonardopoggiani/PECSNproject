@@ -7,3 +7,26 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY org.omnetpp.main 1 0 2020-12-09 21:03:39.994
 !MESSAGE OMNeT++ IDE 5.6.2.200518-aa79d0918f started.
+!SESSION 2021-01-06 10:13:05.753 -----------------------------------------------
+eclipse.buildId=5.6.2.200518-aa79d0918f
+java.version=1.8.0_102
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.omnetpp.main 1 0 2021-01-06 10:14:49.407
+!MESSAGE OMNeT++ IDE 5.6.2.200518-aa79d0918f started.
+
+!ENTRY org.omnetpp.main 4 0 2021-01-06 10:14:56.639
+!MESSAGE Cannot download project description from https://models.omnetpp.org/descriptors/omnetpp-5.6/inet.xml
+!STACK 0
+java.io.IOException: Server returned HTTP response code: 403 for URL: https://models.omnetpp.org/descriptors/omnetpp-5.6/inet.xml
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(Unknown Source)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(Unknown Source)
+	at sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(Unknown Source)
+	at java.net.URL.openStream(Unknown Source)
+	at org.apache.commons.io.FileUtils.copyURLToFile(FileUtils.java:1460)
+	at org.omnetpp.ide.installer.InstallProjectTask.downloadProjectDescription(InstallProjectTask.java:59)
+	at org.omnetpp.ide.installer.InstallProjectTask.run(InstallProjectTask.java:46)
+	at org.omnetpp.ide.installer.InstallProjectJob.run(InstallProjectJob.java:32)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
