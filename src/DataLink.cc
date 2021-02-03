@@ -41,10 +41,10 @@ void DataLink::initialize()
    actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacitï¿½ attuale del DL, la prima va estratta, poi varierï¿½ linearmente
    emit(computeActualCapacity_,actualCapacity);
 
-
    double s = (double) size;
-   double ac = (double)actualCapacity;
+   double ac = (double) actualCapacity;
    serviceTime = s/ac;
+
    emit(computeServiceTime_,serviceTime);
    EV <<"Service time is: " << serviceTime <<endl;
 
