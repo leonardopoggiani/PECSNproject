@@ -1,52 +1,59 @@
 
-6python:S3626µ"Remove this redundant return.(ÙãŞŸ
-6python:S3626ä"Remove this redundant return.(ÙãŞŸ
-6python:S3626Ê"Remove this redundant return.(ÙãŞŸ
-7python:S125Ï"Remove this commented out code.(Ô®Íó
-upython:S117…"XRename this parameter "theoreticalQ" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æõëúÿÿÿÿ
->python:S125Ü"Remove this commented out code.(÷ÇÍ‰8Í™ïìö.
-6python:S3626î"Remove this redundant return.(ÙãŞŸ
-6python:S3626Ñ"Remove this redundant return.(ÙãŞŸ
-_python:S2208
-"GImport only needed names or import the module and then use its members.(“¦ø‘
-;python:S125"Remove this commented out code.(†ùòıÿÿÿÿÿ
-Cpython:S125É"Remove this commented out code.(²Á¥àùÿÿÿÿ8Í™ïìö.
-jpython:S1542‚"RRename function "CQI_to_class" to match the regular expression ^[a-z_][a-z0-9_]*$.(á®¸F
-jpython:S117 "MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(êÆÕœùÿÿÿÿ
-6python:S3626ÿ"Remove this redundant return.(ÙãŞŸ
-6python:S3626™"Remove this redundant return.(ÙãŞŸ
->python:S125Î"Remove this commented out code.(ĞÂÈ¼8Í™ïìö.
-7python:S125Æ"Remove this commented out code.(ÉÈñ¯
->python:S125×"Remove this commented out code.(Ä…ÍÆ8Í™ïìö.
-7python:S125¥"Remove this commented out code.(ÃÓôÅ
-6python:S3626è"Remove this redundant return.(ÙãŞŸ
-<python:S125„"Remove this commented out code.(Ù„¨ÿûÿÿÿÿ
-mpython:S1542 "ORename function "splitStat" to match the regular expression ^[a-z_][a-z0-9_]*$.(šÈîîûÿÿÿÿ
-6python:S3626ô"Remove this redundant return.(ÙãŞŸ
-6python:S3626Ä"Remove this redundant return.(ÙãŞŸ
->python:S125Ô"Remove this commented out code.(Ù²™­8Í™ïìö.
-ipython:S1542ª"PRename function "meanPerRow" to match the regular expression ^[a-z_][a-z0-9_]*$.(‰üÉª
-tpython:S117«"\Rename this local variable "orderedStat" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸½·
-6python:S3626ô"Remove this redundant return.(ÙãŞŸ
-6python:S3626Ğ"Remove this redundant return.(ÙãŞŸ
-<python:S125‘"Remove this commented out code.(÷¦ ıÿÿÿÿ
-ppython:S117…"SRename this parameter "sampleQ" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æõëúÿÿÿÿ
-6python:S3626’"Remove this redundant return.(ÙãŞŸ
->python:S125â"Remove this commented out code.(Œ‰è8Í™ïìö.
-opython:S117¡"WRename this local variable "statDf" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰Ü
-6python:S3626Ä"Remove this redundant return.(ÙãŞŸ
-6python:S3626ä"Remove this redundant return.(ÙãŞŸ
-6python:S3626ø"Remove this redundant return.(ÙãŞŸ
-6python:S125"Remove this commented out code.(Ë¥©
-6python:S3626°"Remove this redundant return.(ÙãŞŸ
-7python:S125„"Remove this commented out code.(Ô®Íó
+7python:S125¿"Remove this commented out code.(Ô®Íó
+upython:S1542À"URename function "fitDistribution" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÊÁ’8°Í¯ğö.
+7python:S125ô"Remove this commented out code.(Ô®Íó
 6python:S3626Ô"Remove this redundant return.(ÙãŞŸ
-jpython:S1542…"LRename function "qqPlot" to match the regular expression ^[a-z_][a-z0-9_]*$.(Æõëúÿÿÿÿ
-6python:S3626¨"Remove this redundant return.(ÙãŞŸ
-6python:S3626Ü"Remove this redundant return.(ÙãŞŸ
-‚python:S117Õ"^Rename this local variable "Ydistribution" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰ã¹«ıÿÿÿÿ8Í™ïìö.
->python:S125à"Remove this commented out code.(„Á®¢8Í™ïìö.
-6python:S3626¡"Remove this redundant return.(ÙãŞŸ
-lpython:S117±"TRename this local variable "F_x" to match the regular expression ^[_a-z][a-z0-9_]*$.(öï¢
-‚python:S117Ô"^Rename this local variable "Xdistribution" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ù‚¸ğøÿÿÿÿ8Í™ïìö.
-=python:S125É"Remove this commented out code.(€Ç¨e8Í™ïìö.
+}python:S117÷"YRename this local variable "barWidth" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÑÄàîøÿÿÿÿ8º¿úñö.
+€python:S117â"\Rename this local variable "queueLength" to match the regular expression ^[_a-z][a-z0-9_]*$.(ª¦¾çÿÿÿÿÿ8á’¡òö.
+6python:S3626º"Remove this redundant return.(ÙãŞŸ
+6python:S3626ê"Remove this redundant return.(ÙãŞŸ
+_python:S2208"GImport only needed names or import the module and then use its members.(“¦ø‘
+ppython:S930²"LAdd 1 missing arguments; 'plot_CDF' expects at least 2 positional arguments.(½±Õâùÿÿÿÿ8˜®±ğö.
+6python:S3626‚"Remove this redundant return.(ÙãŞŸ
+6python:S3626ö"Remove this redundant return.(ÙãŞŸ
+python:S117Á"]Rename this local variable "theoreticalQ" to match the regular expression ^[_a-z][a-z0-9_]*$.(ºÃŒıùÿÿÿÿ8°Í¯ğö.
+6python:S3626Æ"Remove this redundant return.(ÙãŞŸ
+wpython:S117Â"XRename this local variable "sampleQ" to match the regular expression ^[_a-z][a-z0-9_]*$.(ç ÌÍ8°Í¯ğö.
+6python:S3626´"Remove this redundant return.(ÙãŞŸ
+jpython:S1542Ò"LRename function "qqPlot" to match the regular expression ^[a-z_][a-z0-9_]*$.(Æõëúÿÿÿÿ
+mpython:S1542í"ORename function "splitStat" to match the regular expression ^[a-z_][a-z0-9_]*$.(šÈîîûÿÿÿÿ
+6python:S3626 "Remove this redundant return.(ÙãŞŸ
+spython:S1542’"NRename function "plot_CDF" to match the regular expression ^[a-z_][a-z0-9_]*$.(©’ı¢ùÿÿÿÿ8À—òïö.
+|python:S117ø"^Rename this local variable "errorBarStyle" to match the regular expression ^[_a-z][a-z0-9_]*$.(´Ëˆ:8º¿úñö.
+Ppython:S1481õ"0Remove the unused local variable "distribution".(«•áË8º¿úñö.
+<python:S125“"Remove this commented out code.(÷¦ ıÿÿÿÿ
+6python:S3626‘"Remove this redundant return.(ÙãŞŸ
+<python:S125ô"Remove this commented out code.(Ù„¨ÿûÿÿÿÿ
+6python:S3626ğ"Remove this redundant return.(ÙãŞŸ
+spython:S117¬"TRename this parameter "maxError" to match the regular expression ^[_a-z][a-z0-9_]*$.(şœ‚8°Í¯ğö.
+6python:S3626Ì"Remove this redundant return.(ÙãŞŸ
+rpython:S1542¬"RRename function "findQuantile" to match the regular expression ^[a-z_][a-z0-9_]*$.(şœ‚8°Í¯ğö.
+Ppython:S1481ø"1Remove the unused local variable "errorBarStyle".(´Ëˆ:8Éşñö.
+6python:S3626À"Remove this redundant return.(ÙãŞŸ
+ppython:S930´"LAdd 1 missing arguments; 'plot_CDF' expects at least 2 positional arguments.(½±Õâùÿÿÿÿ8ÙÆ±ğö.
+6python:S3626Ä"Remove this redundant return.(ÙãŞŸ
+6python:S3626˜"Remove this redundant return.(ÙãŞŸ
+jpython:S1542ò"RRename function "CQI_to_class" to match the regular expression ^[a-z_][a-z0-9_]*$.(á®¸F
+tpython:S117ø"\Rename this local variable "orderedStat" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸½·
+Hpython:S1481ö"(Remove the unused local variable "path".(àìÊÁ8º¿úñö.
+6python:S3626ï"Remove this redundant return.(ÙãŞŸ
+6python:S3626ä"Remove this redundant return.(ÙãŞŸ
+6python:S3626¥"Remove this redundant return.(ÙãŞŸ
+upython:S117Ò"XRename this parameter "theoreticalQ" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æõëúÿÿÿÿ
+opython:S117î"WRename this local variable "statDf" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰Ü
+7python:S125¶"Remove this commented out code.(ÉÈñ¯
+ppython:S930¯"LAdd 1 missing arguments; 'plot_CDF' expects at least 2 positional arguments.(½±Õâùÿÿÿÿ8°Í¯ğö.
+Ppython:S5806˜"+Rename this variable; it shadows a builtin.(Õ’¯•ùÿÿÿÿ8…óõïö.
+lpython:S117¡"TRename this local variable "F_x" to match the regular expression ^[_a-z][a-z0-9_]*$.(öï¢
+6python:S3626è"Remove this redundant return.(ÙãŞŸ
+jpython:S117¢"MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(êÆÕœùÿÿÿÿ
+ppython:S930·"LAdd 1 missing arguments; 'plot_CDF' expects at least 2 positional arguments.(½±Õâùÿÿÿÿ8ÉÙ±ğö.
+ppython:S117Ò"SRename this parameter "sampleQ" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æõëúÿÿÿÿ
+spython:S117À"TRename this parameter "maxError" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÊÁ’8°Í¯ğö.
+6python:S3626Ô"Remove this redundant return.(ÙãŞŸ
+6python:S3626Á"Remove this redundant return.(ÙãŞŸ
+Qpython:S1481÷",Remove the unused local variable "barWidth".(ÑÄàîøÿÿÿÿ8Éşñö.
+;python:S125"Remove this commented out code.(†ùòıÿÿÿÿÿ
+6python:S3626‰"Remove this redundant return.(ÙãŞŸ
+ipython:S1542÷"PRename function "meanPerRow" to match the regular expression ^[a-z_][a-z0-9_]*$.(‰üÉª
+6python:S125"Remove this commented out code.(Ë¥©

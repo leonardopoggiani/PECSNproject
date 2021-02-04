@@ -862,14 +862,17 @@ def main():
     describe_attribute_vec(df, "waitingTime", iteration=0)
     describe_attribute_vec(df, "serviceTime", iteration=0)
 
-    dataframe = df[df.name == "responseTime"]
+    dataframe = df[df.name == "queueLength"]
+    queueLength = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
 
-    responseTime = pd.to_numeric(dataframe.iloc[5], errors='coerce')
+    '''
+    responseTime = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
     responseTimeCI = pd.to_numeric(dataframe.iloc[6], errors='coerce')
     queueLength = pd.to_numeric(dataframe.iloc[3], errors='coerce')
     queueLengthCI = pd.to_numeric(dataframe.iloc[4], errors='coerce')
     waitingTime = pd.to_numeric(dataframe.iloc[7], errors='coerce')
     waitingTimeCI = pd.to_numeric(dataframe.iloc[8], errors='coerce')
+    '''
 
     k = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2]
     plt.style.use('ggplot')
@@ -884,6 +887,7 @@ def main():
     barWidth = 0.035
     errorBarStyle = dict(lw=0.5, capsize=2, capthick=0.5)
 
+    '''
     # Plot Delay
     plt.figure(1)
     plt.errorbar(k, responseTime, yerr=responseTimeCI, fmt="--x",
@@ -895,11 +899,12 @@ def main():
     plt.title('End-to-End Delay')
     plt.legend()
     plt.grid(linestyle='--')
+    '''
 
     # Plot Queue Length
     plt.figure(2)
-    plt.errorbar(k, queueLength, yerr=queueLengthCI, fmt="--x",
-                 markeredgecolor='red', linewidth=0.8, capsize=4, label='t= ' + str(t[i]))
+    plt.errorbar(k, queueLength, yerr=2, fmt="--x",
+                 markeredgecolor='red', linewidth=0.8, capsize=4, label='t= ')
     plt.xlabel('Interarrival Time [s]')
     plt.ylabel('Queue Length')
     plt.ticklabel_format(axis='x', style='sci')
