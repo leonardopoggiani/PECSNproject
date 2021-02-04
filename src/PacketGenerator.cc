@@ -11,7 +11,7 @@ void PacketGenerator::initialize()
     // ** SIGNAL ** //
     computeArrivalTime_ = registerSignal("computeArrivalTime");
 
-    cMessage* msg = new cMessage("Messaggio");
+    cMessage* msg = new cMessage("msg");
     k = getAncestorPar("k").doubleValue();
     simtime_t arrivalTime = exponential(k,0);
 
@@ -28,11 +28,11 @@ void PacketGenerator::handleMessage(cMessage* msg)
 }
 
 void PacketGenerator::createSendPacket(cMessage* msg){
+
     AircraftPacket* ap = new AircraftPacket("AircraftPacket");
     ap->setAircraftID(getIndex());
-    ap->setSendTime(simTime().dbl()); // nome
+    ap->setSendTime(simTime().dbl());
 
-    //Send the packet to LinkSelector
     send(ap, "out");
 
     //Riattivo il timer

@@ -25,7 +25,7 @@ simple DataLink
 		 @statistic[tDistribution](source=computeTDistribution; record=vector;);
 		       	
 		 @signal[computeActualCapacity](type=long);
-		 @statistic[actualCapacity](source=computeActualCapacity; record=mean;);
+		 @statistic[actualCapacity](source=computeActualCapacity; record=vector;);
 		
 		 @signal[computeMeanMalus](type=long);
 		 @statistic[meanMalus](source=computeMeanMalus; record=sum;);
@@ -34,7 +34,7 @@ simple DataLink
 		 @statistic[serviceTime](source=computeServiceTime; record=vector;);
 		
 		 @signal[computeUtilization](type=long);
-		 @statistic[utilization](source=computeUtilization; record=mean;);
+		 @statistic[utilization](source=computeUtilization; record=vector;);
        	
      gates:
          input in;

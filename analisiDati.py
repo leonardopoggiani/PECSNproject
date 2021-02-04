@@ -1,71 +1,85 @@
-# core stuff
 import csv
 import math
-# plotty stuff
 import matplotlib.pyplot as plt
 import numpy  as np
 import pandas as pd
+# import px
 import seaborn as sns
 from scipy.stats import linregress as regr
-
-# scipy whatever
-sns.set(style="whitegrid")
-
+import pprint
+from pylab import *
+import matplotlib.pyplot as plt
 import seaborn as sns
-import matplotlib
-matplotlib.rcParams['font.family'] = "serif"
+color = sns.color_palette()
+import plotly.offline as py
+import plotly.graph_objs as go
+import plotly.tools as tls
+import plotly.express as px
+from gekko import GEKKO
+
+# import pandas_profiling
+
+# seaborn settings, just to give a nicer look
+sns.reset_defaults()
+sns.set(
+    rc={'figure.figsize': (7, 5)},
+    style="white"
+)
+
+# matplotlib settings, when used
+plt.rcParams['font.family'] = "serif"
 plt.style.use('ggplot')
 
-
 # CONSTANTS
-WARMUP_PERIOD  =   4   # not really used
-NUM_ITERATIONS = 100
-SIM_TIME       =  30  # not really used
-NUM_USERS      =  10
+WARMUP_PERIOD = 10000  # not really used
+NUM_ITERATIONS = 5
+SIM_TIME = 150000  # not really used
+NUM_DATA_LINK = 1
+NUM_AIRCRAFT = 1
+SAMPLE_SIZE = 1000  # not really used
+SEED_SAMPLING = 42  # not really used
 
-SAMPLE_SIZE    = 1000 # not really used
-SEED_SAMPLING  =   42 # not really used
+# results csv path
+DATA_PATH = "./simulations/results/"
 
-# DATA PATHs
-DATA_PATH = "./data/"
-
+# mode used for the creation of csv
 MODE_DESCRIPTION = {
-    'bin' : "Binomial CQIs",
-    'uni' : "Uniform CQIs",
-    'bin_old' : "Binomial CQIs (old)"
+    'exp': "Exponential",
+    'log': "Lognormal",
 }
 
+# interarrival time choosed
 LAMBDA_DESCRIPTION = {
-    'l01' : "λ = 0.1ms",
-    'l09' : "λ = 0.9ms",
-    'l1'  : "λ = 1.0ms",
-    'l13' : "λ = 1.3ms",
-    'l14' : "λ = 1.4ms",
-    'l15' : "λ = 1.5ms",
-    'l2'  : "λ = 2.0ms",
-    'l5'  : "λ = 5.0ms"
+    'l01': "λ = 0.1ms",
+    'l09': "λ = 0.9ms",
+    'l1': "λ = 1.0ms",
+    'l13': "λ = 1.3ms",
+    'l14': "λ = 1.4ms",
+    'l15': "λ = 1.5ms",
+    'l2': "λ = 2.0ms",
+    'l5': "λ = 5.0ms"
 }
 
+# to organize results
 MODE_PATH = {
-    'bin' : "binomial/",
-    'uni' : "uniform/",
-    'bin_old' : "bin_old/"
+    'log': "lognormal/",
+    'exp': "exponential/",
 }
 
 LAMBDA_PATH = {
-    'l01' : "lambda01/",
-    'l09' : "lambda09/",
-    'l1'  : "lambda1/",
-    'l13' : "lambda13/",
-    'l14' : "lambda14/",
-    'l15' : "lambda15/",
-    'l2'  : "lambda2/",
-    'l5'  : "lambda5/"
+    'l01': "lambda01/",
+    'l09': "lambda09/",
+    'l1': "lambda1/",
+    'l13': "lambda13/",
+    'l14': "lambda14/",
+    'l15': "lambda15/",
+    'l2': "lambda2/",
+    'l5': "lambda5/"
 }
 
 CSV_PATH = {
-    'sca' : "sca_res.csv",
-    'vec' : "vec_res.csv"
+    'sca': "sca_res.csv",
+    'vec': "vec_res.csv"
 }
 
 CQI_CLASSES = [
@@ -73,52 +87,12 @@ CQI_CLASSES = [
     'HIGH'
 ]
 
-# Just to not fuck things up
 np.random.seed(SEED_SAMPLING)
 
 
 ####################################################
-#                       UTIL                       #
+#                       PARSING                    #
 ####################################################
-
-def running_avg(x):
-    return np.cumsum(x) / np.arange(1, x.size + 1)
-
-
-def winavg(x, N):
-    xpad = np.concatenate((np.zeros(N), x))  # pad with zeroes
-    s = np.cumsum(xpad)
-    ss = s[N:] - s[:-N]
-    ss[N - 1:] /= N
-    ss[:N - 1] /= np.arange(1, min(N - 1, ss.size) + 1)
-    return ss
-
-
-def filter_data(data, attribute, start=0):
-    sel = data[data.name == attribute]
-
-    for i, row in sel.iterrows():
-        tmp = np.where(row.time < start, np.nan, row.value)
-        sel.at[i, 'value'] = tmp[~np.isnan(tmp)]
-    return sel
-
-
-def plot_mean_vectors_user(data, prefix, start=0, duration=SIM_TIME, iterations=[0], users=range(0, NUM_USERS)):
-    sel = data[data.name.str.startswith(prefix + '-')]
-
-    for u in users:
-        usr = sel[sel.name == prefix + "-" + str(u)]
-        for i in iterations:
-            tmp = usr[(usr.run == i)]
-            for row in tmp.itertuples():
-                plt.plot(row.time, running_avg(row.value))
-
-    # plot the data
-    plt.xlim(start, duration)
-    plt.show()
-    return
-
-
 def parse_vector(s):
     return np.fromstring(s, sep=' ') if s else None
 
@@ -132,15 +106,14 @@ def parse_run(s):
 
 
 def vector_parse():
-    path_csv = "C:\\Users\\leona\\OneDrive\\Desktop\\nonmonitoring-prova.csv"
+    path_csv = "D:\\Desktop\\misure.csv"
 
-    # vec files are huge, try to reduce their size ASAP!!
     data = pd.read_csv(path_csv,
                        delimiter=",", quoting=csv.QUOTE_NONNUMERIC, encoding='utf-8',
                        usecols=['run', 'type', 'module', 'name', 'vecvalue', 'vectime'],
                        converters={
                            'run': parse_run,
-                           'vectime': parse_vector,  # i guess
+                           'vectime': parse_vector,
                            'vecvalue': parse_vector,
                            'name': parse_name
                        })
@@ -152,38 +125,6 @@ def vector_parse():
     # rename vecvalue for simplicity...
     data = data.rename({'vecvalue': 'value', 'vectime': 'time'}, axis=1)
     return data[['run', 'name', 'time', 'value']].sort_values(['run', 'name'])
-
-
-def plot_mean_vectors(data, attribute, start=10000, duration=150000, iterations=[0]):
-
-    sel = data[data.name == attribute]
-
-    # plot a mean vector for each iteration
-    for i in iterations:
-        tmp = sel[sel.run == (i)]
-
-        for row in tmp.itertuples():
-            plt.plot(row.time, running_avg(row.value))
-
-    # plot the data
-    if attribute == "queueLength":
-        plt.title("queueLength")
-    elif attribute == "responseTime":
-        plt.title("responseTime")
-    elif attribute == "waitingTime":
-        plt.title("waitingTime")
-    elif attribute == "meanMalus":
-        plt.title("meanMalus")
-    elif attribute == "actualCapacity":
-        plt.title("actualCapacity")
-    elif attribute == "arrivalTime":
-        plt.title("arrivalTime")
-    elif attribute == "tDistribution":
-        plt.title("tDistribution")
-
-    plt.xlim(start, duration)
-    plt.show()
-    return
 
 
 # Parse CSV file
@@ -206,6 +147,91 @@ def scalar_parse(cqi, pkt_lambda):
     return data[['run', 'name', 'value']].sort_values(['run', 'name'])
 
 
+####################################################
+#                       UTIL                       #
+####################################################
+
+# mean of x
+def running_avg(x):
+    return np.cumsum(x) / np.arange(1, x.size + 1)
+
+
+# window (N) mean of x
+def winavg(x, N):
+    xpad = np.concatenate((np.zeros(N), x))
+    s = np.cumsum(xpad)
+    ss = s[N:] - s[:-N]
+    ss[N - 1:] /= N
+    ss[:N - 1] /= np.arange(1, min(N - 1, ss.size) + 1)
+    return ss
+
+
+# keep only the data of the choosed attribute
+def filter_data(data, attribute, start=0):
+    sel = data[data.name == attribute]
+
+    for i, row in sel.iterrows():
+        tmp = np.where(row.time < start, np.nan, row.value)
+        sel.at[i, 'value'] = tmp[~np.isnan(tmp)]
+    return sel
+
+
+def plot_mean_vectors_datalink(data, prefix, start=0, duration=SIM_TIME, iterations=None,
+                               datalinks=range(0, NUM_DATA_LINK)):
+    if iterations is None:
+        iterations = [0]
+
+    sel = data[data.name.str.startswith(prefix + '-')]
+
+    for d in datalinks:
+        usr = sel[sel.name == prefix + "-" + str(d)]
+        for i in iterations:
+            tmp = usr[(usr.run == i)]
+            for row in tmp.itertuples():
+                plt.plot(row.time, running_avg(row.value))
+
+    # plot the data
+    plt.xlim(start, duration)
+    plt.show()
+    return
+
+
+def plot_mean_vectors(data, attribute, start=WARMUP_PERIOD, duration=SIM_TIME, iterations=None):
+    if iterations is None:
+        iterations = [0]
+
+    sel = data[data.name == attribute]
+
+    # plot a mean vector for each iteration
+    for i in iterations:
+        tmp = sel[sel.run == i]
+
+        for row in tmp.itertuples():
+            plt.plot(row.time, running_avg(row.value))
+
+    # plot the data
+    if attribute == "queueLength":
+        plt.title("queueLength")
+    elif attribute == "responseTime":
+        plt.title("responseTime")
+    elif attribute == "waitingTime":
+        plt.title("waitingTime")
+    elif attribute == "meanMalus":
+        plt.title("meanMalus")
+    elif attribute == "actualCapacity":
+        plt.title("actualCapacity")
+    elif attribute == "arrivalTime":
+        plt.title("arrivalTime")
+    elif attribute == "tDistribution":
+        plt.title("tDistribution")
+    elif attribute == "serviceTime":
+        plt.title("serviceTime")
+
+    plt.xlim(start, duration)
+    plt.show()
+    return
+
+
 def describe_attribute_sca(data, name, value='value'):
     # print brief summary of attribute name (with percentiles and stuff)
     print(data[data.name == name][value].describe(percentiles=[.25, .50, .75, .95]))
@@ -214,7 +240,7 @@ def describe_attribute_sca(data, name, value='value'):
 
 def describe_attribute_vec(data, name, iteration=0):
     values = pd.Series(data[data.name == name].value.iloc[iteration])
-    print(values.describe(percentiles=[.25, .50, .75, .95]))
+    pprint.pprint(values.describe(percentiles=[.25, .50, .75, .95]))
     return
 
 
@@ -231,15 +257,15 @@ def vector_stats(data, group=False):
     return stats.groupby(['name']).mean().drop('run', axis=1) if group else stats
 
 
-def aggregate_users_signals(data, signal, users=range(0, NUM_USERS)):
+def aggregate_users_signals(data, signal, datalinks=range(0, NUM_DATA_LINK)):
     # meanResponseTime => dato il mean response time di un utente per ogni run, calcolo la media dei
     # mean response time dell'utente su tutte le run. E poi faccio la media per tutti gli utenti per
     # ottenere il mean responsetime medio per tutti gli utenti.
-    return data[data.name.isin([signal + '-' + str(i) for i in users])].groupby('run').mean().describe(
+    return data[data.name.isin([signal + '-' + str(i) for i in datalinks])].groupby('run').mean().describe(
         percentiles=[.25, .50, .75, .95])
 
 
-def scalar_stats(data, attr=None, users=range(0, NUM_USERS)):
+def scalar_stats(data, attr=None, datalinks=range(0, NUM_DATA_LINK)):
     stats = pd.DataFrame()
     attributes = data.name.unique() if attr is None else attr
 
@@ -248,10 +274,10 @@ def scalar_stats(data, attr=None, users=range(0, NUM_USERS)):
         stats[attr] = data[data.name == attr].value.describe(percentiles=[.25, .50, .75, .95])
 
     # Aggregate dynamic stats (one signal per user):
-    stats['meanResponseTime'] = aggregate_users_signals(data, 'responseTime', users)
-    stats['meanThroughput'] = aggregate_users_signals(data, 'tptUser', users)
-    stats['meanCQI'] = aggregate_users_signals(data, 'CQI', users)
-    stats['meanNumberRBs'] = aggregate_users_signals(data, 'numberRBs', users)
+    stats['meanResponseTime'] = aggregate_users_signals(data, 'responseTime', datalinks)
+    stats['meanThroughput'] = aggregate_users_signals(data, 'tptUser', datalinks)
+    stats['meanCQI'] = aggregate_users_signals(data, 'CQI', datalinks)
+    stats['meanNumberRBs'] = aggregate_users_signals(data, 'numberRBs', datalinks)
 
     # Transpose...
     stats = stats.T
@@ -264,6 +290,7 @@ def scalar_stats(data, attr=None, users=range(0, NUM_USERS)):
     return stats
 
 
+'''
 def users_bandwidth_sca(data, group=False):
     stats = scalar_stats(data)
     index = [row for row in stats.index if row.startswith('tptUser-')]
@@ -278,11 +305,7 @@ def users_bandwidth_sca(data, group=False):
     bandwidth.index = bandwidth['user']
     bandwidth = bandwidth.drop('user', axis=1)
     return bandwidth
-
-
-####################################################
-#                      PARSER                      #
-####################################################
+'''
 
 
 ####################################################
@@ -299,7 +322,7 @@ def gini(data, precision=3):
     return round((fair_area - area) / fair_area, precision)
 
 
-def lorenz_curve_sca(data, attribute, users=range(0, NUM_USERS), iterations=range(0, NUM_ITERATIONS)):
+def lorenz_curve_sca(data, attribute, iterations=range(0, NUM_ITERATIONS)):
     # val = pd.DataFrame()
     sel = data[data.name.str.startswith(attribute + '-')]
     sel['user'] = sel.name.str.split('-', expand=True)[1].astype(int)
@@ -349,7 +372,7 @@ def plot_lorenz_curve(data, color=None, alpha=1):
     return
 
 
-def all_lorenz(mode, lambda_val, attribute, users=range(0, NUM_USERS), iterations=range(0, NUM_ITERATIONS), save=False):
+def all_lorenz(mode, lambda_val, attribute, iterations=range(0, NUM_ITERATIONS), save=False):
     data = scalar_parse(mode, lambda_val)
 
     # Plot the mean lorenz
@@ -380,16 +403,11 @@ def all_lorenz(mode, lambda_val, attribute, users=range(0, NUM_USERS), iteration
 
 
 ####################################################
-#                      LORENZ                      #
-####################################################
-
-
-####################################################
 #                      ECDF                        #
 ####################################################
 
 
-def ecdf_sca(data, attribute, aggregate=False, users=range(0, NUM_USERS), save=False):
+def ecdf_sca(data, attribute, aggregate=False, users=range(0, NUM_DATA_LINK), save=False):
     if aggregate:
         selected_ds = data[data.name.isin([attribute + '-' + str(i) for i in users])].groupby('run').mean()
     else:
@@ -412,7 +430,7 @@ def plot_ecdf(data):
 
     # eval y
     n = sorted_data.size
-    F_x = [(sorted_data[sorted_data <= x].size) / n for x in sorted_data]
+    F_x = [sorted_data[sorted_data <= x].size / n for x in sorted_data]
 
     # plot the plot
     plt.step(sorted_data, F_x)
@@ -435,15 +453,10 @@ def plot_ecdf_vec(data, attribute, iteration=0, sample_size=1000, replace=False)
 
 
 ####################################################
-#                      ECDF                        #
-####################################################
-
-
-####################################################
 #                      IID                         #
 ####################################################
 
-def check_iid_sca(data, attribute, aggregate=False, users=range(0, NUM_USERS), save=False):
+def check_iid_sca(data, attribute, aggregate=False, users=range(0, NUM_DATA_LINK), save=False):
     if aggregate:
         samples = data[data.name.isin([attribute + '-' + str(i) for i in users])].groupby('run').mean()
     else:
@@ -452,11 +465,11 @@ def check_iid_sca(data, attribute, aggregate=False, users=range(0, NUM_USERS), s
     return
 
 
-def check_iid_vec(data, attribute, iteration=0, sample_size=1000, seed=42, save=False):
+def check_iid_vec(data, attribute, iteration=0, sample_size=1000, seed=SEED_SAMPLING, save=False):
     samples = pd.Series(data[data.name == attribute].value.iloc[iteration])
 
     # consider a sample
-    if sample_size != None:
+    if sample_size is not None:
         samples = samples.sample(n=sample_size, random_state=seed)
 
     check_iid(samples, attribute, save)
@@ -492,20 +505,19 @@ def check_iid(samples, attribute, aggregate=False, save=False):
 
 
 ####################################################
-#                      IID                         #
-####################################################
-
-####################################################
 ####################################################
 ####################################################
 
 
-def plot_winavg_vectors(data, attribute, start=0, duration=100, iterations=[0], win=100):
+def plot_winavg_vectors(data, attribute, start=0, duration=SIM_TIME, iterations=None, win=100):
+    if iterations is None:
+        iterations = [0]
+
     sel = data[data.name == attribute]
 
     # plot a mean vector for each iteration
     for i in iterations:
-        tmp = sel[sel.run == (i)]
+        tmp = sel[sel.run == i]
         for row in tmp.itertuples():
             plt.plot(row.time, winavg(row.value, win))
 
@@ -524,6 +536,8 @@ def plot_winavg_vectors(data, attribute, start=0, duration=100, iterations=[0], 
         plt.title("arrivalTime")
     elif attribute == "tDistribution":
         plt.title("tDistribution")
+    elif attribute == "serviceTime":
+        plt.title("serviceTime")
 
     # plot the data
     plt.xlim(start, duration)
@@ -578,9 +592,7 @@ def plot_to_img(mode, lambdas):
     return
 
 
-# this function works only with "nameSignal-user" kind of statistics
-# (responseTime-#numuser or tptUser-#numuser)
-def histo_users(mode, lambda_val, attribute, ci=95, users=range(0, NUM_USERS), save=False):
+def histo_datalink(mode, lambda_val, attribute, ci=95, users=range(0, NUM_DATA_LINK), save=False):
     stats = scalar_stats(scalar_parse(mode, lambda_val))
 
     for u in users:
@@ -600,7 +612,7 @@ def histo_users(mode, lambda_val, attribute, ci=95, users=range(0, NUM_USERS), s
     return
 
 
-def scatterplot_mean(mode, lambda_val, x_attr, y_attr, users=range(0, NUM_USERS), save=False, group=None, hue='user',
+def scatterplot_mean(mode, lambda_val, x_attr, y_attr, group=None, hue='user',
                      col=None):
     data = tidy_scalar(mode, lambda_val)
 
@@ -627,7 +639,6 @@ def scatterplot_mean(mode, lambda_val, x_attr, y_attr, users=range(0, NUM_USERS)
     return
 
 
-# does it make sense?
 def CQI_to_class(cqi):
     if cqi < 4: return CQI_CLASSES[0]
     # if cqi < 7: return 'MID'
@@ -663,7 +674,7 @@ def tidy_scalar(mode, lambda_val):
     sel = sel.drop('name', axis=1)
 
     tidy_data['user'] = 'user-' + sel[
-        sel.attr == sel.attr.iloc[0]].user.values  # any dynsignal will be fine, because all of them have 100 instances
+        sel.attr == sel.attr.iloc[0]].user.values
     tidy_data['run'] = sel[sel.attr == sel.attr.iloc[0]].run.values  # same
     for attr_name in sel.attr.unique():
         tidy_data[attr_name] = sel[sel.attr == attr_name].value.values
@@ -681,42 +692,44 @@ def histogram(df, nbin, name, k):
     plt.show()
 
 
+'''
 def serviceTimeCDF(s):
     if s < 0:
         Fs = 0
-    elif s <= T*M**2/4:
-        Fs = math.pi * s/(T*M**2)
-    elif s <= T*M**2/2:
-        Fs = math.pi * s/(T*M**2) - 4*s/(T*M**2)*math.acos(M /
-                                                           2*math.sqrt(T/s)) + math.sqrt(4*s/(T*M**2)-1)
+    elif s <= T * M ** 2 / 4:
+        Fs = math.pi * s / (T * M ** 2)
+    elif s <= T * M ** 2 / 2:
+        Fs = math.pi * s / (T * M ** 2) - 4 * s / (T * M ** 2) * math.acos(M /
+                                                                           2 * math.sqrt(T / s)) + math.sqrt(
+            4 * s / (T * M ** 2) - 1)
     else:
         Fs = 1.0
     return Fs
 
 
-'''
-    Distance Cumulative Distribution Function F(d)
-'''
+
+    Capacity Cumulative Distribution Function F(d)
+
 
 M = 25000
 T = 0.00000000425603
 
+
 def distanceCDF(d):
     if d < 0:
         Fd = 0
-    elif d <= M/2:
-        Fd = math.pi*d**2/M**2
-    elif d <= M/2*math.sqrt(2):
-        Fd = math.pi*d**2/M**2 - 4/M**2*d**2 * \
-            math.acos(M/(2*d)) + d/M*math.sqrt((4*d**2-M**2)/d**2)
+    elif d <= M / 2:
+        Fd = math.pi * d ** 2 / M ** 2
+    elif d <= M / 2 * math.sqrt(2):
+        Fd = math.pi * d ** 2 / M ** 2 - 4 / M ** 2 * d ** 2 * \
+             math.acos(M / (2 * d)) + d / M * math.sqrt((4 * d ** 2 - M ** 2) / d ** 2)
     else:
         Fd = 1.0
     return Fd
-
+'''
 
 '''
     look for x such that F(x) = P{X < x} = quantile, with an error of maxError
-'''
 
 
 def findQuantile(quantile, name, maxError):
@@ -724,26 +737,26 @@ def findQuantile(quantile, name, maxError):
     if name == 'serviceTime':
         error = quantile - serviceTimeCDF(x)
         while error > maxError:
-            x += 0.1*error
+            x += 0.1 * error
             error = quantile - serviceTimeCDF(x)
     elif name == 'distance':
         error = quantile - distanceCDF(x)
         while error > maxError:
-            x += 0.3*error
+            x += 0.3 * error
             error = quantile - distanceCDF(x)
     return x
 
-
+'''
 '''
      find every quantile for both theoretical and sample distribution
-'''
+
 
 
 def fitDistribution(df, name, maxError):
     theoreticalQ = []
     sampleQ = []
     for i in range(1, len(df)):
-        quantile = (i-0.5)/len(df)
+        quantile = (i - 0.5) / len(df)
         sq = df[name].quantile(quantile)
         tq = findQuantile(quantile, name, maxError)
         sampleQ.append(sq)
@@ -751,7 +764,7 @@ def fitDistribution(df, name, maxError):
         print(quantile, tq, sq)
     return [theoreticalQ, sampleQ]
 
-
+'''
 '''
      draw a qq plot
 '''
@@ -762,21 +775,22 @@ def qqPlot(theoreticalQ, sampleQ, name):
 
     plt.figure()
     plt.scatter(theoreticalQ, sampleQ, s=0.8, label=name, c='blue')
-    y = [x*slope + intercept for x in theoreticalQ]
+    y = [x * slope + intercept for x in theoreticalQ]
     plt.plot(theoreticalQ, y, 'r', label='Trend line')
-    plt.text(0, max(sampleQ)*0.6, '\n\n$R^2$ = ' + str('%.6f' % r_value**2))
+    plt.text(0, max(sampleQ) * 0.6, '\n\n$R^2$ = ' + str('%.6f' % r_value ** 2))
     if intercept > 0:
-        plt.text(0, max(sampleQ)*0.55, 'y = ' + str('%.6f' %
-                                                    slope) + 'x + ' + str('%.6f' % intercept))
+        plt.text(0, max(sampleQ) * 0.55, 'y = ' + str('%.6f' %
+                                                      slope) + 'x + ' + str('%.6f' % intercept))
     else:
-        plt.text(0, max(sampleQ)*0.55, 'y = ' + str('%.6f' %
-                                                    slope) + 'x ' + str('%.6f' % intercept))
+        plt.text(0, max(sampleQ) * 0.55, 'y = ' + str('%.6f' %
+                                                      slope) + 'x ' + str('%.6f' % intercept))
 
     plt.xlabel('Theoretical Quantile')
     plt.ylabel('Sample Quantile')
     plt.title('QQ plot ' + name)
     plt.grid(True)
     plt.legend()
+
 
 '''
     Find every column of dataframe that starts with "stat"
@@ -799,50 +813,177 @@ def meanPerRow(df, stat):
     return pd.DataFrame(orderedStat.mean(axis=1), columns=[stat])
 
 
+def vertical_mean_line(x, **kwargs):
+    plt.axvline(x.mean(), linestyle="--",
+                color=kwargs.get("color", "r"))
+    txkw = dict(size=15, color=kwargs.get("color", "r"))
+
+    label_x_pos_adjustment = 0.08  # this needs customization based on your data
+    label_y_pos_adjustment = 5  # this needs customization based on your data
+    if x.mean() < 6:  # this needs customization based on your data
+        tx = "mean: {:.2f}\n(std: {:.2f})".format(x.mean(), x.std())
+        plt.text(x.mean() + label_x_pos_adjustment, label_y_pos_adjustment, tx, **txkw)
+    else:
+        tx = "mean: {:.2f}\n  (std: {:.2f})".format(x.mean(), x.std())
+        plt.text(x.mean() - 1.4, label_y_pos_adjustment, tx, **txkw)
+
+
+def df_to_plotly(df):
+    return {'z': df.values.tolist(),
+            'x': df.columns.tolist(),
+            'y': df.index.tolist()}
+
+
 def main():
-    print("\n\nPerformance Evaluation - Python Data Analysis\n")
+    pprint.pprint("Performance Evaluation - Python Data Analysis")
 
     df = vector_parse()
+    # dataframe = df[df.name == 'arrivalTime']
+    dataframe2 = df[df.name == 'actualCapacity']
 
-    print("Mean vectors")
+
+    # Create some test data
+    '''
+    X = dataframe.iloc[0].time
+    Y = dataframe.iloc[0].value
+    '''
+
+    print(dataframe2)
+    Xdistribution = dataframe2.time
+    Ydistribution = dataframe2.value
+
+    # Compute the CDF
+    '''
+    sorted = np.sort(Y)
+    p = 1. * np.arange(len(Y)) / (len(Y) - 1)
+    fig = plt.figure()
+    ax1 = fig.add_subplot(121)
+    ax1.plot(p, sorted)
+    ax1.set_xlabel('$p$')
+    ax1.set_ylabel('$x$')
+
+    ax2 = fig.add_subplot(122)
+    ax2.plot(sorted, p)
+    ax2.set_xlabel('$x$')
+    ax2.set_ylabel('$p$')    # Plot both
+    plot(X, Y)
+
+    show()
+    '''
+
+    # Compute the CDF
+    sorted2 = np.sort(Ydistribution)
+    p = 1. * np.arange(len(Ydistribution)) / (len(Ydistribution) - 1)
+    fig = plt.figure()
+    ax1 = fig.add_subplot(121)
+    ax1.plot(p, sorted2)
+    ax1.set_xlabel('$p$')
+    ax1.set_ylabel('$x$')
+
+    ax2 = fig.add_subplot(122)
+    ax2.plot(sorted2, p)
+    ax2.set_xlabel('$x$')
+    ax2.set_ylabel('$p$')  # Plot both
+    plot(Xdistribution, Ydistribution)
+
+    show()
+
+    '''
+    fig = px.scatter(dataframe.iloc[0], x=dataframe.iloc[0].time, y=dataframe.iloc[0].value)
+    fig.update_traces(marker_color="turquoise", marker_line_color='rgb(8,48,107)',
+                      marker_line_width=1.5)
+    fig.update_layout(title_text='Time and value')
+    fig.show()
+
+    describe_attribute_vec(df, "arrivalTime", iteration=0)
+    check_iid_vec(df, "arrivalTime", iteration=0, sample_size=1000, seed=42, save=False)
+    lorenz_curve_vec(df, "serviceTime")
+    pprint.pprint(vector_stats(df, group=False))
+    
+
+    # GEKKO model
+    m = GEKKO()
+
+    # input data
+    x = m.Param(value=np.array(dataframe.iloc[0].value))
+
+    # parameters to optimize
+    a = m.FV()
+    a.STATUS = 1
+    b = m.FV()
+    b.STATUS = 1
+    c = m.FV()
+    c.STATUS = 1
+
+    # variables
+    y = m.CV(value=np.array(dataframe.iloc[0].value))
+    y.FSTATUS = 1
+
+    # regression equation
+    m.Equation(y == b * m.exp(a * x) + c)
+
+    # regression mode
+    m.options.IMODE = 2
+
+    # plot data
+    plt.figure()
+    plt.plot(dataframe.iloc[0].value, 'ro', label='Stock Data')
+    plt.plot(x.value, y.value, 'bx', label='Predicted')
+    plt.xlabel('Open Price')
+    plt.ylabel('Close Price')
+    plt.legend()
+    plt.show()
+
+    '''
+
+    # fig = px.scatter(
+    #    data_frame=df[df['Year'] == 2018],
+    #    x="Log GDP per capita",
+    #    y="Life Ladder",
+    #    size="Gapminder Population",
+    #    color="Continent",
+    #    hover_name="Country name",
+    #    size_max=60
+    # )
+    #   fig.show()
+
+    '''
     plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
 
-    print("Mean windows vectors")
     plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
     plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
     plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
     plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
     plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
-
-    print("ECDF vectors")
+    
     plot_ecdf_vec(df, "queueLength", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "waitingTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "arrivalTime", iteration=0, sample_size=1000, replace=False)
-    plot_ecdf_vec(df, "serviceTime", iteration=0, sample_size=1000, replace=False)
+    '''
 
-    print("Check IID")
-    check_iid_vec(df, "queueLength", iteration=0, sample_size=1000, seed=42, save=False)
-    check_iid_vec(df, "responseTime", iteration=0, sample_size=1000, seed=42, save=False)
-    check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
+    # print("Check IID")
+    # check_iid_vec(df, "queueLength", iteration=0, sample_size=1000, seed=42, save=False)
+    # check_iid_vec(df, "responseTime", iteration=0, sample_size=1000, seed=42, save=False)
+    # check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
 
-    print("Lorenz curve vectors")
-    lorenz_curve_vec(df, "queueLength")
-    lorenz_curve_vec(df, "responseTime")
-    lorenz_curve_vec(df, "waitingTime")
-    lorenz_curve_vec(df, "arrivalTime")
+    # print("Lorenz curve vectors")
+    # lorenz_curve_vec(df, "queueLength")
+    # lorenz_curve_vec(df, "responseTime")
+    # lorenz_curve_vec(df, "waitingTime")
+    # lorenz_curve_vec(df, "arrivalTime")
 
-    print("Vectors stats")
-    vector_stats(df, group=False)
+    # pprint.pprint("Vectors stats")
+    # pprint.pprint(vector_stats(df, group=False))
 
-    describe_attribute_vec(df, "queueLength", iteration=0)
-    describe_attribute_vec(df, "responseTime", iteration=0)
-    describe_attribute_vec(df, "waitingTime", iteration=0)
-    describe_attribute_vec(df, "arrivalTime", iteration=0)
+    # describe_attribute_vec(df, "queueLength", iteration=0)
+    # describe_attribute_vec(df, "responseTime", iteration=0)
+    # describe_attribute_vec(df, "waitingTime", iteration=0)
+    # describe_attribute_vec(df, "serviceTime", iteration=0)
 
     # print("Service time fitting")
     # serviceTime30Rep = splitStat(df, 'serviceTime')
@@ -852,6 +993,7 @@ def main():
 
     # theoreticalQ, sampleQ = fitDistribution(serviceTime, 'serviceTime', 0.0001)
     # qqPlot(theoreticalQ, sampleQ, 'serviceTime' )
+
 
 if __name__ == '__main__':
     main()

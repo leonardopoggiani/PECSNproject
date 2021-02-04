@@ -4,6 +4,8 @@
     <inputs name="/PECSNproject/simulations/results/non-monitoring-*.vec"/>
     <inputs name="/PECSNproject/simulations/results/non-monitoring-*.sca"/>
   </inputs>
-  <datasets/>
+  <datasets>
+    <datasets name="df"/>
+  </datasets>
   <chartSheets/>
 </scave:Analysis>
