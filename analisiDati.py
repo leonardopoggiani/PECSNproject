@@ -15,6 +15,7 @@ import plotly.offline as py
 import plotly.graph_objs as go
 import plotly.tools as tls
 import plotly.express as px
+from gekko import GEKKO
 
 # import pandas_profiling
 
@@ -105,7 +106,7 @@ def parse_run(s):
 
 
 def vector_parse():
-    path_csv = "C:\\Users\\leona\\Documents\\GitHub\\PECSNproject\\simulations\\results\\misure.csv"
+    path_csv = "D:\\Desktop\\misure.csv"
 
     data = pd.read_csv(path_csv,
                        delimiter=",", quoting=csv.QUOTE_NONNUMERIC, encoding='utf-8',
@@ -837,13 +838,22 @@ def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
     df = vector_parse()
-    dataframe = df[df.name == 'arrivalTime']
+    # dataframe = df[df.name == 'arrivalTime']
+    dataframe2 = df[df.name == 'actualCapacity']
+
 
     # Create some test data
+    '''
     X = dataframe.iloc[0].time
     Y = dataframe.iloc[0].value
+    '''
+
+    print(dataframe2)
+    Xdistribution = dataframe2.time
+    Ydistribution = dataframe2.value
 
     # Compute the CDF
+    '''
     sorted = np.sort(Y)
     p = 1. * np.arange(len(Y)) / (len(Y) - 1)
     fig = plt.figure()
@@ -859,7 +869,26 @@ def main():
     plot(X, Y)
 
     show()
+    '''
 
+    # Compute the CDF
+    sorted2 = np.sort(Ydistribution)
+    p = 1. * np.arange(len(Ydistribution)) / (len(Ydistribution) - 1)
+    fig = plt.figure()
+    ax1 = fig.add_subplot(121)
+    ax1.plot(p, sorted2)
+    ax1.set_xlabel('$p$')
+    ax1.set_ylabel('$x$')
+
+    ax2 = fig.add_subplot(122)
+    ax2.plot(sorted2, p)
+    ax2.set_xlabel('$x$')
+    ax2.set_ylabel('$p$')  # Plot both
+    plot(Xdistribution, Ydistribution)
+
+    show()
+
+    '''
     fig = px.scatter(dataframe.iloc[0], x=dataframe.iloc[0].time, y=dataframe.iloc[0].value)
     fig.update_traces(marker_color="turquoise", marker_line_color='rgb(8,48,107)',
                       marker_line_width=1.5)
@@ -868,8 +897,42 @@ def main():
 
     describe_attribute_vec(df, "arrivalTime", iteration=0)
     check_iid_vec(df, "arrivalTime", iteration=0, sample_size=1000, seed=42, save=False)
-    lorenz_curve_vec(df, "arrivalTime")
+    lorenz_curve_vec(df, "serviceTime")
     pprint.pprint(vector_stats(df, group=False))
+    
+
+    # GEKKO model
+    m = GEKKO()
+
+    # input data
+    x = m.Param(value=np.array(dataframe.iloc[0].value))
+
+    # parameters to optimize
+    a = m.FV()
+    a.STATUS = 1
+    b = m.FV()
+    b.STATUS = 1
+    c = m.FV()
+    c.STATUS = 1
+
+    # variables
+    y = m.CV(value=np.array(dataframe.iloc[0].value))
+    y.FSTATUS = 1
+
+    # regression equation
+    m.Equation(y == b * m.exp(a * x) + c)
+
+    # regression mode
+    m.options.IMODE = 2
+
+    # plot data
+    plt.figure()
+    plt.plot(dataframe.iloc[0].value, 'ro', label='Stock Data')
+    plt.plot(x.value, y.value, 'bx', label='Predicted')
+    plt.xlabel('Open Price')
+    plt.ylabel('Close Price')
+    plt.legend()
+    plt.show()
 
     '''
 
@@ -884,6 +947,7 @@ def main():
     # )
     #   fig.show()
 
+    '''
     plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
@@ -900,7 +964,6 @@ def main():
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "waitingTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "arrivalTime", iteration=0, sample_size=1000, replace=False)
-    '''
     '''
 
     # print("Check IID")
@@ -930,8 +993,6 @@ def main():
 
     # theoreticalQ, sampleQ = fitDistribution(serviceTime, 'serviceTime', 0.0001)
     # qqPlot(theoreticalQ, sampleQ, 'serviceTime' )
-
-    '''
 
 
 if __name__ == '__main__':

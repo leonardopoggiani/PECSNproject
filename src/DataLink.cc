@@ -17,29 +17,29 @@ void DataLink::initialize()
 
    operationMode = par("operationMode");
    transmitting = false;
-   malusPenality = false;
+   malusPenalty = false;
    scheduleMalus = false;
    malusX = par("X").doubleValue();
    t = getAncestorPar("t").doubleValue(); // il valore della media per lognormal ed exponential
    size = par("s").doubleValue(); // la dimensione di un pacchetto
-   dimPoolMax = par("dimPoolMax"); // massima capacitï¿½ del DL
-   dimPoolMin = par("dimPoolMin"); // minima capacitï¿½ del DL
-   lastCapacity = uniform(dimPoolMin,dimPoolMax,1); // ultima capacitï¿½, in occasione della initialize va estratta casualmente
-   nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // verrï¿½ riestratta ogni monitoringTime
+   dimPoolMax = par("dimPoolMax"); // massima capacita del DL
+   dimPoolMin = par("dimPoolMin"); // minima capacita del DL
+   lastCapacity = uniform(dimPoolMin,dimPoolMax,1); // ultima capacita, in occasione della initialize va estratta casualmente
+   nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // verra riestratta ogni monitoringTime
 
-   lastCapacityTime = 0; // tempo in cui si ï¿½ effettuato l'ultimo aggiornamento della capacitï¿½
+   lastCapacityTime = 0; // tempo in cui si e' effettuato l'ultimo aggiornamento della capacita'
 
    int tempLast = 0;
    // Li ordino per trovare actualCapacity
-   if(lastCapacity > nextCapacity)
-   {
+   if(lastCapacity > nextCapacity) {
        tempLast = lastCapacity;
        lastCapacity = nextCapacity;
        nextCapacity = tempLast;
    }
 
-   actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacitï¿½ attuale del DL, la prima va estratta, poi varierï¿½ linearmente
+   actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacita' attuale del DL, la prima va estratta, poi variera' linearmente
    emit(computeActualCapacity_,actualCapacity);
+   EV <<"Capacita' attuale " << actualCapacity << endl;
 
    double s = (double) size;
    double ac = (double) actualCapacity;
@@ -51,85 +51,88 @@ void DataLink::initialize()
    tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
    cMessage * msg = new cMessage("setNextCapacity");
-   scheduleSetNextCapacity(msg); // schedulazione del prossimo aggiornamento della capacitï¿½
-
+   scheduleSetNextCapacity(msg); // schedulazione del prossimo aggiornamento della capacita'
 }
 
 void DataLink::handleMessage(cMessage *msg)
 {
     if ( msg->isSelfMessage() ) {
-        if ( strcmp(msg->getName(), "setNextCapacity") == 0 )
+        if ( strcmp(msg->getName(), "setNextCapacity") == 0 ){
             handleSetNextCapacity(msg);
-        else if (strcmp(msg->getName(), "serviceTimeElapsed") == 0){
+        } else if ( strcmp(msg->getName(), "serviceTimeElapsed") == 0 ){
+            // passato il service time posso gestire un nuovo pacchetto
             handleServiceTimeElapsed();
             delete msg;
-        } else if(strcmp(msg->getName(), "malusElapsed") == 0){
+        } else if( strcmp(msg->getName(), "malusElapsed") == 0 ){
+            // passato il malus per il monitoraggio, posso gestire un nuovo pacchetto
             handleMalusElapsed();
             delete msg;
         }
     }
-    else
-    {
-        if(strcmp(msg->getName(), "startMalusPenality") == 0){
+    else {
+        if( strcmp(msg->getName(), "startMalusPenality") == 0 ){
+            // inizio a scontare la penalita'
             handleStartMalusPenality();
             delete msg;
         } else {
-            // Pacchetto arrivato da Aircraft
+            // nuovo pacchetto arrivato da Aircraft
             handlePacketArrival(msg);
         }
-
     }
 }
 
-/* Aggiornamento della capacitï¿½: viene estratta la prossima capacitï¿½ da raggiungere e si varia linearmente dall'ultima capacitï¿½
- * estratta alla prossima. In qualsiasi tempo tra l'ultimo aggiornamento e il prossimo la capacitï¿½ viene ritornata da getCapacity().
+/* Aggiornamento della capacita: viene estratta la prossima capacita da raggiungere e si varia linearmente dall'ultima capacita
+ * estratta alla prossima. In qualsiasi tempo tra l'ultimo aggiornamento e il prossimo la capacita viene ritornata da getCapacity() e
+ * sara' un valore compreso dalla capacita' precedente e la successiva.
  */
 void DataLink::handleSetNextCapacity(cMessage *msg)
 {
-    lastCapacity = nextCapacity; // l'ultima capacitï¿½ viene aggiornata
-    nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // estratta la capacitï¿½ da raggiungere tra t_
-    lastCapacityTime = simTime();
+    lastCapacity = nextCapacity; // l'ultima capacita' viene aggiornata, se sto estraendo ho raggiunto la capacita' estratta precedentemente
+    nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // estratta la capacita da raggiungere tra t_
+    lastCapacityTime = simTime(); // tempo dell'ultimo aggiornamento di capacita', ora
     scheduleSetNextCapacity(msg);
 }
 
 void DataLink::handlePacketArrival(cMessage *msg) {
+    // arrivato un pacchetto da packetGenerator
     EV_INFO << "queue length: " << queue.getLength() << endl;
     emit(computeQueueLength_, queue.getLength());
+
     AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
     pa->setArrivalTime(simTime().dbl());
 
     queue.insert(pa);
     if ( !transmitting ) {
-        // Try to send a new packet
+        // provo a mandare un pacchetto, se non sto trasmettendo (sta scadendo il serviceTime)
         sendPacket();
     }
 }
 
-void DataLink::sendPacket() { //elaboratePacket
-    if ( !queue.isEmpty() && !malusPenality ) {
-
+void DataLink::sendPacket() {
+    if ( !queue.isEmpty() && !malusPenalty ) {
+        // la coda non e' vuota e non sto scontando una  penalita'
         AircraftPacket* ap = (AircraftPacket*) queue.front();
         queue.pop();
-        EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl;
+        EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
         emit(computeWaitingTime_, simTime() - ap->getArrivalTime());
 
-        transmitting = true;
+        transmitting = true; // sto trasmettendo
 
         actualCapacity = getCapacity();
         double s = (double) size;
-        double ac = (double)actualCapacity;
+        double ac = (double) actualCapacity;
         serviceTime = (s/ac);
+        EV << "serviceTime " << serviceTime << endl;
         emit(computeServiceTime_,serviceTime);
-        processing = ap;
+        processing = ap; // il pacchetto che sto processando e' quello attuale
 
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
         send(processing,"out");
+
         EV << "ResponseTime: " << simTime().dbl() - processing->getSendTime()  + serviceTime << endl;
         emit(computeResponseTime_, simTime().dbl() - processing->getSendTime()  + serviceTime);
 
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
-    } else {
-        EV << "Non sono entrato " << endl;
     }
 }
 
@@ -137,31 +140,31 @@ void DataLink::handleServiceTimeElapsed(){
 
     transmitting = false;
 
-    sendPacket();
+    sendPacket(); // mando il prossimo pacchetto in coda
 
-    if (malusPenality) {
-       EV_INFO << "Penalty started, "<< simTime() <<endl;
+    if (malusPenalty) {
+       EV_INFO << "Penalty started, "<< simTime() << endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
        emit(computeMeanMalus_, malusX);
-       malusPenality = false;
+       malusPenalty = false;
     }
 }
 
 void DataLink::handleStartMalusPenality() {
     if ( !transmitting ) {
-        EV_INFO << "Penalty started, "<< simTime() <<endl;
+        EV_INFO << "Penalty started, "<< simTime() << endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
-        malusPenality = true;
+        malusPenalty = true;
     }
 }
 
 void DataLink::handleMalusElapsed() {
     EV_INFO << "==> PenaltyTimeElapsed: handover completed, transmissions restored, "<< simTime() << endl;
-    malusPenality = false;
+    malusPenalty = false;
     sendPacket();
 }
 
@@ -184,11 +187,11 @@ void DataLink::scheduleSetNextCapacity(cMessage *msg)
 
 int DataLink::getCapacity()
 {
-    bool discesa = false;
+    bool discesa = false; // se sto diminuendo la capacita' rispetto a quella precedente
     simtime_t timeInterval = simTime() - lastCapacityTime;
     int deltaCapacity = nextCapacity - lastCapacity;
 
-    if(deltaCapacity < 0){
+    if(deltaCapacity < 0) {
         int tmp = abs(deltaCapacity);
         deltaCapacity = tmp;
         discesa = true;
