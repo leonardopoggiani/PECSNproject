@@ -14,17 +14,11 @@ module Aircraft
 
     submodules:
         packetGenerator: PacketGenerator {
-        // @display("p=64,160");
-        // @display("p=201,172");
         	@display("p=282,62");
         }
         linkSelector: LinkSelector {
-            @display("p=189,78");
         }
         dataLink[nDL]: DataLink {
-            //@display("p=18200.729,11600.464");
-            // @display("p=144,30");
-            @display("p=65,78");
         }
     connections:
        	for j=0..nDL-1 {

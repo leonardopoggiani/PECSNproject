@@ -106,7 +106,7 @@ def parse_run(s):
 
 
 def vector_parse():
-    path_csv = "D:\\Desktop\\misure.csv"
+    path_csv = "C:\\Users\\leona\\Documents\\GitHub\\PECSNproject\\simulations\\results\\misure.csv"
 
     data = pd.read_csv(path_csv,
                        delimiter=",", quoting=csv.QUOTE_NONNUMERIC, encoding='utf-8',

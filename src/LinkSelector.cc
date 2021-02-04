@@ -8,7 +8,6 @@ void LinkSelector::initialize()
     operationMode = par("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e inviero' sempre su quello
 
     nDL = par("nDL");
-    handleSetCapacity();
 
     if(operationMode == 0){
         // monitoraggio ogni m secondi
@@ -17,14 +16,24 @@ void LinkSelector::initialize()
         scheduleCheckCapacity();
     }
 
+    cMessage* checkingMaxCapacity = new cMessage("setMaxIndexCapacity");
+    scheduleAt(simTime() + 0.000001, checkingMaxCapacity);
+
 }
 
 void LinkSelector::handleMessage(cMessage* msg){
     if(msg->isSelfMessage()){
-        // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacita' dei dataLink
-        scheduleCheckCapacity();
-        handleSetCapacity();
+        if( strcmp(msg->getName(), "setMaxIndexCapacity") == 0 ){
+            // sto settando per la prima volta l'indice del dl a capacita' massima
+            handleSetCapacity();
+        } else {
+            // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacita' dei dataLink
+            scheduleCheckCapacity();
+            handleSetCapacity();
+        }
+
         delete msg;
+
     } else {
         // mi e' arrivato un messaggio da packetGenerator che va inoltrato
         handlePacketArrival(msg);
@@ -43,7 +52,6 @@ void LinkSelector::handleSetCapacity(){
     int max = getMaxIndexCapacity();
     EV_INFO << "The index of the highest capacity DL is " << max;
     maxCapacityDataLinkIndex = max;
-
 }
 
 int LinkSelector::getMaxIndexCapacity(){

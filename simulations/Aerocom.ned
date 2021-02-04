@@ -12,16 +12,11 @@ network Aerocom
     parameters:
         int nA = default(1);
         int nDL = default(2);
-        // @display("bgb=296,147");	
 
-    	//@display("bgb=355,202");
     submodules:
         aircraft[nA]: Aircraft {
-            //@display("p=18200.729,11600.464");
-            // @display("p=210,88");
         }
         controlTower: ControlTower {
-            //@display("p=39,73");
             @display("p=35,69");
         }
 
