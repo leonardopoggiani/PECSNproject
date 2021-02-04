@@ -1,0 +1,36 @@
+file 938 1612440097                                             
+version 2
+run non-monitoring-0-20210204-12:57:25-9352
+attr configname non-monitoring
+attr datetime 20210204-12:57:25
+attr experiment non-monitoring
+attr inifile aerocom.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Aerocom
+attr processid 9352
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.t 1s
+param **.k 1s
+param **.nA 10
+param **.nDL 10
+param **.dataLink[*].s "70 byte"
+param **.dataLink[*].X 5s
+param **.dataLink[*].dimPoolMax 9000
+param **.dataLink[*].dimPoolMin 9000
+param **.dataLink[*].tDistribution "\"exponential\""
+param **.aircraft[*].m 1s
+param **.aircraft[*].linkSelector.DLMaxCapacity 0
+param **.aircraft[*].linkSelector.trasmitting false
+param **.operationMode 1
+
+vector 0 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+0	914 22 0 0 0 0 1 0.795874504566 0.795874504566 0.795874504566 0.63341622701818
+

@@ -1,0 +1,992 @@
+file 395224 1612439759                                          
+version 2
+run non-monitoring-3-20210204-12:55:59-792
+attr configname non-monitoring
+attr datetime 20210204-12:55:59
+attr experiment non-monitoring
+attr inifile aerocom.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Aerocom
+attr processid 792
+attr repetition 3
+attr replication #3
+attr resultdir results
+attr runnumber 3
+attr seedset 3
+param **.t 1s
+param **.k 1s
+param **.nA 10
+param **.nDL 10
+param **.dataLink[*].s "70 byte"
+param **.dataLink[*].X 5s
+param **.dataLink[*].dimPoolMax 9000
+param **.dataLink[*].dimPoolMin 9000
+param **.dataLink[*].tDistribution "\"exponential\""
+param **.aircraft[*].m 1s
+param **.aircraft[*].linkSelector.DLMaxCapacity 0
+param **.aircraft[*].linkSelector.trasmitting false
+param **.operationMode 1
+
+vector 0 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 1 Aerocom.aircraft[0].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 2 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 3 Aerocom.aircraft[0].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 4 Aerocom.aircraft[0].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 5 Aerocom.aircraft[0].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 6 Aerocom.aircraft[0].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 7 Aerocom.aircraft[0].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 8 Aerocom.aircraft[0].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 9 Aerocom.aircraft[0].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 10 Aerocom.aircraft[0].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 11 Aerocom.aircraft[0].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 12 Aerocom.aircraft[0].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 13 Aerocom.aircraft[0].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 14 Aerocom.aircraft[0].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 15 Aerocom.aircraft[0].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 16 Aerocom.aircraft[0].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 17 Aerocom.aircraft[0].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 18 Aerocom.aircraft[0].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 19 Aerocom.aircraft[0].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 20 Aerocom.aircraft[0].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 21 Aerocom.aircraft[1].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 22 Aerocom.aircraft[1].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 23 Aerocom.aircraft[1].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 24 Aerocom.aircraft[1].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 25 Aerocom.aircraft[1].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 26 Aerocom.aircraft[1].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 27 Aerocom.aircraft[1].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 28 Aerocom.aircraft[1].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 29 Aerocom.aircraft[1].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 30 Aerocom.aircraft[1].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 31 Aerocom.aircraft[1].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 32 Aerocom.aircraft[1].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 33 Aerocom.aircraft[1].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 34 Aerocom.aircraft[1].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 35 Aerocom.aircraft[1].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 36 Aerocom.aircraft[1].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 37 Aerocom.aircraft[1].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 38 Aerocom.aircraft[1].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 39 Aerocom.aircraft[1].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 40 Aerocom.aircraft[1].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 41 Aerocom.aircraft[1].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 42 Aerocom.aircraft[2].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 43 Aerocom.aircraft[2].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 44 Aerocom.aircraft[2].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 45 Aerocom.aircraft[2].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 46 Aerocom.aircraft[2].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 47 Aerocom.aircraft[2].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 48 Aerocom.aircraft[2].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 49 Aerocom.aircraft[2].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 50 Aerocom.aircraft[2].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 51 Aerocom.aircraft[2].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 52 Aerocom.aircraft[2].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 53 Aerocom.aircraft[2].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 54 Aerocom.aircraft[2].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 55 Aerocom.aircraft[2].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 56 Aerocom.aircraft[2].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 57 Aerocom.aircraft[2].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 58 Aerocom.aircraft[2].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 59 Aerocom.aircraft[2].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 60 Aerocom.aircraft[2].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 61 Aerocom.aircraft[2].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 62 Aerocom.aircraft[2].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 63 Aerocom.aircraft[3].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 64 Aerocom.aircraft[3].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 65 Aerocom.aircraft[3].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 66 Aerocom.aircraft[3].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 67 Aerocom.aircraft[3].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 68 Aerocom.aircraft[3].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 69 Aerocom.aircraft[3].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 70 Aerocom.aircraft[3].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 71 Aerocom.aircraft[3].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 72 Aerocom.aircraft[3].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 73 Aerocom.aircraft[3].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 74 Aerocom.aircraft[3].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 75 Aerocom.aircraft[3].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 76 Aerocom.aircraft[3].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 77 Aerocom.aircraft[3].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 78 Aerocom.aircraft[3].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 79 Aerocom.aircraft[3].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 80 Aerocom.aircraft[3].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 81 Aerocom.aircraft[3].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 82 Aerocom.aircraft[3].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 83 Aerocom.aircraft[3].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 84 Aerocom.aircraft[4].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 85 Aerocom.aircraft[4].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 86 Aerocom.aircraft[4].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 87 Aerocom.aircraft[4].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 88 Aerocom.aircraft[4].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 89 Aerocom.aircraft[4].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 90 Aerocom.aircraft[4].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 91 Aerocom.aircraft[4].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 92 Aerocom.aircraft[4].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 93 Aerocom.aircraft[4].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 94 Aerocom.aircraft[4].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 95 Aerocom.aircraft[4].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 96 Aerocom.aircraft[4].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 97 Aerocom.aircraft[4].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 98 Aerocom.aircraft[4].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 99 Aerocom.aircraft[4].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 100 Aerocom.aircraft[4].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 101 Aerocom.aircraft[4].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 102 Aerocom.aircraft[4].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 103 Aerocom.aircraft[4].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 104 Aerocom.aircraft[4].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 105 Aerocom.aircraft[5].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 106 Aerocom.aircraft[5].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 107 Aerocom.aircraft[5].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 108 Aerocom.aircraft[5].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 109 Aerocom.aircraft[5].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 110 Aerocom.aircraft[5].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 111 Aerocom.aircraft[5].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 112 Aerocom.aircraft[5].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 113 Aerocom.aircraft[5].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 114 Aerocom.aircraft[5].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 115 Aerocom.aircraft[5].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 116 Aerocom.aircraft[5].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 117 Aerocom.aircraft[5].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 118 Aerocom.aircraft[5].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 119 Aerocom.aircraft[5].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 120 Aerocom.aircraft[5].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 121 Aerocom.aircraft[5].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 122 Aerocom.aircraft[5].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 123 Aerocom.aircraft[5].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 124 Aerocom.aircraft[5].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 125 Aerocom.aircraft[5].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 126 Aerocom.aircraft[6].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 127 Aerocom.aircraft[6].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 128 Aerocom.aircraft[6].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 129 Aerocom.aircraft[6].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 130 Aerocom.aircraft[6].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 131 Aerocom.aircraft[6].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 132 Aerocom.aircraft[6].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 133 Aerocom.aircraft[6].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 134 Aerocom.aircraft[6].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 135 Aerocom.aircraft[6].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 136 Aerocom.aircraft[6].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 137 Aerocom.aircraft[6].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 138 Aerocom.aircraft[6].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 139 Aerocom.aircraft[6].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 140 Aerocom.aircraft[6].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 141 Aerocom.aircraft[6].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 142 Aerocom.aircraft[6].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 143 Aerocom.aircraft[6].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 144 Aerocom.aircraft[6].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 145 Aerocom.aircraft[6].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 146 Aerocom.aircraft[6].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 147 Aerocom.aircraft[7].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 148 Aerocom.aircraft[7].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 149 Aerocom.aircraft[7].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 150 Aerocom.aircraft[7].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 151 Aerocom.aircraft[7].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 152 Aerocom.aircraft[7].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 153 Aerocom.aircraft[7].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 154 Aerocom.aircraft[7].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 155 Aerocom.aircraft[7].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 156 Aerocom.aircraft[7].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 157 Aerocom.aircraft[7].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 158 Aerocom.aircraft[7].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 159 Aerocom.aircraft[7].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 160 Aerocom.aircraft[7].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 161 Aerocom.aircraft[7].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 162 Aerocom.aircraft[7].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 163 Aerocom.aircraft[7].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 164 Aerocom.aircraft[7].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 165 Aerocom.aircraft[7].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 166 Aerocom.aircraft[7].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 167 Aerocom.aircraft[7].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 168 Aerocom.aircraft[8].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 169 Aerocom.aircraft[8].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 170 Aerocom.aircraft[8].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 171 Aerocom.aircraft[8].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 172 Aerocom.aircraft[8].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 173 Aerocom.aircraft[8].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 174 Aerocom.aircraft[8].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 175 Aerocom.aircraft[8].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 176 Aerocom.aircraft[8].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 177 Aerocom.aircraft[8].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 178 Aerocom.aircraft[8].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 179 Aerocom.aircraft[8].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 180 Aerocom.aircraft[8].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 181 Aerocom.aircraft[8].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 182 Aerocom.aircraft[8].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 183 Aerocom.aircraft[8].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 184 Aerocom.aircraft[8].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 185 Aerocom.aircraft[8].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 186 Aerocom.aircraft[8].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 187 Aerocom.aircraft[8].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 188 Aerocom.aircraft[8].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 189 Aerocom.aircraft[9].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 190 Aerocom.aircraft[9].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 191 Aerocom.aircraft[9].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 192 Aerocom.aircraft[9].dataLink[1] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 193 Aerocom.aircraft[9].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 194 Aerocom.aircraft[9].dataLink[2] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 195 Aerocom.aircraft[9].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 196 Aerocom.aircraft[9].dataLink[3] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 197 Aerocom.aircraft[9].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 198 Aerocom.aircraft[9].dataLink[4] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 199 Aerocom.aircraft[9].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 200 Aerocom.aircraft[9].dataLink[5] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 201 Aerocom.aircraft[9].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 202 Aerocom.aircraft[9].dataLink[6] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 203 Aerocom.aircraft[9].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 204 Aerocom.aircraft[9].dataLink[7] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 205 Aerocom.aircraft[9].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 206 Aerocom.aircraft[9].dataLink[8] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 207 Aerocom.aircraft[9].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 208 Aerocom.aircraft[9].dataLink[9] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 209 Aerocom.aircraft[9].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 210 Aerocom.aircraft[5].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 211 Aerocom.aircraft[5].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 212 Aerocom.aircraft[5].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 213 Aerocom.aircraft[0].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 214 Aerocom.aircraft[0].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 215 Aerocom.aircraft[0].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 216 Aerocom.aircraft[9].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 217 Aerocom.aircraft[9].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 218 Aerocom.aircraft[9].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 219 Aerocom.aircraft[6].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 220 Aerocom.aircraft[6].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 221 Aerocom.aircraft[6].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 222 Aerocom.aircraft[8].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 223 Aerocom.aircraft[8].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 224 Aerocom.aircraft[8].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 225 Aerocom.aircraft[7].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 226 Aerocom.aircraft[7].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 227 Aerocom.aircraft[7].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 228 Aerocom.aircraft[1].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 229 Aerocom.aircraft[1].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 230 Aerocom.aircraft[1].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 231 Aerocom.aircraft[4].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 232 Aerocom.aircraft[4].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 233 Aerocom.aircraft[4].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 234 Aerocom.aircraft[3].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 235 Aerocom.aircraft[3].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 236 Aerocom.aircraft[3].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 237 Aerocom.aircraft[2].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 238 Aerocom.aircraft[2].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 239 Aerocom.aircraft[2].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+0	27789 2381 0 9269 0 59.845006011586 62 0.01042834482 3.535163382318 61.316927627153 120.81533268375
+1	30170 2632 0 9271 0 59.845006011586 62 0.0077777777777778 0.0077777777777778 0.48222222222222 0.0037506172839506
+2	32802 2807 0 9196 0 59.257452404988 70 0.014684872612461 3.5151558817896 60.098313864526 99.337214221257
+3	35609 26 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+4	35635 1552 0 9012 0 58.030318002182 39 0.01465304262901 5.0997629911756 60.264902693777 162.51105052792
+5	37187 26 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+6	37213 2469 0 9059 0 58.451207895533 62 0.019075688734314 4.3039550648923 61.682670290336 118.43754049558
+7	39682 26 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+8	39708 2349 0 9284 0 59.903056907735 59 0.010466351752895 4.401827193691 61.054414526969 120.35090299131
+9	42057 26 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+10	42083 2410 0 9142 0 58.990265611261 59 0.052006326267391 3.1371240871639 60.545724085802 100.18181127123
+11	44493 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+12	44520 2280 0 9001 0 57.941042528917 56 0.054405361488727 4.4739942948199 61.666962372098 124.14777078078
+13	46800 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+14	46827 2080 0 9127 0 58.934804865229 51 0.025291695377518 5.0008087097731 61.205046738761 130.14176582843
+15	48907 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+16	48934 2256 0 8865 0 56.972822393386 55 0.0062580516537016 4.306644387446 60.197239661708 130.83328408902
+17	51190 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+18	51217 2416 0 9259 0 59.799770191239 59 0.0063840261288499 4.9989815571878 60.410213744349 122.28928164703
+19	53633 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+20	53660 2621 0 9238 0 59.499760079028 64 0.0090059558331418 4.5251359972301 60.251978085193 113.92861901717
+21	56281 2472 0 9202 0 59.322900937993 63 0.002647194901 3.847288532644 62.022898714951 99.210522531321
+22	58753 2734 0 9204 0 59.322900937993 63 0.0077777777777778 0.0077777777777778 0.49 0.0038111111111111
+23	61487 2249 0 8746 0 56.216834927762 55 0.017777308635111 6.37412397275 60.105563867659 166.04937178437
+24	63736 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+25	63763 2700 0 9182 0 59.196786259799 66 0.022683791143691 6.689638978768 60.281737734528 115.7626821862
+26	66463 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+27	66490 2363 0 9180 0 59.166706959129 58 0.012863188154396 4.3856819720893 60.36928103942 120.08201490865
+28	68853 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+29	68880 2292 0 9206 0 59.32460005846 56 0.0085018628145837 8.4293314236497 60.071907661851 193.1585622115
+30	71172 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+31	71199 2917 0 9140 0 58.971814344998 71 0.0088744942123222 2.67044673656 60.936753533268 85.929924699422
+32	74116 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+33	74143 2883 0 9234 0 59.478695722727 70 0.0071640601852586 3.0916520113779 60.046330425043 91.732200120499
+34	77026 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+35	77053 2123 0 9117 0 58.864536104523 52 0.038595805370046 3.4881314562781 60.534162519506 115.33902024073
+36	79176 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+37	79203 2241 0 8937 0 57.486245966616 55 0.011468567565576 3.8406551384489 61.042887472688 127.89482962999
+38	81444 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+39	81471 2293 0 9251 0 59.653137121407 56 0.044357088429224 4.0855312083516 61.362524696995 114.81695109677
+40	83764 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+41	83791 2449 0 9166 0 59.072590281714 60 0.0054711741765511 3.4311119802846 61.019174208822 102.78800627799
+42	86240 2748 0 9082 0 58.673199116967 70 0.000341661426 3.69073620747 60.417253354281 107.65265288541
+43	88988 3036 0 9084 0 58.673199116967 70 0.0077777777777778 0.0077777777777778 0.54444444444444 0.0042345679012346
+44	92024 1960 0 9069 0 58.529599574619 48 0.0043615569916212 5.801006533311 60.076576804108 156.19391527078
+45	93984 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+46	94011 2703 0 9079 0 58.64608364095 66 0.06606656976385 4.3740911159828 60.34933327575 105.53170076479
+47	96714 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+48	96741 2595 0 9101 0 58.736275263587 63 0.010704069133772 3.5764095947858 61.233402221115 107.40922983336
+49	99336 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+50	99363 2547 0 8923 0 57.354973431217 62 0.010995815930519 5.6200664874166 60.242014982764 118.68779552853
+51	101910 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+52	101937 2501 0 9257 0 59.784595830143 61 0.02118284953657 8.3508319255889 68.135427755731 180.02321240395
+53	104438 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+54	104465 2342 0 9268 0 59.841767284894 57 0.05862306007637 6.3843152752345 61.435742739499 135.40107673907
+55	106807 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+56	106834 2928 0 9173 0 59.089455773005 71 0.0067454425872351 4.4337734710941 62.705315270583 107.09901612798
+57	109762 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+58	109789 2372 0 9223 0 59.399390558907 58 0.004760737240465 3.1063295583199 62.020189413711 109.27896815332
+59	112161 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+60	112188 2039 0 9210 0 59.339542269175 50 0.050155285177386 6.233165228155 61.453996790083 140.70485057607
+61	114227 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+62	114254 1963 0 9288 0 59.930438579311 48 0.12755085462932 5.5881643962877 61.306834359482 139.41542547055
+63	116217 2677 0 9219 0 59.398046993487 68 0.007312427741 3.129636340213 60.521410670611 87.665760825366
+64	118894 2953 0 9221 0 59.398046993487 68 0.0077777777777778 0.0077777777777778 0.52888888888889 0.0041135802469136
+65	121847 3037 0 8941 0 57.628816453043 74 0.0048719841253252 4.4367336573204 60.269538305835 105.36121080595
+66	124884 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+67	124911 2002 0 8403 0 54.197714467226 49 0.0023616542983132 6.0696721764941 60.267386643719 150.05532916278
+68	126913 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+69	126940 2129 0 9254 0 59.733555538469 52 0.02069630988614 6.4593951015441 60.470426927096 133.88223702939
+70	129069 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+71	129096 3137 0 9282 0 59.893256609543 76 0.030074185040259 3.5089270982599 61.935249470177 85.70677365027
+72	132233 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+73	132260 2545 0 9285 0 59.906020129637 62 0.0047732059446242 5.2809790766292 61.448747963829 126.0840542202
+74	134805 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+75	134832 2210 0 9018 0 58.062001114618 54 0.02277712672115 5.3239769360384 62.205373673195 143.59180785807
+76	137042 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+77	137069 2323 0 9237 0 59.491236757595 57 0.0030688265516778 6.4139486421216 60.93097748232 132.22022422857
+78	139392 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+79	139419 2517 0 9120 0 58.89170751579 61 0.016181358525209 7.249334939718 61.342589548127 158.18198932702
+80	141936 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+81	141963 2951 0 9255 0 59.73889300373 72 0.0073628669545079 6.361364157244 61.882991029112 126.68564047324
+82	144914 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+83	144941 2165 0 9276 0 59.876837799749 53 0.010936754812169 4.753212824287 61.152991005875 131.44516514185
+84	147106 2434 0 9278 0 59.885808701388 62 0.002996454587 4.169786646704 60.489215053623 133.50697157902
+85	149540 2690 0 9280 0 59.885808701388 62 0.0077777777777778 0.0077777777777778 0.48222222222222 0.0037506172839506
+86	152230 2666 0 9289 0 59.94054390571 65 0.039152650802291 3.0159481501635 60.506359182962 91.668959785263
+87	154896 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+88	154923 2043 0 9189 0 59.228498878838 50 0.0094281423460496 4.7596933041595 60.103985574117 123.93599186397
+89	156966 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+90	156993 2659 0 9236 0 59.482944780048 65 0.016773864907581 3.0092607352413 61.113263755037 98.220268775184
+91	159652 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+92	159679 2712 0 9128 0 58.936650661381 66 0.0040413973427078 4.0411631511449 61.40880392865 104.4005602384
+93	162391 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+94	162418 2583 0 9168 0 59.074547213467 63 0.0036668445134931 3.1199504121168 60.979262747764 102.09866940762
+95	165001 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+96	165028 1872 0 9135 0 58.966895606308 46 0.0022453623279765 5.6494800341656 63.283019197527 171.2346998131
+97	166900 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+98	166927 2529 0 9218 0 59.396056693404 62 0.00017226737112894 4.7225282990382 61.954715865761 121.01593278026
+99	169456 27 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+100	169483 3467 0 9249 0 59.647654919928 82 0.041180071670374 3.5071396454751 61.269914062462 85.538091763485
+101	172950 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+102	172978 2992 0 8857 0 56.950466311638 71 0.02322303396965 3.1960406483561 60.146506959991 87.605255589038
+103	175970 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+104	175998 2347 0 8994 0 57.890271208168 56 0.073285886881729 5.6819369159816 60.180866667849 126.27873542179
+105	178345 3065 0 9260 0 59.815754530079 76 0.007571693101 3.943026194929 61.438506202114 101.17140004357
+106	181410 3372 0 9262 0 59.815754530079 76 0.0077777777777778 0.0077777777777778 0.59111111111111 0.0045975308641975
+107	184782 2903 0 9232 0 59.455763776088 69 0.029465160127241 4.1373090547917 60.548540485708 106.92041182882
+108	187685 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+109	187713 3168 0 9258 0 59.796165088638 75 0.030193326264845 4.8736225834195 60.780315641935 103.44506349629
+110	190881 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+111	190909 2295 0 9292 0 59.98002006777 55 0.054806497287672 4.1866864562379 61.618699515097 125.57348511648
+112	193204 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+113	193232 2095 0 9250 0 59.650104318145 50 0.051586600386663 7.1125082540507 60.844878894271 178.77166938606
+114	195327 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+115	195355 2980 0 9062 0 58.471805251563 71 0.02460406612168 4.3189544252799 60.08030375096 102.70689228413
+116	198335 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+117	198363 2609 0 9246 0 59.602536819367 62 0.015669247230829 3.7154805769397 60.559972981431 105.83194370383
+118	200972 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+119	201000 2944 0 9252 0 59.67172519646 70 0.0018408057341541 4.0762640083466 60.481701011684 96.084416179634
+120	203944 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+121	203972 3045 0 9067 0 58.52276911295 72 0.0039242383261433 2.7726556008875 60.636993345382 86.805311400543
+122	207017 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+123	207045 2426 0 8935 0 57.474193963627 58 0.020116338500257 3.7312858555171 60.854638118845 115.11087392188
+124	209471 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+125	209499 2397 0 9286 0 59.920686653214 57 0.045944283096809 5.1017669040861 60.496839387849 121.08265754415
+126	211896 2413 0 9136 0 58.968828816732 60 0.037202633932 4.817812537737 63.208585194396 141.91896994299
+127	214309 2660 0 9138 0 58.968828816732 60 0.0077777777777778 0.0077777777777778 0.46666666666667 0.0036296296296296
+128	216969 2770 0 9176 0 59.139662463014 66 0.0077212286312692 2.9672644358101 61.168770534838 94.006768729694
+129	219739 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+130	219767 3163 0 9244 0 59.59546849595 75 0.0035723094555944 2.790964024102 61.947693107838 89.822348203689
+131	222930 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+132	222958 2522 0 9239 0 59.504151362028 60 0.04415061333191 3.848884127739 60.471950637946 107.50546279488
+133	225480 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+134	225508 2176 0 9171 0 59.080852235582 52 0.019532894061035 4.7118183766187 60.115196577444 131.276669492
+135	227684 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+136	227712 3161 0 9167 0 59.073741693413 75 0.0050977531671621 4.0474685758306 60.631141798784 89.117276687915
+137	230873 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+138	230901 2478 0 9248 0 59.635206398134 59 0.013397030253942 3.8815145051858 60.103512359111 105.0752054597
+139	233379 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+140	233407 2394 0 8996 0 57.915916049433 57 0.014414757269666 5.0044637240479 60.047224904521 147.94424236944
+141	235801 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+142	235829 2851 0 9241 0 59.552759203545 68 0.0017624438308069 4.2581486717408 60.109261245625 99.378960668375
+143	238680 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+144	238708 2472 0 8840 0 56.858377697924 59 0.020785335197483 3.8490461775247 60.534658249857 110.35230204639
+145	241180 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+146	241208 2648 0 9107 0 58.784734908023 63 0.032279907873719 3.1280421458558 60.231378307395 100.38377675395
+147	243856 2381 0 9192 0 59.250746859459 59 0.010257284216 3.047260325841 60.658629855294 101.55517197279
+148	246237 2620 0 9194 0 59.250746859459 59 0.0077777777777778 0.0077777777777778 0.45888888888889 0.0035691358024691
+149	248857 2392 0 9075 0 58.588297620694 57 0.00097634769815266 7.0352992998697 65.623596920561 165.03934385409
+150	251249 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+151	251277 2693 0 9093 0 58.684196881757 64 0.0042415160337153 6.2169923993511 64.901189281103 152.32039647519
+152	253970 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+153	253998 2365 0 9293 0 59.998191014277 56 0.013607194544035 6.4234312091495 60.019214492245 148.13642020965
+154	256363 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+155	256391 2346 0 9178 0 59.148487451513 56 0.029022512989193 5.7596867076221 61.07783022289 133.27413224622
+156	258737 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+157	258765 2647 0 9287 0 59.928265723708 63 0.011986847251509 5.6364953159147 61.081101728998 122.58578942103
+158	261412 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+159	261440 2868 0 9094 0 58.688173357906 68 1.3371320430105e-005 5.0988395695195 60.093727844381 114.59780937745
+160	264308 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+161	264336 2091 0 9154 0 59.023578059075 50 0.024252170813905 6.1825548637801 61.84902084939 147.4072107356
+162	266427 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+163	266455 1924 0 8798 0 56.547092242407 46 0.018425176626827 4.0374581019028 60.584550344307 141.33137181885
+164	268379 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+165	268407 2697 0 9106 0 58.774574003442 64 0.0019446578492965 5.9120249245281 60.137071599883 113.4327769172
+166	271104 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+167	271132 2142 0 9157 0 59.034798174548 51 0.017939116757323 4.5904061870437 60.781304257162 121.93240231112
+168	273274 2375 0 9183 0 59.202137849838 59 0.033317052138 4.334714120593 60.332064115442 117.74753105909
+169	275649 2615 0 9185 0 59.202137849838 59 0.0077777777777778 0.0077777777777778 0.45888888888889 0.0035691358024691
+170	278264 2561 0 9291 0 59.945217540542 61 0.021655911057078 5.5939806234079 60.791237569934 142.30441894299
+171	280825 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+172	280853 2339 0 9153 0 59.020955939416 56 0.0063726023036168 4.6084409079692 61.460284143061 114.64447890572
+173	283192 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+174	283220 2650 0 8952 0 57.703358972471 63 0.023313968265765 4.6301762199246 60.230028685581 126.54428872417
+175	285870 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+176	285898 2397 0 8901 0 57.194215652404 57 0.021203001491987 3.6869535596547 60.336713416639 119.277589717
+177	288295 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+178	288323 2599 0 8486 0 54.680364665206 62 0.037078671517915 5.942105653131 60.622470318336 134.35483153623
+179	290922 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+180	290950 2952 0 9290 0 59.944954063898 70 0.03084666595073 5.7702122353987 60.846885947442 135.05732677168
+181	293902 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+182	293930 2910 0 9008 0 58.000589825961 69 0.0028512019365053 4.1464313619267 60.01352727814 101.62311202091
+183	296840 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+184	296868 2378 0 9264 0 59.821535097817 57 0.0060882835882332 3.30436192705 60.877448051861 111.53260886674
+185	299246 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+186	299274 2426 0 9003 0 57.94577814116 58 0.036185284763149 3.6711001989744 60.005148489487 106.65962086409
+187	301700 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+188	301728 2641 0 9118 0 58.869968261934 63 0.006017754051277 3.3411275923698 60.939299873627 103.59274872931
+189	304369 2045 0 9149 0 59.018026885185 51 0.013411544928 3.852308042415 60.000892256055 116.27043270471
+190	306414 2259 0 9151 0 59.018026885185 51 0.0077777777777778 0.0077777777777778 0.39666666666667 0.0030851851851852
+191	308673 3629 0 9247 0 59.616307080129 86 0.0054588821778822 3.531421692376 62.028777363011 84.56430555955
+192	312302 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+193	312330 2229 0 9200 0 59.296344867498 53 0.0087305219405856 4.8232517755728 61.392566746421 129.93172192964
+194	314559 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+195	314587 2303 0 8605 0 55.210654927561 55 0.021114655004348 6.0327765286342 61.243431456195 159.53264441167
+196	316890 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+197	316918 2476 0 9215 0 59.370677738687 59 0.075254687287485 5.0616156594416 61.06263483567 122.63214280468
+198	319394 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+199	319422 2775 0 9233 0 59.464749243212 66 0.019846432537938 4.1389555027327 60.684642887783 107.88610400156
+200	322197 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+201	322225 2479 0 9277 0 59.882791761714 59 0.012316804080275 4.6911510323531 61.70185651874 142.53067394145
+202	324704 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+203	324732 2519 0 9066 0 58.506101960056 60 0.013043916419587 4.4864053371602 62.146094046999 122.52467297606
+204	327251 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+205	327279 2774 0 9256 0 59.763293069506 66 0.018984530827911 3.1131116364005 60.057795979548 96.239520842691
+206	330053 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+207	330081 2946 0 9266 0 59.8278114863 70 0.0044198119532152 2.9972939783021 61.514657114939 88.387680419758
+208	333027 28 0 0 0 0 1 0.0077777777777778 0.0077777777777778 0.0077777777777778 6.0493827160494e-005
+209	333055 2617 0 9245 0 59.599801916464 62 0.003919380392296 3.5229364641475 61.248910760066 104.86894754874
+210	335672 2069 104 9262 0.007571693101 59.815754530079 75 0 0 0 0
+211	337741 2069 104 9262 0.007571693101 59.815754530079 75 0 0 0 0
+212	339810 3044 104 9262 0.007571693101 59.815754530079 75 0.007777777778 0.007777777778 0.58333333335 0.0045370370372963
+213	342854 1691 108 9271 0.01042834482 59.845006011586 61 0 0 0 0
+214	344545 1691 108 9271 0.01042834482 59.845006011586 61 0 0 0 0
+215	346236 2484 108 9271 0.01042834482 59.845006011586 61 0.007777777778 0.007777777778 0.474444444458 0.003690123457001
+216	348720 1381 113 9151 0.013411544928 59.018026885185 50 0 0 0 0
+217	350101 1381 113 9151 0.013411544928 59.018026885185 50 0 0 0 0
+218	351482 2031 113 9151 0.013411544928 59.018026885185 50 0.007777777778 0.007777777778 0.3888888889 0.0030246913581975
+219	353513 1629 141 9138 0.143673545553 58.968828816732 59 0 0 0 0
+220	355142 1629 141 9138 0.143673545553 58.968828816732 59 0 0 0 0
+221	356771 2396 141 9138 0.143673545553 58.968828816732 59 0.007777777778 0.007777777778 0.458888888902 0.0035691358026731
+222	359167 1601 146 9185 0.153280665858 59.202137849838 58 0 0 0 0
+223	360768 1601 146 9185 0.153280665858 59.202137849838 58 0 0 0 0
+224	362369 2355 146 9185 0.153280665858 59.202137849838 58 0.007777777778 0.007777777778 0.451111111124 0.0035086419755091
+225	364724 1606 180 9194 0.380125356583 59.250746859459 58 0 0 0 0
+226	366330 1606 180 9194 0.380125356583 59.250746859459 58 0 0 0 0
+227	367936 2360 180 9194 0.380125356583 59.250746859459 58 0.007777777778 0.007777777778 0.451111111124 0.0035086419755091
+228	370296 1715 204 9204 0.453281862388 59.322900937993 62 0 0 0 0
+229	372011 1728 204 9204 0.453281862388 59.322900937993 62 0 0.005130582877 0.005130582877 2.6322880657766e-005
+230	373739 2521 204 9204 0.453281862388 59.322900937993 62 0.007777777778 0.012908360655 0.487352805113 0.0038567492318005
+231	376260 1686 248 9280 0.684729306884 59.885808701388 61 0 0 0 0
+232	377946 1726 248 9280 0.684729306884 59.885808701388 61 0 0.004781323191 0.010798881817 4.1042378528312e-005
+233	379672 2480 248 9280 0.684729306884 59.885808701388 61 0.007777777778 0.012559100969 0.485243326275 0.0038991484415763
+234	382152 1854 252 9221 0.691409422679 59.398046993487 67 0 0 0 0
+235	384006 1867 252 9221 0.691409422679 59.398046993487 67 0 0.000465350037 0.000465350037 2.165506569359e-007
+236	385873 2725 252 9221 0.691409422679 59.398046993487 67 0.007777777778 0.008243127815 0.521576461163 0.0040605417489952
+237	388598 1905 257 9084 0.696903417222 58.673199116967 69 0 0 0 0
+238	390503 1918 257 9084 0.696903417222 58.673199116967 69 0 0.007436116352 0.007436116352 5.5295826400482e-005
+239	392421 2801 257 9084 0.696903417222 58.673199116967 69 0.007777777778 0.01521389413 0.544102783034 0.0043450428217475
+
