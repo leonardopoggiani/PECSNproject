@@ -23,8 +23,8 @@ class DataLink : public cSimpleModule
     std::string tDistribution;
     int nextCapacity;
     int lastCapacity;
-    int actualCapacity; //Sempre vecchia ma mi serve come appoggio
-    double serviceTime; //Sempre vecchio ma mi serve come appoggio
+    int actualCapacity;
+    double serviceTime;
     simtime_t lastCapacityTime;
     int dimPoolMax;
     int dimPoolMin;
