@@ -42,7 +42,8 @@ void LinkSelector::handleMessage(cMessage* msg){
 
 void LinkSelector::handlePacketArrival(cMessage* msg){
     // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
-    send(msg, "out", maxCapacityDataLinkIndex);
+    if(nDL > 0)
+        send(msg, "out", maxCapacityDataLinkIndex);
 }
 
 
@@ -69,8 +70,10 @@ int LinkSelector::getMaxIndexCapacity(){
         EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
         capacities.push_back(actualCapacity);
 
-        cMessage* newmsg = new cMessage("startMalusPenality"); // ho monitorato la capacita', quindi devo far iniziare la penalita'
-        send(newmsg,"out",i);
+        if( nDL > 0) {
+            cMessage* newmsg = new cMessage("startMalusPenality"); // ho monitorato la capacita', quindi devo far iniziare la penalita'
+            send(newmsg,"out",i);
+        }
     }
     // indice che corrisponde al dataLink di capacita' maggiore
     return std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
