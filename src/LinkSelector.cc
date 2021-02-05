@@ -33,7 +33,6 @@ void LinkSelector::handleMessage(cMessage* msg){
         }
 
         delete msg;
-
     } else {
         // mi e' arrivato un messaggio da packetGenerator che va inoltrato
         handlePacketArrival(msg);
