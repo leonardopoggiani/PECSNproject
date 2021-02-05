@@ -16,15 +16,15 @@ void DataLink::initialize()
    computeThroughput_ = registerSignal("computeThroughput");
    computeSentPackets_ = registerSignal("computeSentPackets");
 
-   operationMode = par("operationMode");
+   operationMode = getAncestorPar("operationMode");
    transmitting = false;
    malusPenalty = false;
    scheduleMalus = false;
-   malusX = par("X").doubleValue();
+   malusX = getAncestorPar("X").doubleValue();
    t = getAncestorPar("t").doubleValue(); // il valore della media per lognormal ed exponential
-   size = par("s").doubleValue(); // la dimensione di un pacchetto
-   dimPoolMax = par("dimPoolMax"); // massima capacita del DL
-   dimPoolMin = par("dimPoolMin"); // minima capacita del DL
+   size = getAncestorPar("s").doubleValue(); // la dimensione di un pacchetto
+   dimPoolMax = getAncestorPar("dimPoolMax"); // massima capacita del DL
+   dimPoolMin = getAncestorPar("dimPoolMin"); // minima capacita del DL
    lastCapacity = uniform(dimPoolMin,dimPoolMax,1); // ultima capacita, in occasione della initialize va estratta casualmente
    nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // verra riestratta ogni monitoringTime
 
@@ -49,7 +49,7 @@ void DataLink::initialize()
    emit(computeServiceTime_,serviceTime);
    EV <<"Service time is: " << serviceTime <<endl;
 
-   tDistribution = par("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
+   tDistribution = getAncestorPar("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
    cMessage * msg = new cMessage("setNextCapacity");
    scheduleSetNextCapacity(msg); // schedulazione del prossimo aggiornamento della capacita'

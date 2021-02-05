@@ -3,9 +3,18 @@ package aerocomsystemproject;
 module Aircraft
 {
     parameters:
-        int nDL = default(2);//(Cost)
-        double k @unit(s); // Ogni quanto genera i pacchetti (VA)
-        double m @unit(s); //Tempo di monitoraggio (Cost)
+        double t @unit(s); // Ogni quanto il DL seleziona la nuova capacità target
+		int dimPoolMax; //Estremo superiore capacità target
+		int dimPoolMin; //Estremo inferiore capacità target
+		int operationMode; //0 o 1
+		double X @unit(s); //Malus dovuto al monitoraggio
+		double s @unit(byte); //Dimensione pacchetto
+		string tDistribution = default("exponential");    
+        int nDL = default(2); //Numero di datalink
+        double k @unit(s); // Ogni quanto genera i pacchetti 
+        double m @unit(s); //Tempo di monitoraggio della capacità dei datalink
+        int DLMaxCapacity; //Id del datalink con capacità maggiore
+     	bool trasmitting; //Il datalink sta trasmettendo oppure no
 
         @display("bgb=461,189");
     gates:

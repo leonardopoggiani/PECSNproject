@@ -5,9 +5,9 @@ Define_Module(LinkSelector);
 void LinkSelector::initialize()
 {
     maxCapacityDataLinkIndex = -1; // il datalink che si occupera' dell'invio, indice del datalink a capacita' piu' alta
-    operationMode = par("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e inviero' sempre su quello
+    operationMode = getAncestorPar("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e inviero' sempre su quello
 
-    nDL = par("nDL");
+    nDL = getAncestorPar("nDL");
 
     if(operationMode == 0){
         // monitoraggio ogni m secondi
