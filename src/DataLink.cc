@@ -155,6 +155,7 @@ void DataLink::handleStartMalusPenality() {
     if ( !transmitting ) {
         EV_INFO << "Penalty started, "<< simTime() << endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
+        emit(computeMeanMalus_, malusX);
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;

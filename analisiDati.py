@@ -228,6 +228,8 @@ def plot_mean_vectors(data, attribute, start=WARMUP_PERIOD, duration=SIM_TIME, i
         plt.title("tDistribution")
     elif attribute == "serviceTime":
         plt.title("serviceTime")
+    elif attribute == "utilization":
+        plt.title("utilization")
 
     plt.xlim(start, duration)
     plt.show()
@@ -236,7 +238,7 @@ def plot_mean_vectors(data, attribute, start=WARMUP_PERIOD, duration=SIM_TIME, i
 
 def describe_attribute_sca(data, name, value='value'):
     # print brief summary of attribute name (with percentiles and stuff)
-    print(data[data.name == name][value].describe(percentiles=[.25, .50, .75, .95]))
+    pprint.pprint(data[data.name == name][value].describe(percentiles=[.25, .50, .75, .95]))
     return
 
 
@@ -522,6 +524,10 @@ def plot_winavg_vectors(data, attribute, start=0, duration=SIM_TIME, iterations=
         plt.title("tDistribution")
     elif attribute == "serviceTime":
         plt.title("serviceTime")
+    elif attribute == "utilization":
+        plt.title("utilization")
+    elif attribute == "arrivalTime":
+        plt.title("arrivalTime")
 
     # plot the data
     plt.xlim(start, duration)
@@ -710,7 +716,7 @@ def fitDistribution(df, name, maxError):
         tq = findQuantile(quantile, name, maxError)
         sampleQ.append(sq)
         theoreticalQ.append(tq)
-        print(quantile, tq, sq)
+        pprint.pprint(quantile, tq, sq)
     return [theoreticalQ, sampleQ]
 
 
@@ -806,10 +812,81 @@ def plot_CDF(df, attribute, iteration=0):
     show()
 
 
+attributes = ["responseTime", "waitingTime", "queueLength",
+              "tDistribution", "actualCapacity", "meanMalus",
+              "serviceTime", "utilization", "arrivalTime"]
+
+responseTime = []
+waitingTime = []
+queueLength = []
+tDistribution = []
+serviceTime = []
+actualCapacity = []
+meanMalus = []
+arrivalTime = []
+utilization = []
+
+
+def switch(argument):
+    switcher = {
+        "responseTime": responseTime,
+        "waitingTime": waitingTime,
+        "queueLength": queueLength,
+        "tDistribution": tDistribution,
+        "serviceTime": serviceTime,
+        "actualCapacity": actualCapacity,
+        "meanMalus": meanMalus,
+        "arrivalTime": arrivalTime,
+        "utilization": utilization,
+    }
+
+    return switcher.get(argument)
+
+
+def create_dataframe(df):
+
+    time_column = []
+
+    for attribute in attributes:
+        dataframe = df[df.name == attribute]
+        pprint.pprint(dataframe)
+
+        if len(time_column) == 0 and len(dataframe) != 0:
+            time_column = dataframe.iloc[0].time
+
+        dest = switch(attribute)
+        pprint.pprint(attribute)
+
+        if len(dataframe) != 0:
+            dest.append(dataframe.iloc[0].value)
+
+    return pd.DataFrame(time_column, responseTime, waitingTime,
+                        arrivalTime, utilization, meanMalus,
+                        queueLength, actualCapacity, tDistribution,
+                        serviceTime, columns=attributes)
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+
     df = vector_parse()
 
+    dataframe = create_dataframe(df)
+    print(dataframe)
+
+    plot_mean_vectors(df, "utilization", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_winavg_vectors(df, "utilization", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
+
+    plot_mean_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_winavg_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
+
+    plot_mean_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_winavg_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
+
+    plot_mean_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
+    plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
+
+    '''
     fig = px.scatter(
         data_frame=df[df.name == 'arrivalRate'],
         x="name",
@@ -866,6 +943,7 @@ def main():
     queueLength = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
 
     '''
+    '''
     responseTime = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
     responseTimeCI = pd.to_numeric(dataframe.iloc[6], errors='coerce')
     queueLength = pd.to_numeric(dataframe.iloc[3], errors='coerce')
@@ -873,7 +951,7 @@ def main():
     waitingTime = pd.to_numeric(dataframe.iloc[7], errors='coerce')
     waitingTimeCI = pd.to_numeric(dataframe.iloc[8], errors='coerce')
     '''
-
+    '''
     k = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2]
     plt.style.use('ggplot')
     parser = argparse.ArgumentParser(description='Split Data by K')
@@ -886,7 +964,7 @@ def main():
     path = str(args.dirPath)
     barWidth = 0.035
     errorBarStyle = dict(lw=0.5, capsize=2, capthick=0.5)
-
+    '''
     '''
     # Plot Delay
     plt.figure(1)
@@ -902,6 +980,7 @@ def main():
     '''
 
     # Plot Queue Length
+    '''
     plt.figure(2)
     plt.errorbar(k, queueLength, yerr=2, fmt="--x",
                  markeredgecolor='red', linewidth=0.8, capsize=4, label='t= ')
@@ -912,7 +991,7 @@ def main():
     plt.title('Queue Length Analysis')
     plt.legend()
     plt.grid(linestyle='--')
-
+    '''
     '''
     # Bar plot Waiting Time Over Response Time
     plt.figure(3)

@@ -3,9 +3,9 @@ package aerocomsystemproject;
 simple DataLink
 {
     parameters:
-		 double t @unit(s); //Ogni quanto controlla la capacità dei data-link (VA)
-		 int dimPoolMax; //Const
-		 int dimPoolMin; //Const
+		 double t @unit(s); // ogni quanto controlla la capacita' dei data-link (VA)
+		 int dimPoolMax; // const
+		 int dimPoolMin; // const
 		 int operationMode;
 		 double X @unit(s);
 		 double s @unit(byte);
@@ -28,7 +28,7 @@ simple DataLink
 		 @statistic[actualCapacity](source=computeActualCapacity; record=vector;);
 		
 		 @signal[computeMeanMalus](type=long);
-		 @statistic[meanMalus](source=computeMeanMalus; record=sum;);
+		 @statistic[meanMalus](source=computeMeanMalus; record=vector;);
 		
 		 @signal[computeServiceTime](type=long);
 		 @statistic[serviceTime](source=computeServiceTime; record=vector;);
