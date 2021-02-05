@@ -12,10 +12,10 @@ simple DataLink
 		 int nDL;
 		 string tDistribution = default("exponential");     
 		         
-		 @signal[computeResponseTime](type="simtime_t");
+		 @signal[computeResponseTime](type=simtime_t);
 		 @statistic[responseTime](source=computeResponseTime; record=vector;);
 		 
-		 @signal[computeWaitingTime](type="long");
+		 @signal[computeWaitingTime](type=long);
 		 @statistic[waitingTime](source=computeWaitingTime; record=vector;);
 		 
 		 @signal[computeQueueLength](type=int);

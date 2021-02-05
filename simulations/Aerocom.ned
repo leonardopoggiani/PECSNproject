@@ -2,9 +2,6 @@ package aerocomsystemproject.simulations;
 
 import aerocomsystemproject.Aircraft;
 import aerocomsystemproject.ControlTower;
-import aerocomsystemproject.DataLink;
-import aerocomsystemproject.LinkSelector;
-import aerocomsystemproject.PacketGenerator;
 
 
 network Aerocom
@@ -12,16 +9,10 @@ network Aerocom
     parameters:
         int nA = default(1);
         int nDL = default(2);
-        // @display("bgb=296,147");	
 
-    	//@display("bgb=355,202");
     submodules:
-        aircraft[nA]: Aircraft {
-            //@display("p=18200.729,11600.464");
-            // @display("p=210,88");
-        }
+        aircraft[nA]: Aircraft;
         controlTower: ControlTower {
-            //@display("p=39,73");
             @display("p=35,69");
         }
 
@@ -30,5 +21,5 @@ network Aerocom
         for i=0..nA-1, for j=0..nDL-1 {
             aircraft[i].out[j] --> controlTower.in[(i*nDL)+j];
         }
-        
+
 }

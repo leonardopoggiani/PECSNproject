@@ -31,7 +31,7 @@ class DataLink : public cSimpleModule
     bool transmitting;
     AircraftPacket* processing;
     double malusX;
-    bool malusPenality;
+    bool malusPenalty;
     bool scheduleMalus;
     int operationMode;
 

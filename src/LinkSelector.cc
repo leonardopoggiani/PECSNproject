@@ -8,7 +8,6 @@ void LinkSelector::initialize()
     operationMode = par("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e inviero' sempre su quello
 
     nDL = par("nDL");
-    handleSetCapacity();
 
     if(operationMode == 0){
         // monitoraggio ogni m secondi
@@ -17,14 +16,24 @@ void LinkSelector::initialize()
         scheduleCheckCapacity();
     }
 
+    cMessage* checkingMaxCapacity = new cMessage("setMaxIndexCapacity");
+    scheduleAt(simTime() + 0.000001, checkingMaxCapacity);
+
 }
 
 void LinkSelector::handleMessage(cMessage* msg){
     if(msg->isSelfMessage()){
-        // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacita' dei dataLink
-        scheduleCheckCapacity();
-        handleSetCapacity();
+        if( strcmp(msg->getName(), "setMaxIndexCapacity") == 0 ){
+            // sto settando per la prima volta l'indice del dl a capacita' massima
+            handleSetCapacity();
+        } else {
+            // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacita' dei dataLink
+            scheduleCheckCapacity();
+            handleSetCapacity();
+        }
+
         delete msg;
+
     } else {
         // mi e' arrivato un messaggio da packetGenerator che va inoltrato
         handlePacketArrival(msg);
@@ -33,7 +42,8 @@ void LinkSelector::handleMessage(cMessage* msg){
 
 void LinkSelector::handlePacketArrival(cMessage* msg){
     // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
-    send(msg, "out", maxCapacityDataLinkIndex);
+    if(nDL > 0)
+        send(msg, "out", maxCapacityDataLinkIndex);
 }
 
 
@@ -43,7 +53,6 @@ void LinkSelector::handleSetCapacity(){
     int max = getMaxIndexCapacity();
     EV_INFO << "The index of the highest capacity DL is " << max;
     maxCapacityDataLinkIndex = max;
-
 }
 
 int LinkSelector::getMaxIndexCapacity(){
@@ -61,8 +70,10 @@ int LinkSelector::getMaxIndexCapacity(){
         EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
         capacities.push_back(actualCapacity);
 
-        cMessage* newmsg = new cMessage("startMalusPenality"); // ho monitorato la capacita', quindi devo far iniziare la penalita'
-        send(newmsg,"out",i);
+        if( nDL > 0) {
+            cMessage* newmsg = new cMessage("startMalusPenality"); // ho monitorato la capacita', quindi devo far iniziare la penalita'
+            send(newmsg,"out",i);
+        }
     }
     // indice che corrisponde al dataLink di capacita' maggiore
     return std::max_element(capacities.begin(),capacities.end()) - capacities.begin();

@@ -1,3 +1,4 @@
+import argparse
 import csv
 import math
 import matplotlib.pyplot as plt
@@ -10,6 +11,7 @@ import pprint
 from pylab import *
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 color = sns.color_palette()
 import plotly.offline as py
 import plotly.graph_objs as go
@@ -102,11 +104,11 @@ def parse_name(s):
 
 
 def parse_run(s):
-    return int(s.split('-')[2]) if s else None
+    return int(s.split('-')[6]) if s else None
 
 
 def vector_parse():
-    path_csv = "D:\\Desktop\\misure.csv"
+    path_csv = "C:\\Users\\leona\\Desktop\\misureExp.csv"
 
     data = pd.read_csv(path_csv,
                        delimiter=",", quoting=csv.QUOTE_NONNUMERIC, encoding='utf-8',
@@ -288,24 +290,6 @@ def scalar_stats(data, attr=None, datalinks=range(0, NUM_DATA_LINK)):
     stats['ci99_l'] = stats['mean'] - 2.58 * (stats['std'] / np.sqrt(stats['count']))
     stats['ci99_h'] = stats['mean'] + 2.58 * (stats['std'] / np.sqrt(stats['count']))
     return stats
-
-
-'''
-def users_bandwidth_sca(data, group=False):
-    stats = scalar_stats(data)
-    index = [row for row in stats.index if row.startswith('tptUser-')]
-    sel = stats.loc[index, :].reset_index()
-
-    bandwidth = pd.DataFrame()
-    bandwidth['user'] = sel['index'].str.split('-', expand=True)[1].astype(int)
-    bandwidth['mean_Mbps'] = (sel['mean'] * 1000) / 125000
-    bandwidth['max_Mbps'] = (sel['max'] * 1000) / 125000
-    bandwidth['min_Mbps'] = (sel['min'] * 1000) / 125000
-
-    bandwidth.index = bandwidth['user']
-    bandwidth = bandwidth.drop('user', axis=1)
-    return bandwidth
-'''
 
 
 ####################################################
@@ -693,63 +677,28 @@ def histogram(df, nbin, name, k):
 
 
 '''
-def serviceTimeCDF(s):
-    if s < 0:
-        Fs = 0
-    elif s <= T * M ** 2 / 4:
-        Fs = math.pi * s / (T * M ** 2)
-    elif s <= T * M ** 2 / 2:
-        Fs = math.pi * s / (T * M ** 2) - 4 * s / (T * M ** 2) * math.acos(M /
-                                                                           2 * math.sqrt(T / s)) + math.sqrt(
-            4 * s / (T * M ** 2) - 1)
-    else:
-        Fs = 1.0
-    return Fs
-
-
-
-    Capacity Cumulative Distribution Function F(d)
-
-
-M = 25000
-T = 0.00000000425603
-
-
-def distanceCDF(d):
-    if d < 0:
-        Fd = 0
-    elif d <= M / 2:
-        Fd = math.pi * d ** 2 / M ** 2
-    elif d <= M / 2 * math.sqrt(2):
-        Fd = math.pi * d ** 2 / M ** 2 - 4 / M ** 2 * d ** 2 * \
-             math.acos(M / (2 * d)) + d / M * math.sqrt((4 * d ** 2 - M ** 2) / d ** 2)
-    else:
-        Fd = 1.0
-    return Fd
-'''
-
-'''
     look for x such that F(x) = P{X < x} = quantile, with an error of maxError
+'''
 
 
 def findQuantile(quantile, name, maxError):
     x = 0.0
     if name == 'serviceTime':
-        error = quantile - serviceTimeCDF(x)
+        error = quantile - plot_CDF("serviceTime")
         while error > maxError:
             x += 0.1 * error
-            error = quantile - serviceTimeCDF(x)
+            error = quantile - plot_CDF("serviceTime")
     elif name == 'distance':
-        error = quantile - distanceCDF(x)
+        error = quantile - plot_CDF("serviceTime")
         while error > maxError:
             x += 0.3 * error
-            error = quantile - distanceCDF(x)
+            error = quantile - plot_CDF("serviceTime")
     return x
 
-'''
+
 '''
      find every quantile for both theoretical and sample distribution
-
+'''
 
 
 def fitDistribution(df, name, maxError):
@@ -764,7 +713,7 @@ def fitDistribution(df, name, maxError):
         print(quantile, tq, sq)
     return [theoreticalQ, sampleQ]
 
-'''
+
 '''
      draw a qq plot
 '''
@@ -834,26 +783,12 @@ def df_to_plotly(df):
             'y': df.index.tolist()}
 
 
-def main():
-    pprint.pprint("Performance Evaluation - Python Data Analysis")
+def plot_CDF(df, attribute, iteration=0):
+    dataframe = df[df.name == attribute]
 
-    df = vector_parse()
-    # dataframe = df[df.name == 'arrivalTime']
-    dataframe2 = df[df.name == 'actualCapacity']
+    X = dataframe.iloc[iteration].time
+    Y = dataframe.iloc[iteration].value
 
-
-    # Create some test data
-    '''
-    X = dataframe.iloc[0].time
-    Y = dataframe.iloc[0].value
-    '''
-
-    print(dataframe2)
-    Xdistribution = dataframe2.time
-    Ydistribution = dataframe2.value
-
-    # Compute the CDF
-    '''
     sorted = np.sort(Y)
     p = 1. * np.arange(len(Y)) / (len(Y) - 1)
     fig = plt.figure()
@@ -865,89 +800,31 @@ def main():
     ax2 = fig.add_subplot(122)
     ax2.plot(sorted, p)
     ax2.set_xlabel('$x$')
-    ax2.set_ylabel('$p$')    # Plot both
+    ax2.set_ylabel('$p$')  # Plot both
     plot(X, Y)
 
     show()
-    '''
 
-    # Compute the CDF
-    sorted2 = np.sort(Ydistribution)
-    p = 1. * np.arange(len(Ydistribution)) / (len(Ydistribution) - 1)
-    fig = plt.figure()
-    ax1 = fig.add_subplot(121)
-    ax1.plot(p, sorted2)
-    ax1.set_xlabel('$p$')
-    ax1.set_ylabel('$x$')
 
-    ax2 = fig.add_subplot(122)
-    ax2.plot(sorted2, p)
-    ax2.set_xlabel('$x$')
-    ax2.set_ylabel('$p$')  # Plot both
-    plot(Xdistribution, Ydistribution)
+def main():
+    pprint.pprint("Performance Evaluation - Python Data Analysis")
+    df = vector_parse()
 
-    show()
-
-    '''
-    fig = px.scatter(dataframe.iloc[0], x=dataframe.iloc[0].time, y=dataframe.iloc[0].value)
-    fig.update_traces(marker_color="turquoise", marker_line_color='rgb(8,48,107)',
-                      marker_line_width=1.5)
-    fig.update_layout(title_text='Time and value')
+    fig = px.scatter(
+        data_frame=df[df.name == 'arrivalRate'],
+        x="name",
+        y="time",
+        size="value",
+        color="run",
+        size_max=60
+    )
     fig.show()
-
+    
     describe_attribute_vec(df, "arrivalTime", iteration=0)
     check_iid_vec(df, "arrivalTime", iteration=0, sample_size=1000, seed=42, save=False)
     lorenz_curve_vec(df, "serviceTime")
     pprint.pprint(vector_stats(df, group=False))
-    
 
-    # GEKKO model
-    m = GEKKO()
-
-    # input data
-    x = m.Param(value=np.array(dataframe.iloc[0].value))
-
-    # parameters to optimize
-    a = m.FV()
-    a.STATUS = 1
-    b = m.FV()
-    b.STATUS = 1
-    c = m.FV()
-    c.STATUS = 1
-
-    # variables
-    y = m.CV(value=np.array(dataframe.iloc[0].value))
-    y.FSTATUS = 1
-
-    # regression equation
-    m.Equation(y == b * m.exp(a * x) + c)
-
-    # regression mode
-    m.options.IMODE = 2
-
-    # plot data
-    plt.figure()
-    plt.plot(dataframe.iloc[0].value, 'ro', label='Stock Data')
-    plt.plot(x.value, y.value, 'bx', label='Predicted')
-    plt.xlabel('Open Price')
-    plt.ylabel('Close Price')
-    plt.legend()
-    plt.show()
-
-    '''
-
-    # fig = px.scatter(
-    #    data_frame=df[df['Year'] == 2018],
-    #    x="Log GDP per capita",
-    #    y="Life Ladder",
-    #    size="Gapminder Population",
-    #    color="Continent",
-    #    hover_name="Country name",
-    #    size_max=60
-    # )
-    #   fig.show()
-
-    '''
     plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
@@ -964,35 +841,94 @@ def main():
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "waitingTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "arrivalTime", iteration=0, sample_size=1000, replace=False)
+    
+
+    print("Check IID")
+    check_iid_vec(df, "queueLength", iteration=0, sample_size=1000, seed=42, save=False)
+    check_iid_vec(df, "responseTime", iteration=0, sample_size=1000, seed=42, save=False)
+    check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
+
+    print("Lorenz curve vectors")
+    lorenz_curve_vec(df, "queueLength")
+    lorenz_curve_vec(df, "responseTime")
+    lorenz_curve_vec(df, "waitingTime")
+    lorenz_curve_vec(df, "arrivalTime")
+
+    pprint.pprint("Vectors stats")
+    pprint.pprint(vector_stats(df, group=False))
+
+    describe_attribute_vec(df, "queueLength", iteration=0)
+    describe_attribute_vec(df, "responseTime", iteration=0)
+    describe_attribute_vec(df, "waitingTime", iteration=0)
+    describe_attribute_vec(df, "serviceTime", iteration=0)
+
+    dataframe = df[df.name == "queueLength"]
+    queueLength = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
+
+    '''
+    responseTime = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
+    responseTimeCI = pd.to_numeric(dataframe.iloc[6], errors='coerce')
+    queueLength = pd.to_numeric(dataframe.iloc[3], errors='coerce')
+    queueLengthCI = pd.to_numeric(dataframe.iloc[4], errors='coerce')
+    waitingTime = pd.to_numeric(dataframe.iloc[7], errors='coerce')
+    waitingTimeCI = pd.to_numeric(dataframe.iloc[8], errors='coerce')
     '''
 
-    # print("Check IID")
-    # check_iid_vec(df, "queueLength", iteration=0, sample_size=1000, seed=42, save=False)
-    # check_iid_vec(df, "responseTime", iteration=0, sample_size=1000, seed=42, save=False)
-    # check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
+    k = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2]
+    plt.style.use('ggplot')
+    parser = argparse.ArgumentParser(description='Split Data by K')
+    parser.add_argument(
+        'dirPath', help='path of directory containing Results files')
+    parser.add_argument(
+        'distr', help='Distribution of Interarrival time [ exp | const ]')
+    args = parser.parse_args()
+    distribution = str(args.distr)
+    path = str(args.dirPath)
+    barWidth = 0.035
+    errorBarStyle = dict(lw=0.5, capsize=2, capthick=0.5)
 
-    # print("Lorenz curve vectors")
-    # lorenz_curve_vec(df, "queueLength")
-    # lorenz_curve_vec(df, "responseTime")
-    # lorenz_curve_vec(df, "waitingTime")
-    # lorenz_curve_vec(df, "arrivalTime")
+    '''
+    # Plot Delay
+    plt.figure(1)
+    plt.errorbar(k, responseTime, yerr=responseTimeCI, fmt="--x",
+                 markeredgecolor='red', linewidth=0.8, capsize=4, label='t= ' + str(t[i]))
+    plt.xlabel('Interarrival Time [s]')
+    plt.ylabel('Delay [s]')
+    plt.ticklabel_format(axis='x', style='sci')
+    plt.xticks(np.arange(0.5, 2.25, step=0.25))
+    plt.title('End-to-End Delay')
+    plt.legend()
+    plt.grid(linestyle='--')
+    '''
 
-    # pprint.pprint("Vectors stats")
-    # pprint.pprint(vector_stats(df, group=False))
+    # Plot Queue Length
+    plt.figure(2)
+    plt.errorbar(k, queueLength, yerr=2, fmt="--x",
+                 markeredgecolor='red', linewidth=0.8, capsize=4, label='t= ')
+    plt.xlabel('Interarrival Time [s]')
+    plt.ylabel('Queue Length')
+    plt.ticklabel_format(axis='x', style='sci')
+    plt.xticks(np.arange(0.5, 2.25, step=0.25))
+    plt.title('Queue Length Analysis')
+    plt.legend()
+    plt.grid(linestyle='--')
 
-    # describe_attribute_vec(df, "queueLength", iteration=0)
-    # describe_attribute_vec(df, "responseTime", iteration=0)
-    # describe_attribute_vec(df, "waitingTime", iteration=0)
-    # describe_attribute_vec(df, "serviceTime", iteration=0)
-
-    # print("Service time fitting")
-    # serviceTime30Rep = splitStat(df, 'serviceTime')
-    # serviceTime = meanPerRow(serviceTime30Rep, 'serviceTime')
-
-    # serviceTime = serviceTime.sample(n=1000)
-
-    # theoreticalQ, sampleQ = fitDistribution(serviceTime, 'serviceTime', 0.0001)
-    # qqPlot(theoreticalQ, sampleQ, 'serviceTime' )
+    '''
+    # Bar plot Waiting Time Over Response Time
+    plt.figure(3)
+    x = [x - 0.04 * (2 - i) for x in k]
+    plt.bar(x, responseTime, yerr=responseTimeCI,
+            width=barWidth, error_kw=errorBarStyle, color='red')
+    plt.bar(x, waitingTime, yerr=waitingTimeCI, width=barWidth,
+            error_kw=errorBarStyle, label='t=' + str(t[i]), color=colors[i])
+    plt.xlabel('Interarrival Time [s]')
+    plt.ylabel('Time [s]')
+    plt.xticks(np.arange(0.5, 2.25, step=0.25))
+    plt.ticklabel_format(axis='x', style='sci')
+    plt.title('Waiting Time over Response Time')
+    plt.legend()
+    plt.grid(linestyle='--')
+    '''
 
 
 if __name__ == '__main__':
