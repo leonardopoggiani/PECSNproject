@@ -45,8 +45,6 @@ void LinkSelector::handlePacketArrival(cMessage* msg){
     if(nDL > 0){
         send(msg, "out", maxCapacityDataLinkIndex);
     }
-
-    delete msg;
 }
 
 

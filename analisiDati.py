@@ -812,92 +812,21 @@ def plot_CDF(df, attribute, iteration=0):
     show()
 
 
-attributes = ["responseTime", "waitingTime", "queueLength",
-              "tDistribution", "actualCapacity", "meanMalus",
-              "serviceTime", "utilization", "arrivalTime"]
-
-responseTime = []
-waitingTime = []
-queueLength = []
-tDistribution = []
-serviceTime = []
-actualCapacity = []
-meanMalus = []
-arrivalTime = []
-utilization = []
-
-
-def switch(argument):
-    switcher = {
-        "responseTime": responseTime,
-        "waitingTime": waitingTime,
-        "queueLength": queueLength,
-        "tDistribution": tDistribution,
-        "serviceTime": serviceTime,
-        "actualCapacity": actualCapacity,
-        "meanMalus": meanMalus,
-        "arrivalTime": arrivalTime,
-        "utilization": utilization,
-    }
-
-    return switcher.get(argument)
-
-
-def create_dataframe(df):
-
-    time_column = []
-
-    for attribute in attributes:
-        dataframe = df[df.name == attribute]
-        pprint.pprint(dataframe)
-
-        if len(time_column) == 0 and len(dataframe) != 0:
-            time_column = dataframe.iloc[0].time
-
-        dest = switch(attribute)
-        pprint.pprint(attribute)
-
-        if len(dataframe) != 0:
-            dest.append(dataframe.iloc[0].value)
-
-    return pd.DataFrame(time_column, responseTime, waitingTime,
-                        arrivalTime,queueLength, serviceTime)
-
-
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
     df = vector_parse()
 
-    dataframe = create_dataframe(df)
-    print(dataframe)
-
-    '''
-    plot_mean_vectors(df, "utilization", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "utilization", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
-
     plot_mean_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
+    plot_winavg_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
 
     plot_mean_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
+    plot_winavg_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
 
     plot_mean_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
-    '''
+    plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
 
 
-    '''
-    fig = px.scatter(
-        data_frame=df[df.name == 'arrivalRate'],
-        x="name",
-        y="time",
-        size="value",
-        color="run",
-        size_max=60
-    )
-    fig.show()
-    
     describe_attribute_vec(df, "arrivalTime", iteration=0)
     check_iid_vec(df, "arrivalTime", iteration=0, sample_size=1000, seed=42, save=False)
     lorenz_curve_vec(df, "serviceTime")
@@ -909,11 +838,11 @@ def main():
     plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
 
-    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
-    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
-    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
-    plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
-    plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=30000)
+    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
     
     plot_ecdf_vec(df, "queueLength", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
@@ -927,10 +856,7 @@ def main():
     check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
 
     print("Lorenz curve vectors")
-    lorenz_curve_vec(df, "queueLength")
     lorenz_curve_vec(df, "responseTime")
-    lorenz_curve_vec(df, "waitingTime")
-    lorenz_curve_vec(df, "arrivalTime")
 
     pprint.pprint("Vectors stats")
     pprint.pprint(vector_stats(df, group=False))
@@ -943,7 +869,6 @@ def main():
     dataframe = df[df.name == "queueLength"]
     queueLength = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
 
-    '''
     '''
     responseTime = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
     responseTimeCI = pd.to_numeric(dataframe.iloc[6], errors='coerce')

@@ -14,7 +14,7 @@ module Aircraft
 
     submodules:
         packetGenerator: PacketGenerator {
-            @display("p=411.09,82.025;i=device/pc4");
+            @display("p=412.055,145.715;i=device/pc4");
         }
         linkSelector: LinkSelector {
             @display("p=302.045,79.13;i=abstract/router");

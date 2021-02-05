@@ -10,5 +10,8 @@ class ControlTower : public cSimpleModule
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
+
+    simsignal_t computeReceivedPackets_;
+
 };
 #endif /* CONTROLTOWER_H_ */

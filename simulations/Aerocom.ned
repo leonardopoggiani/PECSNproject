@@ -12,7 +12,7 @@ network Aerocom
 
     submodules:
         aircraft[nA]: Aircraft {
-            @display("i=icons/airplane-computer-icons-symbol-cargo-plane-shipping-transportation-wings-icon-e4f948bcb753cc1fc65d0f1025153943;is=vs;p=111,96;b=2,2,rect");
+            @display("p=111,94;b=9,9,rect;is=vs;i=icons/airplane-computer-icons-symbol-cargo-plane-shipping-transportation-wings-icon-e4f948bcb753cc1fc65d0f1025153943");
         }
         controlTower: ControlTower {
             @display("p=329,233;i=device/antennatower");
