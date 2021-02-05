@@ -861,9 +861,7 @@ def create_dataframe(df):
             dest.append(dataframe.iloc[0].value)
 
     return pd.DataFrame(time_column, responseTime, waitingTime,
-                        arrivalTime, utilization, meanMalus,
-                        queueLength, actualCapacity, tDistribution,
-                        serviceTime, columns=attributes)
+                        arrivalTime,queueLength, serviceTime)
 
 
 def main():
@@ -874,6 +872,7 @@ def main():
     dataframe = create_dataframe(df)
     print(dataframe)
 
+    '''
     plot_mean_vectors(df, "utilization", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_winavg_vectors(df, "utilization", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
 
@@ -885,6 +884,8 @@ def main():
 
     plot_mean_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=10000)
+    '''
+
 
     '''
     fig = px.scatter(

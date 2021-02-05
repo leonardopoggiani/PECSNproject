@@ -11,9 +11,11 @@ network Aerocom
         int nDL = default(2);
 
     submodules:
-        aircraft[nA]: Aircraft;
+        aircraft[nA]: Aircraft {
+            @display("i=icons/airplane-computer-icons-symbol-cargo-plane-shipping-transportation-wings-icon-e4f948bcb753cc1fc65d0f1025153943;is=vs;p=111,96;b=2,2,rect");
+        }
         controlTower: ControlTower {
-            @display("p=35,69");
+            @display("p=329,233;i=device/antennatower");
         }
 
 
