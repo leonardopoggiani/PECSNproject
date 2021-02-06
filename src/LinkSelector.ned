@@ -3,10 +3,7 @@ package aerocomsystemproject;
 simple LinkSelector
 {
     parameters:
-      int DLMaxCapacity;
-      bool trasmitting;
       int nDL;
-      int operationMode;
    	gates:
       output out[nDL];	//collegamento con gate dell'aereo
       input in; //collegamento con packetGenerator    

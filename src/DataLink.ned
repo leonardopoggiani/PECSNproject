@@ -3,14 +3,6 @@ package aerocomsystemproject;
 simple DataLink
 {
     parameters:
-		 double t @unit(s); // ogni quanto controlla la capacita' dei data-link (VA)
-		 int dimPoolMax; // const
-		 int dimPoolMin; // const
-		 int operationMode;
-		 double X @unit(s);
-		 double s @unit(byte);
-		 int nDL;
-		 string tDistribution = default("exponential");     
 		         
 		 @signal[computeResponseTime](type=simtime_t);
 		 @statistic[responseTime](source=computeResponseTime; record=mean,vector;);
