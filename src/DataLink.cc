@@ -13,7 +13,6 @@ void DataLink::initialize()
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeMeanMalus_ = registerSignal("computeMeanMalus");
    computeServiceTime_ = registerSignal("computeServiceTime");
-   computeThroughput_ = registerSignal("computeThroughput");
    computeSentPackets_ = registerSignal("computeSentPackets");
 
    operationMode = getAncestorPar("operationMode");

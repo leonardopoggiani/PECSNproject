@@ -104,11 +104,11 @@ def parse_name(s):
 
 
 def parse_run(s):
-    return int(s.split('-')[6]) if s else None
+    return int(s.split('-')[2]) if s else None
 
 
 def vector_parse():
-    path_csv = "C:\\Users\\leona\\Desktop\\misureExp.csv"
+    path_csv = "C:\\Users\\leona\\Desktop\\non-monitoring.csv"
 
     data = pd.read_csv(path_csv,
                        delimiter=",", quoting=csv.QUOTE_NONNUMERIC, encoding='utf-8',
@@ -818,13 +818,13 @@ def main():
     df = vector_parse()
 
     plot_mean_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
 
     plot_mean_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
 
     plot_mean_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
 
 
     describe_attribute_vec(df, "arrivalTime", iteration=0)
@@ -838,11 +838,11 @@ def main():
     plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
 
-    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
-    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
-    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
-    plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
-    plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=2000)
+    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
     
     plot_ecdf_vec(df, "queueLength", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
