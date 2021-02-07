@@ -10,7 +10,6 @@ void PacketGenerator::initialize()
 {
     // ** SIGNAL ** //
     computeArrivalTime_ = registerSignal("computeArrivalTime");
-    computeSentPackets_ = registerSignal("computeSentPackets");
 
     cMessage* msg = new cMessage("selfMessage");
     k = getAncestorPar("k").doubleValue();
@@ -36,7 +35,6 @@ void PacketGenerator::createSendPacket(cMessage* msg){
     ap->setSendTime(simTime().dbl());
 
     send(ap, "out");
-    emit(computeSentPackets_, 1);
 
     //Riattivo il timer
     simtime_t arrivalTime = exponential(k,0);

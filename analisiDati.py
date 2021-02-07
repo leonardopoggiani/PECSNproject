@@ -814,14 +814,25 @@ def plot_CDF(df, attribute, iteration=0):
     show()
 
 
+def parse_module(s):
+    if s == '':
+        return None
+    string = s.split('.')[1]
+    if string != "controlTower":
+        string += "." + s.split('.')[2]
+
+    return string
+
+
 def scalar_df_parse():
-    path_csv = "C:\\Users\\leona\\Desktop\\scalar-non-monitoring.csv"
+    path_csv = "C:\\Users\\leona\\Desktop\\scalar-exponential.csv"
 
     data = pd.read_csv(path_csv,
-                       usecols=['run', 'type', 'name', 'value'],
+                       usecols=['run', 'type', 'module', 'name', 'value'],
                        converters={
                            'run': parse_run,
-                           'name': parse_name
+                           'name': parse_name,
+                           'module': parse_module
                        }
                        )
 
@@ -831,7 +842,7 @@ def scalar_df_parse():
 
     # data['user'] = data.name.apply(lambda x: x.split['-'][1] if '-' in x else 'global')
 
-    return data[['run', 'name', 'value']].sort_values(['run', 'name'])
+    return data[['run', 'module', 'name', 'value']].sort_values(['run', 'name'])
 
 
 def main():
@@ -846,9 +857,56 @@ def main():
 
         dati2 = dataframe[dataframe.run == i]
         dati2 = dati2[dati2.name == "receivedPackets"]
+
+        dati3 = dataframe[dataframe.run == i]
+        dati3 = dati3[dati3.name == "meanMalus"]
+
         pprint.pprint(
-            f"iteration {i}: {dati2['value'].sum()} packets received of"
-            f" {dati['value'].sum()} packets sent, rate {dati2['value'].sum()/dati['value'].sum()}")
+            f"{i}: {dati2['value'].sum()} packets received of"
+            f" {dati['value'].sum()} packets sent, packet loss rate {dati2['value'].sum() / dati['value'].sum()}")
+
+        tot = 0
+        totMalus = 0
+        aircraft = dati['module'].iloc[0].split('.')[0]
+        totale = []
+        totaleMalus = []
+
+        for j in range(0, dati['value'].size):
+            to_control = dati['module'].iloc[j].split('.')[0]
+            dataLink = dati['module'].iloc[j].split('.')[1]
+
+            throughput = int(dati['value'].iloc[j] / 400)
+            malus = dati3['value'].iloc[j] / 400
+
+            if throughput != 0:
+                pprint.pprint(f"throughput {dati['module'].iloc[j]}:  {throughput} packets/seconds")
+
+                if malus != 0:
+                    pprint.pprint(f"malus of {dati3['module'].iloc[j]}: {malus} packets/seconds")
+
+                if aircraft == to_control:
+                    tot += throughput
+                    totMalus += malus
+                else:
+                    pprint.pprint(f"cumulative throughput {aircraft}:  {tot} packets/seconds")
+                    pprint.pprint(f"cumulative malus {aircraft}:  {int(totMalus)} packets/seconds")
+                    pprint.pprint(f"Percentage of malus over throughput {aircraft}:  {int((totMalus / tot) * 100)}% ")
+
+                    aircraft = to_control
+                    totale.append(tot)
+                    totaleMalus.append(int(totMalus))
+                    tot = 0
+                    totMalus = 0
+
+        pprint.pprint(f"Total:  {totale} packets/seconds")
+        pprint.pprint(f"Total malus:  {totaleMalus} packets/seconds")
+
+        plt.plot(totale)
+        plt.plot(totaleMalus)
+        plt.title(f"Throughput over malus for iteration {i}")
+        plt.savefig(f"./img/throughput/confronto-exponential{i}")
+        plt.show()
+
 
     '''
     df = vector_parse()

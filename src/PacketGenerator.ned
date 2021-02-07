@@ -4,10 +4,7 @@ simple PacketGenerator
 {
     parameters:     
         @signal[computeArrivalTime](type=long);
-        @statistic[arrivalTime](source=computeArrivalTime; record=vector;);
-        
-        @signal[computeSentPackets](type=int);
-		@statistic[sentPackets](source=computeSentPackets;record=count);	
+        @statistic[arrivalTime](source=computeArrivalTime; record=vector;);	
         
     gates:
        output out;

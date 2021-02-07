@@ -13,6 +13,7 @@ void DataLink::initialize()
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeMeanMalus_ = registerSignal("computeMeanMalus");
    computeServiceTime_ = registerSignal("computeServiceTime");
+   computeSentPackets_ = registerSignal("computeSentPackets");
 
    operationMode = getAncestorPar("operationMode");
    transmitting = false;
@@ -123,6 +124,8 @@ void DataLink::sendPacket() {
         serviceTime = (s/ac);
         EV << "serviceTime " << serviceTime << endl;
         emit(computeServiceTime_,serviceTime);
+        emit(computeSentPackets_, 1);
+
         processing = ap; // il pacchetto che sto processando e' quello attuale
 
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));

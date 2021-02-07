@@ -10,8 +10,7 @@ void ControlTower::initialize()
 void ControlTower::handleMessage(cMessage *msg)
 {
     // la torre di controllo riceve e cancella il messaggio
-    if(strcmp(msg->getName(),"packetSent") == 0){
-        emit(computeReceivedPackets_,1);
-    }
+    emit(computeReceivedPackets_,1);
+
     delete msg;
 }
