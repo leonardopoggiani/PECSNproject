@@ -126,6 +126,8 @@ def vector_parse():
 
     # rename vecvalue for simplicity...
     data = data.rename({'vecvalue': 'value', 'vectime': 'time'}, axis=1)
+    df = data[['run', 'name', 'time', 'value']].sort_values(['run', 'name'])
+    df.to_csv("cleanedData.csv")
     return data[['run', 'name', 'time', 'value']].sort_values(['run', 'name'])
 
 
@@ -812,9 +814,43 @@ def plot_CDF(df, attribute, iteration=0):
     show()
 
 
+def scalar_df_parse():
+    path_csv = "C:\\Users\\leona\\Desktop\\scalar-non-monitoring.csv"
+
+    data = pd.read_csv(path_csv,
+                       usecols=['run', 'type', 'name', 'value'],
+                       converters={
+                           'run': parse_run,
+                           'name': parse_name
+                       }
+                       )
+
+    # remove useless rows (first 100-ish rows)
+    data = data[data.type == 'scalar']
+    data.reset_index(inplace=True, drop=True)
+
+    # data['user'] = data.name.apply(lambda x: x.split['-'][1] if '-' in x else 'global')
+
+    return data[['run', 'name', 'value']].sort_values(['run', 'name'])
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+    dataframe = scalar_df_parse()
 
+    dataframe.to_csv("scalar.csv", index=False)
+
+    for i in range(0, 10):
+        dati = dataframe[dataframe.run == i]
+        dati = dati[dati.name == "sentPackets"]
+
+        dati2 = dataframe[dataframe.run == i]
+        dati2 = dati2[dati2.name == "receivedPackets"]
+        pprint.pprint(
+            f"iteration {i}: {dati2['value'].sum()} packets received of"
+            f" {dati['value'].sum()} packets sent, rate {dati2['value'].sum()/dati['value'].sum()}")
+
+    '''
     df = vector_parse()
 
     plot_mean_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
@@ -826,32 +862,26 @@ def main():
     plot_mean_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
 
-
     describe_attribute_vec(df, "arrivalTime", iteration=0)
     check_iid_vec(df, "arrivalTime", iteration=0, sample_size=1000, seed=42, save=False)
     lorenz_curve_vec(df, "serviceTime")
     pprint.pprint(vector_stats(df, group=False))
 
-    plot_mean_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
     plot_mean_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
 
-    plot_winavg_vectors(df, "queueLength", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
     plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
     plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
     plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
     plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
     
-    plot_ecdf_vec(df, "queueLength", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "waitingTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "arrivalTime", iteration=0, sample_size=1000, replace=False)
-    
 
     print("Check IID")
-    check_iid_vec(df, "queueLength", iteration=0, sample_size=1000, seed=42, save=False)
     check_iid_vec(df, "responseTime", iteration=0, sample_size=1000, seed=42, save=False)
     check_iid_vec(df, "waitingTime", iteration=0, sample_size=1000, seed=42, save=False)
 
@@ -861,13 +891,13 @@ def main():
     pprint.pprint("Vectors stats")
     pprint.pprint(vector_stats(df, group=False))
 
-    describe_attribute_vec(df, "queueLength", iteration=0)
     describe_attribute_vec(df, "responseTime", iteration=0)
     describe_attribute_vec(df, "waitingTime", iteration=0)
     describe_attribute_vec(df, "serviceTime", iteration=0)
+    '''
 
-    dataframe = df[df.name == "queueLength"]
-    queueLength = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
+    # dataframe = df[df.name == "queueLength"]
+    # queueLength = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
 
     '''
     responseTime = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')

@@ -10,8 +10,9 @@ void PacketGenerator::initialize()
 {
     // ** SIGNAL ** //
     computeArrivalTime_ = registerSignal("computeArrivalTime");
+    computeSentPackets_ = registerSignal("computeSentPackets");
 
-    cMessage* msg = new cMessage("msg");
+    cMessage* msg = new cMessage("selfMessage");
     k = getAncestorPar("k").doubleValue();
     simtime_t arrivalTime = exponential(k,0);
 
@@ -30,10 +31,12 @@ void PacketGenerator::handleMessage(cMessage* msg)
 void PacketGenerator::createSendPacket(cMessage* msg){
 
     AircraftPacket* ap = new AircraftPacket("AircraftPacket");
+    ap->setName("packetSent");
     ap->setAircraftID(getIndex());
     ap->setSendTime(simTime().dbl());
 
     send(ap, "out");
+    emit(computeSentPackets_, 1);
 
     //Riattivo il timer
     simtime_t arrivalTime = exponential(k,0);

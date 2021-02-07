@@ -11,7 +11,7 @@ simple DataLink
 		 @statistic[waitingTime](source=computeWaitingTime; record=vector;);
 		 
 		 @signal[computeQueueLength](type=int);
-		 @statistic[queueLength](source=computeQueueLength; record=mean;);
+		 @statistic[queueLength](source=computeQueueLength; record=vector;);
 			
 		 @signal[computeTDistribution](type=long);
 		 @statistic[tDistribution](source=computeTDistribution; record=vector;);
@@ -25,8 +25,8 @@ simple DataLink
 		 @signal[computeServiceTime](type=long);
 		 @statistic[serviceTime](source=computeServiceTime; record=vector;);
 		 
-		 @signal[computeSentPackets](type=int);
-		 @statistic[sentPackets](source=computeSentPackets;record=count);	
+		 @signal[computeThroughput](type=long);
+		 @statistic[throughput](source=computeThroughput; record=vector;);
        	
      gates:
          input in;

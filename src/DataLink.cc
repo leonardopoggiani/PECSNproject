@@ -13,7 +13,6 @@ void DataLink::initialize()
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeMeanMalus_ = registerSignal("computeMeanMalus");
    computeServiceTime_ = registerSignal("computeServiceTime");
-   computeSentPackets_ = registerSignal("computeSentPackets");
 
    operationMode = getAncestorPar("operationMode");
    transmitting = false;
@@ -139,7 +138,6 @@ void DataLink::sendPacket() {
 void DataLink::handleServiceTimeElapsed(){
 
     transmitting = false;
-    emit(computeSentPackets_, 1);
 
     sendPacket(); // mando il prossimo pacchetto in coda
 
