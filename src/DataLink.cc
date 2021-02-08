@@ -148,7 +148,6 @@ void DataLink::handleServiceTimeElapsed(){
        EV_INFO << "Penalty started, "<< simTime() << endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
-       emit(computeMeanMalus_, malusX);
        malusPenalty = false;
     }
 }
@@ -157,7 +156,6 @@ void DataLink::handleStartMalusPenality() {
     if ( !transmitting ) {
         EV_INFO << "Penalty started, "<< simTime() << endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
-        emit(computeMeanMalus_, malusX);
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
@@ -167,6 +165,7 @@ void DataLink::handleStartMalusPenality() {
 
 void DataLink::handleMalusElapsed() {
     EV_INFO << "==> PenaltyTimeElapsed: handover completed, transmissions restored, "<< simTime() << endl;
+    emit(computeMeanMalus_, malusX);
     malusPenalty = false;
     sendPacket();
 }
