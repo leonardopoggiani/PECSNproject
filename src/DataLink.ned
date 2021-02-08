@@ -5,7 +5,7 @@ simple DataLink
     parameters:
 		         
 		 @signal[computeResponseTime](type=simtime_t);
-		 @statistic[responseTime](source=computeResponseTime; record=mean,vector;);
+		 @statistic[responseTime](source=computeResponseTime; record=vector;);
 		 
 		 @signal[computeWaitingTime](type=long);
 		 @statistic[waitingTime](source=computeWaitingTime; record=vector;);
