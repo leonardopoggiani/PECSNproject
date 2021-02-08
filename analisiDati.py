@@ -108,7 +108,7 @@ def parse_run(s):
 
 
 def vector_parse():
-    path_csv = "C:\\Users\\leona\\Desktop\\non-monitoring.csv"
+    path_csv = "C:\\Users\\leona\\Desktop\\dataset\\responseTime-50ms-vector.csv"
 
     data = pd.read_csv(path_csv,
                        delimiter=",", quoting=csv.QUOTE_NONNUMERIC, encoding='utf-8',
@@ -127,7 +127,7 @@ def vector_parse():
     # rename vecvalue for simplicity...
     data = data.rename({'vecvalue': 'value', 'vectime': 'time'}, axis=1)
     df = data[['run', 'name', 'time', 'value']].sort_values(['run', 'name'])
-    df.to_csv("cleanedData.csv")
+    df.to_csv("cleanedData.csv",index=False)
     return data[['run', 'name', 'time', 'value']].sort_values(['run', 'name'])
 
 
@@ -437,6 +437,7 @@ def plot_ecdf_vec(data, attribute, iteration=0, sample_size=1000, replace=False)
     plot_ecdf(sample)
     plt.title("ECDF for " + attribute)
     plt.show()
+    plt.savefig("./img/ecdf/responseTime-50ms")
     return
 
 
@@ -825,7 +826,7 @@ def parse_module(s):
 
 
 def scalar_df_parse():
-    path_csv = "C:\\Users\\leona\\Desktop\\scalar-exponential.csv"
+    path_csv = "C:\\Users\\leona\\Desktop\\dataset\\responseTime-20ms.csv"
 
     data = pd.read_csv(path_csv,
                        usecols=['run', 'type', 'module', 'name', 'value'],
@@ -845,10 +846,7 @@ def scalar_df_parse():
     return data[['run', 'module', 'name', 'value']].sort_values(['run', 'name'])
 
 
-def main():
-    pprint.pprint("Performance Evaluation - Python Data Analysis")
-    dataframe = scalar_df_parse()
-
+def scalar_analysis(dataframe):
     dataframe.to_csv("scalar.csv", index=False)
 
     for i in range(0, 10):
@@ -875,26 +873,28 @@ def main():
             to_control = dati['module'].iloc[j].split('.')[0]
             dataLink = dati['module'].iloc[j].split('.')[1]
 
-            throughput = int(dati['value'].iloc[j] / 400)
-            malus = dati3['value'].iloc[j] / 400
+            throughput = dati['value'].iloc[j] / 400
+            malus = (dati3['value'].iloc[j]) / 400
 
             if throughput != 0:
                 pprint.pprint(f"throughput {dati['module'].iloc[j]}:  {throughput} packets/seconds")
 
-                if malus != 0:
-                    pprint.pprint(f"malus of {dati3['module'].iloc[j]}: {malus} packets/seconds")
+                # if malus != 0:
+                    # pprint.pprint(f"malus of {dati3['module'].iloc[j]}: {malus} packets/seconds")
 
                 if aircraft == to_control:
                     tot += throughput
                     totMalus += malus
                 else:
                     pprint.pprint(f"cumulative throughput {aircraft}:  {tot} packets/seconds")
-                    pprint.pprint(f"cumulative malus {aircraft}:  {int(totMalus)} packets/seconds")
-                    pprint.pprint(f"Percentage of malus over throughput {aircraft}:  {int((totMalus / tot) * 100)}% ")
+                    # pprint.pprint(f"cumulative malus {aircraft}:  {totMalus} packets/seconds")
+
+                    # if tot != 0:
+                        # pprint.pprint(f"Percentage of malus over throughput {aircraft}:  {int((totMalus / tot) * 100)}% ")
 
                     aircraft = to_control
                     totale.append(tot)
-                    totaleMalus.append(int(totMalus))
+                    # totaleMalus.append(totMalus)
                     tot = 0
                     totMalus = 0
 
@@ -902,38 +902,82 @@ def main():
         pprint.pprint(f"Total malus:  {totaleMalus} packets/seconds")
 
         plt.plot(totale)
-        plt.plot(totaleMalus)
-        plt.title(f"Throughput over malus for iteration {i}")
-        plt.savefig(f"./img/throughput/confronto-exponential{i}")
+        # plt.plot(totaleMalus)
+        # plt.title(f"Throughput over malus for iteration {i}")
+        plt.title(f"Throughput for {i}")
+        # plt.savefig(f"./img/throughput/malus-50ms{i}.png")
         plt.show()
 
 
+def aggregate_users_signals(data, signal, datalinks=range(0, NUM_DATA_LINK)):
+    return data[data.name.isin([signal + '-' + str(i) for i in datalinks])].groupby('run').mean().describe(
+        percentiles=[.25, .50, .75, .95])
+
+
+def responseTimeAnalysis(dataframe):
+    stats = pd.DataFrame()
+    pprint.pprint(dataframe['value'].mean())
+    attributes = dataframe.name.unique()
+
+    for attr in attributes:
+        stats[attr] = dataframe[dataframe.name == "responseTime"].value.describe(percentiles=[.25, .50, .75, .95])
+    NUM_DATA_LINK = 10
+    stats['meanResponseTime'] = aggregate_users_signals(dataframe, 'responseTime')
+    stats['meanThroughput'] = aggregate_users_signals(dataframe, 'tptUser')
+    stats['meanCQI'] = aggregate_users_signals(dataframe, 'CQI')
+    stats['meanNumberRBs'] = aggregate_users_signals(dataframe, 'numberRBs')
+
+    # Transpose...
+    stats = stats.T
+
+    # COMPUTE CI
+    stats['ci95_l'] = stats['mean'] - 1.96 * (stats['std'] / np.sqrt(stats['count']))
+    stats['ci95_h'] = stats['mean'] + 1.96 * (stats['std'] / np.sqrt(stats['count']))
+    stats['ci99_l'] = stats['mean'] - 2.58 * (stats['std'] / np.sqrt(stats['count']))
+    stats['ci99_h'] = stats['mean'] + 2.58 * (stats['std'] / np.sqrt(stats['count']))
+    return stats
+
+
+def main():
+    pprint.pprint("Performance Evaluation - Python Data Analysis")
+
     '''
+    dataframe = scalar_df_parse()
+    # scalar_analysis(dataframe)
+    stats = responseTimeAnalysis(dataframe)
+    stats.to_csv("stats1.csv", index = False)
+    pprint.pprint(stats)
+    '''
+
     df = vector_parse()
+    plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
 
-    plot_mean_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "arrivalTime", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    '''
+    plot_mean_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
+    plot_winavg_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
 
-    plot_mean_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "meanMalus", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    plot_mean_vectors(df, "meanMalus", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
+    plot_winavg_vectors(df, "meanMalus", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
 
-    plot_mean_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_winavg_vectors(df, "tDistribution", start=0, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    plot_mean_vectors(df, "tDistribution", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
+    plot_winavg_vectors(df, "tDistribution", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
 
     describe_attribute_vec(df, "arrivalTime", iteration=0)
     check_iid_vec(df, "arrivalTime", iteration=0, sample_size=1000, seed=42, save=False)
     lorenz_curve_vec(df, "serviceTime")
-    pprint.pprint(vector_stats(df, group=False))
 
-    plot_mean_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_mean_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_mean_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
-    plot_mean_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4])
+    stats = vector_stats(df, group=False)
+    stats.to_csv("stats.csv",index=False)
 
-    plot_winavg_vectors(df, "responseTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
-    plot_winavg_vectors(df, "waitingTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
-    plot_winavg_vectors(df, "arrivalTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
-    plot_winavg_vectors(df, "serviceTime", start=10000, duration=150000, iterations=[0, 1, 2, 3, 4], win=5000)
+    plot_mean_vectors(df, "responseTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
+    plot_mean_vectors(df, "waitingTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
+    plot_mean_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
+    plot_mean_vectors(df, "serviceTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
+
+    plot_winavg_vectors(df, "responseTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
+    plot_winavg_vectors(df, "waitingTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
+    plot_winavg_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
+    plot_winavg_vectors(df, "serviceTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
     
     plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
     plot_ecdf_vec(df, "waitingTime", iteration=0, sample_size=1000, replace=False)
@@ -953,7 +997,6 @@ def main():
     describe_attribute_vec(df, "waitingTime", iteration=0)
     describe_attribute_vec(df, "serviceTime", iteration=0)
     '''
-
     # dataframe = df[df.name == "queueLength"]
     # queueLength = pd.to_numeric(dataframe.iloc[0].value, errors='coerce')
 
