@@ -933,15 +933,15 @@ def aggregate_users_signals(data, signal, datalinks=range(0, NUM_DATA_LINK)):
         percentiles=[.25, .50, .75, .95])
 
 
-def responseTimeAnalysis(dataframe):
+def data_analysis(dataframe, attribute):
     stats = pd.DataFrame()
     pprint.pprint(dataframe['value'].mean())
     attributes = dataframe.name.unique()
 
     for attr in attributes:
-        stats[attr] = dataframe[dataframe.name == "responseTime"].value.describe(percentiles=[.25, .50, .75, .95])
+        stats[attr] = dataframe[dataframe.name == attribute].value.describe(percentiles=[.25, .50, .75, .95])
     NUM_DATA_LINK = 10
-    stats['meanResponseTime'] = aggregate_users_signals(dataframe, 'responseTime')
+    stats['mean' + attribute] = aggregate_users_signals(dataframe, attribute)
     stats['meanThroughput'] = aggregate_users_signals(dataframe, 'tptUser')
     stats['meanCQI'] = aggregate_users_signals(dataframe, 'CQI')
     stats['meanNumberRBs'] = aggregate_users_signals(dataframe, 'numberRBs')
@@ -958,38 +958,47 @@ def responseTimeAnalysis(dataframe):
 
 
 def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
-    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-20ms.csv")
-    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-35ms.csv")
-    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-50ms.csv")
+    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-20ms.csv")
+    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-35ms.csv")
+    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-50ms.csv")
 
-    sample = df[df.name == "responseTime"]
+    sample = df[df.name == "queueLength"]
     x = np.sort(sample['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="20ms")
-    plt.legend()
-    plt.show()
 
-    sample1 = df1[df1.name == "responseTime"]
+    sample1 = df1[df1.name == "queueLength"]
 
     x = np.sort(sample1['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="35ms")
-    plt.legend()
-    plt.show()
 
-    sample2 = df2[df2.name == "responseTime"]
+    sample2 = df2[df2.name == "queueLength"]
 
     x = np.sort(sample2['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="50ms")
+
     plt.legend()
     plt.show()
+
+    stats = data_analysis(df, "queueLength")
+    stats.to_csv('stats1.csv', index=False)
+    stats =  data_analysis(df1, "queueLength")
+    stats.to_csv('stats2.csv', index=False)
+    stats = data_analysis(df2, "queueLength")
+    stats.to_csv('stats3.csv', index=False)
+
+    #data_analysis(df, "responseTime")
+    #data_analysis(df1, "responseTime")
+    #data_analysis(df2, "responseTime")
+
 
     '''
     sample = df[df.name == "responseTime"]
@@ -1079,7 +1088,7 @@ def lorenz_curve_analysis():
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
-    lorenz_curve_analysis()
+    # lorenz_curve_analysis()
 
     '''
     dataframe = scalar_df_parse()
@@ -1107,7 +1116,9 @@ def main():
     # stats.to_csv("stats1.csv", index=False)
     # pprint.pprint(stats)
     # plot_ecdf_vec(dataframe, "responseTime", iteration=0, sample_size=1000, replace=False)
-    # plot_ecdf_comparation()
+
+    plot_ecdf_comparation()
+
     '''
     plot_mean_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
     plot_winavg_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
