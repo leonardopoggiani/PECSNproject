@@ -32,7 +32,7 @@ void PacketGenerator::createSendPacket(cMessage* msg){
     AircraftPacket* ap = new AircraftPacket("AircraftPacket");
     ap->setName("packetSent");
     ap->setAircraftID(getIndex());
-    ap->setSendTime(simTime().dbl());
+    ap->setSendTime(simTime().dbl()); // tempo in cui é stato inviato il pacchetto
 
     send(ap, "out");
 

@@ -131,9 +131,7 @@ void DataLink::sendPacket() {
         scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
         send(processing,"out");
 
-        EV << "ResponseTime: " << simTime().dbl() - processing->getSendTime()  + serviceTime << endl;
-        emit(computeResponseTime_, simTime().dbl() - processing->getSendTime()  + serviceTime);
-
+        emit(computeResponseTime_, simTime().dbl() - processing->getArrivalTime() + serviceTime);
         EV_INFO << "==> SendPacket " << processing->getId() << " with service time "<< serviceTime << ", packet exit at: "<< simTime() + serviceTime << ", capacity: " << actualCapacity << endl;
     }
 }
