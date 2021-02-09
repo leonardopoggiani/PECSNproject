@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for AerocomSystemProject
+# OMNeT++/OMNEST Makefile for PECSNproject
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep
 #
 
 # Name of target to be created (-o option)
-TARGET = AerocomSystemProject$(D)$(EXE_SUFFIX)
+TARGET = PECSNproject$(D)$(EXE_SUFFIX)
 TARGET_DIR = .
 
 # User interface (uncomment one) (-u option)
