@@ -826,7 +826,7 @@ def parse_module(s):
 
 
 def scalar_df_parse():
-    path_csv = "C:\\Users\\leona\\Desktop\\dataset\\responseTime-20ms.csv"
+    path_csv = 'C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\scalar-exponential-1000-nDL-25ms-monitoring-1s.csv'
 
     data = pd.read_csv(path_csv,
                        usecols=['run', 'type', 'module', 'name', 'value'],
@@ -848,6 +848,14 @@ def scalar_df_parse():
 
 def scalar_analysis(dataframe):
     dataframe.to_csv("scalar.csv", index=False)
+    totaleServiceTime = []
+    df = pd.DataFrame()
+    thru = []
+    srvTime = []
+    packetReceived = []
+    packetSent = []
+    module = []
+    queueLength = []
 
     for i in range(0, 10):
         dati = dataframe[dataframe.run == i]
@@ -857,34 +865,44 @@ def scalar_analysis(dataframe):
         dati2 = dati2[dati2.name == "receivedPackets"]
 
         dati3 = dataframe[dataframe.run == i]
-        dati3 = dati3[dati3.name == "meanMalus"]
+        dati3 = dati3[dati3.name == "serviceTime"]
+
+        dati4 = dataframe[dataframe.run == i]
+        dati4 = dati4[dati4.name == "queueLength"]
 
         pprint.pprint(
             f"{i}: {dati2['value'].sum()} packets received of"
             f" {dati['value'].sum()} packets sent, packet loss rate {dati2['value'].sum() / dati['value'].sum()}")
 
+        packetReceived.append(dati2['value'].sum())
+        packetSent.append(dati['value'].sum())
+
         tot = 0
-        totMalus = 0
+        # totMalus = 0
         aircraft = dati['module'].iloc[0].split('.')[0]
         totale = []
-        totaleMalus = []
 
         for j in range(0, dati['value'].size):
             to_control = dati['module'].iloc[j].split('.')[0]
             dataLink = dati['module'].iloc[j].split('.')[1]
 
             throughput = dati['value'].iloc[j] / 400
-            malus = (dati3['value'].iloc[j]) / 400
+            serviceTime = (dati3['value'].iloc[j]) / 400
+            queLen = (dati4['value'].iloc[j])
 
             if throughput != 0:
                 pprint.pprint(f"throughput {dati['module'].iloc[j]}:  {throughput} packets/seconds")
+                pprint.pprint(f"serviceTime of {dati3['module'].iloc[j]}: {serviceTime} seconds")
+                pprint.pprint(f"queueLength of {dati3['module'].iloc[j]}: {queLen} seconds")
 
-                # if malus != 0:
-                    # pprint.pprint(f"malus of {dati3['module'].iloc[j]}: {malus} packets/seconds")
+                totaleServiceTime.append(serviceTime)
+                srvTime.append(serviceTime)
+                thru.append(throughput)
+                module.append(dati['module'].iloc[j])
+                queueLength.append(dati4['value'].iloc[j])
 
                 if aircraft == to_control:
                     tot += throughput
-                    totMalus += malus
                 else:
                     pprint.pprint(f"cumulative throughput {aircraft}:  {tot} packets/seconds")
                     # pprint.pprint(f"cumulative malus {aircraft}:  {totMalus} packets/seconds")
@@ -894,19 +912,37 @@ def scalar_analysis(dataframe):
 
                     aircraft = to_control
                     totale.append(tot)
+                    totaleServiceTime.append(serviceTime)
                     # totaleMalus.append(totMalus)
                     tot = 0
-                    totMalus = 0
+                    # totMalus = 0
 
-        pprint.pprint(f"Total:  {totale} packets/seconds")
-        pprint.pprint(f"Total malus:  {totaleMalus} packets/seconds")
+        # pprint.pprint(f"Total:  {totale} packets/seconds")
+        # pprint.pprint(f"Total serviceTime:  {totaleServiceTime} seconds")
 
-        plt.plot(totale)
+        # plt.plot(totaleServiceTime)
         # plt.plot(totaleMalus)
-        # plt.title(f"Throughput over malus for iteration {i}")
-        plt.title(f"Throughput for {i}")
+        # plt.title(f"Mean service time for iteration {i}")
+        # plt.title(f"Throughput for {i}")
         # plt.savefig(f"./img/throughput/malus-50ms{i}.png")
-        plt.show()
+        # plt.show()
+
+    # pprint.pprint(f"Total serviceTime:  {totaleServiceTime} seconds")
+    plt.plot(totaleServiceTime)
+    plt.plot(queueLength)
+    # plt.plot(totaleMalus)
+    plt.title(f"Mean service time for iteration {i}")
+    # plt.title(f"Throughput for {i}")
+    # plt.savefig(f"./img/throughput/malus-50ms{i}.png")
+    plt.show()
+    df['aircraft'] = module
+    # df['packetReceived'] = packetReceived
+    # df['packetSent'] = packetSent
+    df['throughput'] = thru
+    df['serviceTime'] = srvTime
+    df['queueLength'] = queueLength
+
+    df.to_csv('test9.csv', index=False)
 
 
 def aggregate_users_signals(data, signal, datalinks=range(0, NUM_DATA_LINK)):
@@ -941,16 +977,35 @@ def responseTimeAnalysis(dataframe):
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
-    '''
     dataframe = scalar_df_parse()
-    # scalar_analysis(dataframe)
-    stats = responseTimeAnalysis(dataframe)
-    stats.to_csv("stats1.csv", index = False)
-    pprint.pprint(stats)
-    '''
+    scalar_analysis(dataframe)
 
-    df = vector_parse()
-    plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
+    df1 = pd.read_csv('test.csv')
+    df2 = pd.read_csv('test2.csv')
+    df3 = pd.read_csv('test3.csv')
+    df5 = pd.read_csv('test5.csv')
+    df6 = pd.read_csv('test6.csv')
+    df7 = pd.read_csv('test7.csv')
+    df8 = pd.read_csv('test8.csv')
+    df9 = pd.read_csv('test9.csv')
+
+
+    pprint.pprint(f"Mean service time nA=1, k=50ms: {df1['serviceTime'].mean()}")
+    pprint.pprint(f"Mean service time nA=2, k=25ms: {df2['serviceTime'].mean()}")
+    pprint.pprint(f"Mean service time nA=4, k=12.5ms: {df3['serviceTime'].mean()}")
+    pprint.pprint(f"Mean service time nDL=10, k=50ms: {df5['serviceTime'].mean()}, mean queue length: {df5['queueLength'].mean()}")
+    pprint.pprint(f"Mean service time nDL=20, k=25ms: {df6['serviceTime'].mean()}, mean queue length: {df6['queueLength'].mean()}")
+    pprint.pprint(f"Mean service time nDL=50, k=25ms: {df7['serviceTime'].mean()}, mean queue length: {df7['queueLength'].mean()}")
+    pprint.pprint(f"Mean service time nDL=200, k=25ms: {df8['serviceTime'].mean()}, mean queue length: {df8['queueLength'].mean()}")
+    pprint.pprint(f"Mean service time nDL=1000, k=25ms: {df9['serviceTime'].mean()}, mean queue length: {df9['queueLength'].mean()}")
+
+    # stats = responseTimeAnalysis(dataframe)
+    # stats.to_csv("stats1.csv", index = False)
+    # pprint.pprint(stats)
+
+
+    # df = vector_parse()
+    # plot_ecdf_vec(df, "responseTime", iteration=0, sample_size=1000, replace=False)
 
     '''
     plot_mean_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])

@@ -43,6 +43,8 @@ void LinkSelector::handlePacketArrival(cMessage* msg){
     // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
     if(nDL > 0){
         send(msg, "out", maxCapacityDataLinkIndex);
+    } else {
+        delete msg;
     }
 }
 
