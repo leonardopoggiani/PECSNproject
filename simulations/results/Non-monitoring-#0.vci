@@ -1,0 +1,56 @@
+file 1417278 1612888988                                         
+version 2
+run Non-monitoring-0-20210209-17:43:08-31512
+attr configname Non-monitoring
+attr datetime 20210209-17:43:08
+attr experiment Non-monitoring
+attr inifile aerocom.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Aerocom
+attr processid 31512
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.t 1s
+param **.k 50ms
+param **.nA 1
+param **.nDL 1
+param **.s "70 byte"
+param **.X 0s
+param **.dimPoolMax 9000
+param **.dimPoolMin 9000
+param **.tDistribution "\"exponential\""
+param **.m 1s
+param **.DLMaxCapacity 0
+param **.trasmitting false
+param **.operationMode 1
+
+vector 0 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 1 Aerocom.aircraft[0].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 2 Aerocom.aircraft[0].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 3 Aerocom.aircraft[0].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 4 Aerocom.aircraft[0].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 5 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	1345 309976 1016 39846 10.005245567619 399.990973989844 7687 2.767595e-006 0.511624106208 390.00681941603 39.585679544771
+1	311321 210856 1018 39848 10.005245567619 399.990973989844 7687 0 3 114 138
+2	522177 226065 1018 39848 10.005245567619 399.990973989844 7687 0 0.023610777303 5.494169428563 0.037644010090588
+3	748242 341535 1018 39848 10.005245567619 399.990973989844 7687 0.0077777777777778 0.0077777777777778 59.787777777772 0.46501604938275
+4	1089777 310675 1018 39848 10.005245567619 399.990973989844 7687 0.007777777778 0.031388555081 65.281947208057 0.58812491727999
+5	1400452 16824 1041 39624 10.19835258653 398.023229865342 400 0.00012359181449871 5.0916301550693 389.91689248652 726.70497007989
+

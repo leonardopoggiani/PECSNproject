@@ -1,0 +1,56 @@
+file 1409161 1612888989                                         
+version 2
+run Non-monitoring-2-20210209-17:43:08-30684
+attr configname Non-monitoring
+attr datetime 20210209-17:43:08
+attr experiment Non-monitoring
+attr inifile aerocom.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Aerocom
+attr processid 30684
+attr repetition 2
+attr replication #2
+attr resultdir results
+attr runnumber 2
+attr seedset 2
+param **.t 1s
+param **.k 50ms
+param **.nA 1
+param **.nDL 1
+param **.s "70 byte"
+param **.X 0s
+param **.dimPoolMax 9000
+param **.dimPoolMin 9000
+param **.tDistribution "\"exponential\""
+param **.m 1s
+param **.DLMaxCapacity 0
+param **.trasmitting false
+param **.operationMode 1
+
+vector 0 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 1 Aerocom.aircraft[0].dataLink[0] queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 2 Aerocom.aircraft[0].dataLink[0] waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 3 Aerocom.aircraft[0].dataLink[0] serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 4 Aerocom.aircraft[0].dataLink[0] responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 5 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	1345 308075 991 39606 10.009046581726 399.97097773048 7643 1.717179e-006 0.55693822094 390.06880740153 39.713779780724
+1	309420 209589 993 39608 10.009046581726 399.97097773048 7643 0 3 103 123
+2	519009 224725 993 39609 10.009046581726 399.973231997937 7643 0 0.026441120043 5.354101629882 0.035737738046791
+3	743734 339523 993 39609 10.009046581726 399.973231997937 7643 0.0077777777777778 0.0077777777777778 59.445555555549 0.46235432098769
+4	1083257 308834 993 39609 10.009046581726 399.973231997937 7643 0.007777777778 0.034218897821 64.799657187144 0.58137808441698
+5	1392091 17068 1086 39461 10.771148459662 398.868247924828 406 0.00074417143185289 5.8495019217805 389.32030550773 735.72680165405
+

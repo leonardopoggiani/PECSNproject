@@ -1,0 +1,41 @@
+version 2
+run Non-monitoring-8-20210209-17:43:12-26720
+attr configname Non-monitoring
+attr datetime 20210209-17:43:12
+attr experiment Non-monitoring
+attr inifile aerocom.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Aerocom
+attr processid 26720
+attr repetition 8
+attr replication #8
+attr resultdir results
+attr runnumber 8
+attr seedset 8
+param **.t 1s
+param **.k 50ms
+param **.nA 1
+param **.nDL 1
+param **.s "70 byte"
+param **.X 0s
+param **.dimPoolMax 9000
+param **.dimPoolMin 9000
+param **.tDistribution "\"exponential\""
+param **.m 1s
+param **.DLMaxCapacity 0
+param **.trasmitting false
+param **.operationMode 1
+
+scalar Aerocom.aircraft[0].dataLink[0] sentPackets:count 7876
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[0] meanMalus:count 0
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[0].dataLink[0] actualCapacity:mean 9000
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.controlTower receivedPackets:count 7876
+attr source computeReceivedPackets
+
