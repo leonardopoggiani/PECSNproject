@@ -958,48 +958,46 @@ def data_analysis(dataframe, attribute):
 
 
 def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
-    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-20ms.csv")
-    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-35ms.csv")
-    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-50ms.csv")
+    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-20ms.csv")
+    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-35ms.csv")
+    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-50ms.csv")
 
-    sample = df[df.name == "queueLength"]
+    sample = df[df.name == "waitingTime"]
     x = np.sort(sample['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="20ms")
-    plt.legend()
 
-    sample1 = df1[df1.name == "queueLength"]
+
+    sample1 = df1[df1.name == "responseTime"]
 
     x = np.sort(sample1['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="35ms")
-    plt.legend()
 
-    sample2 = df2[df2.name == "queueLength"]
+
+    sample2 = df2[df2.name == "responseTime"]
 
     x = np.sort(sample2['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="50ms")
-    plt.legend()
-    plt.title("Comparison of queue length ecdfs")
-    plt.show()
 
-    stats = data_analysis(df, "queueLength")
+
+    stats = data_analysis(df, "responseTime")
     stats.to_csv('stats1.csv', index=False)
-    stats = data_analysis(df1, "queueLength")
+    stats = data_analysis(df1, "responseTime")
     stats.to_csv('stats2.csv', index=False)
-    stats = data_analysis(df2, "queueLength")
+    stats = data_analysis(df2, "responseTime")
     stats.to_csv('stats3.csv', index=False)
 
-    #data_analysis(df, "responseTime")
-    #data_analysis(df1, "responseTime")
-    #data_analysis(df2, "responseTime")
+    # data_analysis(df, "responseTime")
+    # data_analysis(df1, "responseTime")
+    # data_analysis(df2, "responseTime")
 
 
     '''
@@ -1036,12 +1034,13 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     plt.ylabel('F(x)')
     plt.legend(loc='best')
     plt.grid(True)
+    plt.title("Comparison for the waiting time ecdfs")
     plt.show()
 
 
 def plot_lorenz_curve(data, name):
     # sort the data
-    sample = data[data.name == "responseTime"]
+    sample = data[data.name == "waitingTime"]
     sorted_data = np.sort(sample['value'].dropna())
 
     # compute required stuff
@@ -1079,9 +1078,9 @@ def lorenz_curve_analysis():
     df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-10ms.csv")
     '''
 
-    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-20ms.csv")
-    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-35ms.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-50ms.csv")
+    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-20ms.csv")
+    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-35ms.csv")
+    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-50ms.csv")
     # plot_lorenz_curve(df, "7.5ms")
     # plot_lorenz_curve(df0, "8.5ms")
     # plot_lorenz_curve(df0, "7ms")

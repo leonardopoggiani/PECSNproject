@@ -8,7 +8,7 @@ simple DataLink
 		 @statistic[responseTime](source=computeResponseTime; record=vector,mean;);
 		 
 		 @signal[computeWaitingTime](type=long);
-		 @statistic[waitingTime](source=computeWaitingTime; record=vector;);
+		 @statistic[waitingTime](source=computeWaitingTime; record=vector,mean;);
 		 
 		 @signal[computeQueueLength](type=int);
 		 @statistic[queueLength](source=computeQueueLength; record=vector,mean;);
