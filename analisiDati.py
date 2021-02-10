@@ -958,9 +958,9 @@ def data_analysis(dataframe, attribute):
 
 
 def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
-    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-20ms.csv")
-    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-35ms.csv")
-    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-50ms.csv")
+    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-20ms.csv")
+    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-35ms.csv")
+    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-50ms.csv")
 
     sample = df[df.name == "queueLength"]
     x = np.sort(sample['value'].dropna())
@@ -968,6 +968,7 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="20ms")
+    plt.legend()
 
     sample1 = df1[df1.name == "queueLength"]
 
@@ -976,6 +977,7 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="35ms")
+    plt.legend()
 
     sample2 = df2[df2.name == "queueLength"]
 
@@ -984,13 +986,13 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="50ms")
-
     plt.legend()
+    plt.title("Comparison of queue length ecdfs")
     plt.show()
 
     stats = data_analysis(df, "queueLength")
     stats.to_csv('stats1.csv', index=False)
-    stats =  data_analysis(df1, "queueLength")
+    stats = data_analysis(df1, "queueLength")
     stats.to_csv('stats2.csv', index=False)
     stats = data_analysis(df2, "queueLength")
     stats.to_csv('stats3.csv', index=False)
@@ -1059,6 +1061,7 @@ def plot_lorenz_curve(data, name):
 
 
 def lorenz_curve_analysis():
+    '''
     df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.5ms.csv")
     df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.8ms.csv")
     df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.7ms.csv")
@@ -1069,15 +1072,22 @@ def lorenz_curve_analysis():
     df3 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-35ms.csv")
     df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.6ms.csv")
     df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.9ms.csv")
+    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-20ms.csv")
+    df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-35ms.csv")
+    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-50ms.csv")
+    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-8ms.csv")
+    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-10ms.csv")
+    '''
 
+    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-20ms.csv")
+    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-35ms.csv")
+    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\exponential\\scalar-50ms.csv")
     # plot_lorenz_curve(df, "7.5ms")
     # plot_lorenz_curve(df0, "8.5ms")
     # plot_lorenz_curve(df0, "7ms")
-    plot_lorenz_curve(df1, "8ms")
-    plot_lorenz_curve(df4, "7.8ms")
-    plot_lorenz_curve(df5, "7.7ms")
-    plot_lorenz_curve(df6, "7.6ms")
-    plot_lorenz_curve(df7, "7.9ms")
+    plot_lorenz_curve(df5, "20ms")
+    plot_lorenz_curve(df6, "35ms")
+    plot_lorenz_curve(df7, "50ms")
 
 
     # plot_lorenz_curve(df2, "20ms")
