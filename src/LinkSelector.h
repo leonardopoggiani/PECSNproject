@@ -15,15 +15,26 @@ class LinkSelector : public cSimpleModule
     virtual void handleMessage(cMessage *msg);
 
   private:
+    cPacketQueue queue;
     int operationMode;
     double m;
     int maxCapacityDataLinkIndex;
     int nDL;
+    bool penalty;
+    double malusX;
+    int MaxIndexActualCapacity;
+    int size;
 
     void handlePacketArrival(cMessage *msg);
-    void handleSetCapacity();
     void scheduleCheckCapacity();
-    int getMaxIndexCapacity();
+    void getMaxIndexCapacity();
+    void sendPacket();
+    void sendPacketToDataLink(cMessage* msg);
+
+
+    simsignal_t computeQueueLength_;
+    simsignal_t computeServiceTime_;
+
 };
 
 #endif

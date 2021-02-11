@@ -8,16 +8,13 @@ simple DataLink
 		 @statistic[responseTime](source=computeResponseTime; record=vector,mean;);
 		 
 		 @signal[computeWaitingTime](type=long);
-		 @statistic[waitingTime](source=computeWaitingTime; record=vector;);
-		 
-		 @signal[computeQueueLength](type=int);
-		 @statistic[queueLength](source=computeQueueLength; record=vector,mean;);
+		 @statistic[waitingTime](source=computeWaitingTime; record=vector,mean;);
 			
 		 @signal[computeTDistribution](type=long);
 		 @statistic[tDistribution](source=computeTDistribution; record=vector;);
 		       	
 		 @signal[computeActualCapacity](type=long);
-		 @statistic[actualCapacity](source=computeActualCapacity; record=mean;);
+		 @statistic[actualCapacity](source=computeActualCapacity; record=mean,vector;);
 		
 		 @signal[computeMeanMalus](type=int);
 		 @statistic[meanMalus](source=computeMeanMalus; record=count;);
@@ -29,7 +26,7 @@ simple DataLink
 		 @statistic[throughput](source=computeThroughput; record=vector;);
 		 
         @signal[computeSentPackets](type=int);
-		@statistic[sentPackets](source=computeSentPackets;record=count);
+		@statistic[sentPackets](source=computeSentPackets;record=count,vector);
        	
      gates:
          input in;

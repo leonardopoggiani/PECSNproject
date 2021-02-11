@@ -1,5 +1,5 @@
 [General]
-last-configname=non-monitoring
+last-configname=Nonmonitoring-exponential
 last-runnumber=0
 
 [RunModeProfiles]
@@ -12,4 +12,4 @@ run-max-animation-speed=nan
 run-max-playback-speed=100
 run-min-animation-speed=nan
 run-min-playback-speed=0.01
-run-playback-speed=0.010000000000000002
+run-playback-speed=0.7762471166286917
