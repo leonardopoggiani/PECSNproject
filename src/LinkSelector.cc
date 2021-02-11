@@ -6,8 +6,15 @@ void LinkSelector::initialize()
 {
     maxCapacityDataLinkIndex = -1; // il datalink che si occupera' dell'invio, indice del datalink a capacita' piu' alta
     operationMode = getAncestorPar("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e inviero' sempre su quello
-
+    malusX = getAncestorPar("X").doubleValue();
+    penalty = false;
     nDL = getAncestorPar("nDL");
+
+    computeQueueLength_ = registerSignal("computeQueueLength");
+    computeServiceTime_ = registerSignal("computeServiceTime");
+
+    size = getAncestorPar("s").doubleValue(); // la dimensione di un pacchetto
+
 
     if(operationMode == 0){
         // monitoraggio ogni m secondi
@@ -23,41 +30,72 @@ void LinkSelector::initialize()
 
 void LinkSelector::handleMessage(cMessage* msg){
     if(msg->isSelfMessage()){
-        if( strcmp(msg->getName(), "setMaxIndexCapacity") == 0 ){
-            // sto settando per la prima volta l'indice del dl a capacita' massima
-            handleSetCapacity();
+        if ( strcmp(msg->getName(), "malus") == 0 ) {
+            // malus terminato
+            penalty = false;
+            sendPacket();
+            delete msg;
+        } else if ( strcmp(msg->getName(), "setMaxIndexCapacity") == 0 ){
+            // non sto monitorando, setto una volta e basta
+            getMaxIndexCapacity();
+            delete msg;
+        }else if ( strcmp(msg->getName(), "packetToSend") == 0 ){
+            // serviceTime passato, ora posso inviare davvero
+            sendPacketToDataLink(msg);
         } else {
             // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacita' dei dataLink
             scheduleCheckCapacity();
-            handleSetCapacity();
+            getMaxIndexCapacity();
+            delete msg;
         }
-
-        delete msg;
     } else {
         // mi e' arrivato un messaggio da packetGenerator che va inoltrato
         handlePacketArrival(msg);
     }
 }
 
-void LinkSelector::handlePacketArrival(cMessage* msg){
+void LinkSelector::sendPacketToDataLink(cMessage* msg){
+    send(msg,"out",maxCapacityDataLinkIndex);
+    sendPacket();
+}
+
+void LinkSelector::handlePacketArrival(cMessage* msg) {
     // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
-    if(nDL > 0){
-        send(msg, "out", maxCapacityDataLinkIndex);
+    AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
+    pa->setArrivalTime(simTime().dbl());
+    pa->setName("packetToSend");
+    queue.insert(pa);
+    // provo subito ad inviarlo
+    sendPacket();
+}
+
+void LinkSelector::sendPacket() {
+    if ( !queue.isEmpty() && !penalty) {
+        // la coda non e' vuota e non sto scontando una  penalita'
+        AircraftPacket* ap = (AircraftPacket*) queue.front();
+        queue.pop();
+        EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
+        EV << "queueLength " << queue.getLength() << endl;
+        emit(computeQueueLength_, queue.getLength());
+        double s = (double) size;
+        std::string path = "dataLink[" + std::to_string(maxCapacityDataLinkIndex) + "]";
+        cModule* temp =  gate("out",maxCapacityDataLinkIndex)->getPathEndGate()->getOwnerModule();
+        DataLink* dl = check_and_cast<DataLink*> (temp);
+        double ac = dl->getCapacity();
+
+        double serviceTime = s/ac;
+
+        emit(computeServiceTime_,serviceTime);
+        EV <<"Service time is: " << serviceTime << ",size: " << size << ", actualCapacity: " << ac << endl;
+
+        scheduleAt(simTime() + serviceTime, ap);
     } else {
-        delete msg;
     }
+
 }
 
-
-void LinkSelector::handleSetCapacity(){
-    // ad ogni m_ controllo la capacita' dei DL e aggiorno il DL a capacita' max
-    // dovrei prendere le capacita' attuali dei DL e trovo il max
-    int max = getMaxIndexCapacity();
-    EV_INFO << "The index of the highest capacity DL is " << max;
-    maxCapacityDataLinkIndex = max;
-}
-
-int LinkSelector::getMaxIndexCapacity(){
+void LinkSelector::getMaxIndexCapacity(){
+    // monitoring
     std::vector<int> capacities;
     DataLink* dl;
     int actualCapacity;
@@ -71,14 +109,15 @@ int LinkSelector::getMaxIndexCapacity(){
         actualCapacity = dl->getCapacity();
         EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
         capacities.push_back(actualCapacity);
-
-        if( nDL > 0) {
-            cMessage* newmsg = new cMessage("startMalusPenality"); // ho monitorato la capacita', quindi devo far iniziare la penalita'
-            send(newmsg,"out",i);
-        }
     }
+
     // indice che corrisponde al dataLink di capacita' maggiore
-    return std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
+    maxCapacityDataLinkIndex = std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
+    MaxIndexActualCapacity = capacities.at(maxCapacityDataLinkIndex);
+    // faccio partire il malus perché ho monitorato
+    EV << "monitoraggio: " << maxCapacityDataLinkIndex << ", capacita " << MaxIndexActualCapacity << endl;
+    penalty = true;
+    scheduleAt(simTime() + malusX,new cMessage("malus"));
 }
 
 void LinkSelector::scheduleCheckCapacity(){

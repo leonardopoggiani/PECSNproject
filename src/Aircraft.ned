@@ -29,7 +29,6 @@ module Aircraft
             @display("p=260.55,79.13;i=abstract/router");
         }
         dataLink[nDL]: DataLink {
-            @display("i=block/mac;p=93.605,79.13");
         }
     connections:
         for j=0..nDL-1 {
