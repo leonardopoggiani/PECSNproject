@@ -9,7 +9,7 @@ void LinkSelector::initialize()
     malusX = getAncestorPar("X").doubleValue();
     penalty = false;
     nDL = getAncestorPar("nDL");
-
+    transmitting = false;
     computeQueueLength_ = registerSignal("computeQueueLength");
     computeServiceTime_ = registerSignal("computeServiceTime");
 
@@ -30,29 +30,32 @@ void LinkSelector::initialize()
 
 void LinkSelector::handleMessage(cMessage* msg){
     if(msg->isSelfMessage()){
-        if ( strcmp(msg->getName(), "malus") == 0 ) {
-            // malus terminato
-            penalty = false;
-            sendPacket();
-            delete msg;
-        } else if ( strcmp(msg->getName(), "setMaxIndexCapacity") == 0 ){
-            // non sto monitorando, setto una volta e basta
+        //Monitoraggio prima volta
+       if ( strcmp(msg->getName(), "setMaxIndexCapacity") == 0 ){
             getMaxIndexCapacity();
             delete msg;
-        }else if ( strcmp(msg->getName(), "packetToSend") == 0 ){
-            // serviceTime passato, ora posso inviare davvero
-            sendPacketToDataLink(msg);
-        } else {
+        }else if ( strcmp(msg->getName(), "serviceTimeElapsed") == 0 ){
+            // passato il service time posso gestire un nuovo pacchetto
+            handleServiceTimeElapsed();
+            delete msg;
+
+        } else if( strcmp(msg->getName(), "malusElapsed") == 0 ){
+            // passato il malus per il monitoraggio, posso gestire un nuovo pacchetto
+            handleMalusElapsed();
+            delete msg;
+        } else if(strcmp(msg->getName(), "schedule") == 0 ) {
             // ricevuto un pacchetto di monitoraggio, rischedulo il prossimo e analizzo la capacita' dei dataLink
             scheduleCheckCapacity();
             getMaxIndexCapacity();
             delete msg;
         }
+
     } else {
-        // mi e' arrivato un messaggio da packetGenerator che va inoltrato
+
         handlePacketArrival(msg);
     }
 }
+
 
 void LinkSelector::sendPacketToDataLink(cMessage* msg){
     send(msg,"out",maxCapacityDataLinkIndex);
@@ -65,14 +68,19 @@ void LinkSelector::handlePacketArrival(cMessage* msg) {
     pa->setArrivalTime(simTime().dbl());
     pa->setName("packetToSend");
     queue.insert(pa);
-    // provo subito ad inviarlo
-    sendPacket();
+
+   if ( !transmitting ) {
+        // provo a mandare un pacchetto, se non sto trasmettendo (sta scadendo il serviceTime)
+        sendPacket();
+    }
+
 }
 
 void LinkSelector::sendPacket() {
     if ( !queue.isEmpty() && !penalty) {
         // la coda non e' vuota e non sto scontando una  penalita'
         AircraftPacket* ap = (AircraftPacket*) queue.front();
+
         queue.pop();
         EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
         EV << "queueLength " << queue.getLength() << endl;
@@ -88,10 +96,12 @@ void LinkSelector::sendPacket() {
         emit(computeServiceTime_,serviceTime);
         EV <<"Service time is: " << serviceTime << ",size: " << size << ", actualCapacity: " << ac << endl;
 
-        scheduleAt(simTime() + serviceTime, ap);
-    } else {
-    }
+        scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
+        transmitting = true; // sto trasmettendo
+        //La chiamo qua sennò non riuscivo a ragionare, puoi rispostarla se vuoi
+        sendPacketToDataLink(ap);
 
+    }
 }
 
 void LinkSelector::getMaxIndexCapacity(){
@@ -117,11 +127,46 @@ void LinkSelector::getMaxIndexCapacity(){
     // faccio partire il malus perché ho monitorato
     EV << "monitoraggio: " << maxCapacityDataLinkIndex << ", capacita " << MaxIndexActualCapacity << endl;
     penalty = true;
-    scheduleAt(simTime() + malusX,new cMessage("malus"));
+    handleStartMalusPenalty();
+
 }
 
 void LinkSelector::scheduleCheckCapacity(){
     cMessage* checkingMaxCapacity = new cMessage("schedule");
     scheduleAt(simTime() + m, checkingMaxCapacity);
+}
+
+void LinkSelector::handleServiceTimeElapsed(){
+
+    transmitting = false;
+
+    sendPacket(); // mando il prossimo pacchetto in coda
+    //Se ritorno è perchè penalty a true o perchè transmitting a true
+    //Se è penalty ad essere a true allora vado avanti e comincio il malus, altrimenti niente
+
+    if (penalty) {
+       EV_INFO << "Penalty started, "<< simTime() << endl;
+       EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
+       scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
+       penalty = false;
+    }
+}
+
+void LinkSelector::handleStartMalusPenality() {
+    if ( !transmitting ) {
+        EV_INFO << "Penalty started, "<< simTime() << endl;
+        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
+        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
+    } else {
+        EV_INFO << "Penalty starting after finishing the current transmission" << endl;
+        penalty = true;
+    }
+}
+
+void LinkSelector::handleMalusElapsed() {
+    EV_INFO << "==> PenaltyTimeElapsed: handover completed, transmissions restored, "<< simTime() << endl;
+    emit(computeMeanMalus_, malusX);
+    penalty = false;
+    sendPacket();
 }
 
