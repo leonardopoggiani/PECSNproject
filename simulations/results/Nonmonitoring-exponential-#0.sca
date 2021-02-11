@@ -1,0 +1,67 @@
+version 2
+run Nonmonitoring-exponential-0-20210211-19:34:13-11004
+attr configname Nonmonitoring-exponential
+attr datetime 20210211-19:34:13
+attr experiment Nonmonitoring-exponential
+attr inifile aerocom.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Aerocom
+attr processid 11004
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.t 1s
+param **.k 8ms
+param **.nA 1
+param **.nDL 2
+param **.s "70 byte"
+param **.X 0s
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.tDistribution "\"exponential\""
+param **.m 1s
+param **.DLMaxCapacity 0
+param **.trasmitting false
+param **.operationMode 1
+
+scalar Aerocom.aircraft[0].linkSelector meanMalus:sum 0
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[0].linkSelector waitingTime:mean 0.36135656948264
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[0].linkSelector serviceTime:mean 0.0078087794001464
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[0].linkSelector queueLength:sum 2226109
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[0].dataLink[0] sentPackets:count 48949
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[0] throughput:mean 1
+attr "" ""
+attr source computeThroughput
+scalar Aerocom.aircraft[0].dataLink[0] actualCapacity:mean 8989.4591105028
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[0] responseTime:mean nan
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[0].dataLink[1] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[1] throughput:mean nan
+attr "" ""
+attr source computeThroughput
+scalar Aerocom.aircraft[0].dataLink[1] actualCapacity:mean nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[1] responseTime:mean nan
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.controlTower receivedPackets:count 48949
+attr source computeReceivedPackets
+

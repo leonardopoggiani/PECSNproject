@@ -17,7 +17,7 @@ simple DataLink
 		 @statistic[throughput](source=computeThroughput; record=vector,mean;);
 		 
          @signal[computeSentPackets](type=int);
-		 @statistic[sentPackets](source=computeSentPackets;record=count,vector);
+		 @statistic[sentPackets](source=computeSentPackets;record=count);
        	
      gates:
          input in;

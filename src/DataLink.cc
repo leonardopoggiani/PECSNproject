@@ -60,6 +60,7 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
     lastCapacity = nextCapacity; // l'ultima capacita' viene aggiornata, se sto estraendo ho raggiunto la capacita' estratta precedentemente
     nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // estratta la capacita da raggiungere tra t_
     lastCapacityTime = simTime(); // tempo dell'ultimo aggiornamento di capacita', ora
+    EV << "ATTUALE " << lastCapacity << ", DA RAGGIUNGERE " << nextCapacity << endl;
     EV << "next capacity " << getFullName() << ", " << nextCapacity << endl;
     scheduleSetNextCapacity(msg);
 }

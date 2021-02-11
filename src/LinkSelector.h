@@ -31,7 +31,9 @@ class LinkSelector : public cSimpleModule
     void getMaxIndexCapacity();
     void sendPacket();
     void sendPacketToDataLink(cMessage* msg);
-
+    void handleMalusElapsed();
+    void handleStartMalusPenalty();
+    void handleServiceTimeElapsed(cMessage* msg);
 
     simsignal_t computeQueueLength_;
     simsignal_t computeServiceTime_;

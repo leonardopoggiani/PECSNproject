@@ -38,9 +38,7 @@ void LinkSelector::handleMessage(cMessage* msg){
             delete msg;
         }else if ( strcmp(msg->getName(), "serviceTimeElapsed") == 0 ){
             // passato il service time posso gestire un nuovo pacchetto
-            handleServiceTimeElapsed();
-            delete msg;
-
+            handleServiceTimeElapsed(msg);
         } else if( strcmp(msg->getName(), "malusElapsed") == 0 ){
             // passato il malus per il monitoraggio, posso gestire un nuovo pacchetto
             handleMalusElapsed();
@@ -75,7 +73,6 @@ void LinkSelector::handlePacketArrival(cMessage* msg) {
         // provo a mandare un pacchetto, se non sto trasmettendo (sta scadendo il serviceTime)
         sendPacket();
     }
-
 }
 
 void LinkSelector::sendPacket() {
@@ -85,6 +82,8 @@ void LinkSelector::sendPacket() {
 
         queue.pop();
         EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
+        emit(computeWaitingTime_, simTime() - ap->getArrivalTime());
+        emit(computeQueueLength_, queue.getLength());
 
         double s = (double) size;
         std::string path = "dataLink[" + std::to_string(maxCapacityDataLinkIndex) + "]";
@@ -97,11 +96,9 @@ void LinkSelector::sendPacket() {
         emit(computeServiceTime_, serviceTime);
         EV <<"Service time is: " << serviceTime << ",size: " << size << ", actualCapacity: " << ac << endl;
 
-        scheduleAt(simTime() + serviceTime, new cMessage("serviceTimeElapsed"));
+        ap->setName("serviceTimeElapsed");
+        scheduleAt(simTime() + serviceTime, ap);
         transmitting = true; // sto trasmettendo
-        //La chiamo qua senn� non riuscivo a ragionare, puoi rispostarla se vuoi
-        sendPacketToDataLink(ap);
-
     }
 }
 
@@ -137,11 +134,11 @@ void LinkSelector::scheduleCheckCapacity(){
     scheduleAt(simTime() + m, checkingMaxCapacity);
 }
 
-void LinkSelector::handleServiceTimeElapsed(){
+void LinkSelector::handleServiceTimeElapsed(cMessage* msg){
 
     transmitting = false;
 
-    sendPacket(); // mando il prossimo pacchetto in coda
+    sendPacketToDataLink(msg); // mando il prossimo pacchetto in coda
     //Se ritorno � perch� penalty a true o perch� transmitting a true
     //Se � penalty ad essere a true allora vado avanti e comincio il malus, altrimenti niente
 
@@ -153,7 +150,7 @@ void LinkSelector::handleServiceTimeElapsed(){
     }
 }
 
-void LinkSelector::handleStartMalusPenality() {
+void LinkSelector::handleStartMalusPenalty() {
     if ( !transmitting ) {
         EV_INFO << "Penalty started, "<< simTime() << endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
