@@ -44,11 +44,10 @@ class DataLink : public cSimpleModule
     void handleSentPacket(cMessage* msg);
 
     simsignal_t computeResponseTime_;
-    simsignal_t computeWaitingTime_;
     simsignal_t computeTDistribution_;
     simsignal_t computeMeanMalus_;
     simsignal_t computeActualCapacity_;
-    simsignal_t computeThroughuput_;
+    simsignal_t computeThroughput_;
     simsignal_t computeSentPackets_;
 
 };

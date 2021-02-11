@@ -7,11 +7,10 @@ void DataLink::initialize()
 {
    //** SIGNALS **//
    computeResponseTime_ = registerSignal("computeResponseTime");
-   computeWaitingTime_ = registerSignal("computeWaitingTime");
    computeTDistribution_ = registerSignal("computeTDistribution");
    computeActualCapacity_ = registerSignal("computeActualCapacity");
-   computeMeanMalus_ = registerSignal("computeMeanMalus");
    computeSentPackets_ = registerSignal("computeSentPackets");
+   computeThroughput_ = registerSignal("computeThroughput");
 
    operationMode = getAncestorPar("operationMode");
    transmitting = false;
@@ -45,14 +44,8 @@ void DataLink::initialize()
 void DataLink::handleMessage(cMessage *msg)
 {
     if ( msg->isSelfMessage() ) {
-        if ( strcmp(msg->getName(), "setNextCapacity") == 0 ){
-            handleSetNextCapacity(msg);
-        } else if( strcmp(msg->getName(), "packetSent") == 0 ){
-            // passato il malus per il monitoraggio, posso gestire un nuovo pacchetto
-            handleSentPacket(msg);
-        }
-    }
-    else {
+        handleSetNextCapacity(msg);
+    } else {
         // nuovo pacchetto arrivato da Aircraft
         handlePacketArrival(msg);
     }
@@ -72,12 +65,8 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 }
 
 void DataLink::handlePacketArrival(cMessage *msg) {
-    // arrivato un pacchetto da packetGenerator
-    send(msg,"out");
-
-}
-
-void DataLink::handleSentPacket(cMessage *msg){
+    emit(computeSentPackets_, 1);
+    emit(computeThroughput_, 1);
     send(msg,"out");
 }
 

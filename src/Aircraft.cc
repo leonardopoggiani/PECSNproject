@@ -10,7 +10,3 @@ void Aircraft::initialize()
 void Aircraft::handleMessage(cMessage *msg)
 {
 }
-
-int Aircraft::getMonitorTime(){
-    return m;
-}

@@ -11,6 +11,8 @@ void LinkSelector::initialize()
     nDL = getAncestorPar("nDL");
 
     computeQueueLength_ = registerSignal("computeQueueLength");
+    computeWaitingTime_ = registerSignal("computeWaitingTime");
+    computeMeanMalus_ = registerSignal("computeMeanMalus");
     computeServiceTime_ = registerSignal("computeServiceTime");
 
     size = getAncestorPar("s").doubleValue(); // la dimensione di un pacchetto
@@ -65,6 +67,8 @@ void LinkSelector::handlePacketArrival(cMessage* msg) {
     pa->setArrivalTime(simTime().dbl());
     pa->setName("packetToSend");
     queue.insert(pa);
+    EV << "queueLength " << queue.getLength() << endl;
+    emit(computeQueueLength_, queue.getLength());
     // provo subito ad inviarlo
     sendPacket();
 }
@@ -75,8 +79,7 @@ void LinkSelector::sendPacket() {
         AircraftPacket* ap = (AircraftPacket*) queue.front();
         queue.pop();
         EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
-        EV << "queueLength " << queue.getLength() << endl;
-        emit(computeQueueLength_, queue.getLength());
+
         double s = (double) size;
         std::string path = "dataLink[" + std::to_string(maxCapacityDataLinkIndex) + "]";
         cModule* temp =  gate("out",maxCapacityDataLinkIndex)->getPathEndGate()->getOwnerModule();
@@ -85,13 +88,12 @@ void LinkSelector::sendPacket() {
 
         double serviceTime = s/ac;
 
-        emit(computeServiceTime_,serviceTime);
+        emit(computeServiceTime_, serviceTime);
         EV <<"Service time is: " << serviceTime << ",size: " << size << ", actualCapacity: " << ac << endl;
 
         scheduleAt(simTime() + serviceTime, ap);
     } else {
     }
-
 }
 
 void LinkSelector::getMaxIndexCapacity(){
@@ -117,7 +119,8 @@ void LinkSelector::getMaxIndexCapacity(){
     // faccio partire il malus perché ho monitorato
     EV << "monitoraggio: " << maxCapacityDataLinkIndex << ", capacita " << MaxIndexActualCapacity << endl;
     penalty = true;
-    scheduleAt(simTime() + malusX,new cMessage("malus"));
+    emit(computeMeanMalus_,malusX);
+    scheduleAt(simTime() + malusX, new cMessage("malus"));
 }
 
 void LinkSelector::scheduleCheckCapacity(){

@@ -41,6 +41,4 @@ void PacketGenerator::createSendPacket(cMessage* msg){
 
     scheduleAt(simTime() + arrivalTime, msg );
     emit(computeArrivalTime_, arrivalTime);
-
-
 }

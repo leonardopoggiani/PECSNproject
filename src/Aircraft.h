@@ -7,8 +7,6 @@ using namespace omnetpp;
 
 class Aircraft : public cSimpleModule
 {
-  public:
-    int getMonitorTime();
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
