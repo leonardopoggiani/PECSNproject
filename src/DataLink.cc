@@ -66,8 +66,10 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 }
 
 void DataLink::handlePacketArrival(cMessage *msg) {
+    AircraftPacket* ap = check_and_cast<AircraftPacket*>(msg);
     emit(computeSentPackets_, 1);
-    emit(computeThroughput_, 1);
+    EV << "ARRIVALTIME " << msg->getArrivalTime() << ",SIMTIME " << simTime() << endl;
+    emit(computeResponseTime_, simTime() - ap->getArrival());
     send(msg,"out");
 }
 

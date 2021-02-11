@@ -2,6 +2,8 @@
 #define __AEROCOMSYSTEMPROJECT_DATALINK_H_
 
 #include <omnetpp.h>
+#include <vector>
+#include <algorithm>
 #include "AircraftPacket_m.h"
 
 using namespace omnetpp;

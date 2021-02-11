@@ -65,7 +65,7 @@ void LinkSelector::sendPacketToDataLink(cMessage* msg){
 void LinkSelector::handlePacketArrival(cMessage* msg) {
     // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
     AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
-    pa->setArrivalTime(simTime().dbl());
+    pa->setArrival(simTime().dbl());
     pa->setName("packetToSend");
     queue.insert(pa);
 
@@ -81,8 +81,8 @@ void LinkSelector::sendPacket() {
         AircraftPacket* ap = (AircraftPacket*) queue.front();
 
         queue.pop();
-        EV << "WaitingTime: " << simTime() - ap->getArrivalTime()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
-        emit(computeWaitingTime_, simTime() - ap->getArrivalTime());
+        EV << "WaitingTime: " << simTime() - ap->getArrival()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
+        emit(computeWaitingTime_, simTime() - ap->getArrival());
         emit(computeQueueLength_, queue.getLength());
 
         double s = (double) size;
@@ -162,7 +162,7 @@ void LinkSelector::handleStartMalusPenalty() {
 }
 
 void LinkSelector::handleMalusElapsed() {
-    EV_INFO << "==> PenaltyTimeElapsed: handover completed, transmissions restored, "<< simTime() << endl;
+    EV_INFO << "PenaltyTimeElapsed: handover completed, transmissions restored, "<< simTime() << endl;
     emit(computeMeanMalus_, malusX);
     penalty = false;
     sendPacket();

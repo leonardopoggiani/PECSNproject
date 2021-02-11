@@ -6,7 +6,7 @@ simple LinkSelector
       int nDL;
       
       @signal[computeQueueLength](type=int);
-	  @statistic[queueLength](source=computeQueueLength; record=vector,sum;);
+	  @statistic[queueLength](source=computeQueueLength; record=vector,mean;);
 	  
 	  @signal[computeServiceTime](type=long);
       @statistic[serviceTime](source=computeServiceTime; record=vector,mean;);

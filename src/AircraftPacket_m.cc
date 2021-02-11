@@ -246,12 +246,12 @@ void AircraftPacket::setSendTime(::omnetpp::simtime_t sendTime)
     this->sendTime = sendTime;
 }
 
-::omnetpp::simtime_t AircraftPacket::getArrivalTime() const
+::omnetpp::simtime_t AircraftPacket::getArrival() const
 {
     return this->arrivalTime;
 }
 
-void AircraftPacket::setArrivalTime(::omnetpp::simtime_t arrivalTime)
+void AircraftPacket::setArrival(::omnetpp::simtime_t arrivalTime)
 {
     this->arrivalTime = arrivalTime;
 }

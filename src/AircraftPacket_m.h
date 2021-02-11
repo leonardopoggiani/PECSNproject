@@ -57,8 +57,8 @@ class AircraftPacket : public ::omnetpp::cPacket
     virtual void setAircraftID(int aircraftID);
     virtual ::omnetpp::simtime_t getSendTime() const;
     virtual void setSendTime(::omnetpp::simtime_t sendTime);
-    virtual ::omnetpp::simtime_t getArrivalTime() const;
-    virtual void setArrivalTime(::omnetpp::simtime_t arrivalTime);
+    virtual ::omnetpp::simtime_t getArrival() const;
+    virtual void setArrival(::omnetpp::simtime_t arrivalTime);
 };
 
 inline void doParsimPacking(omnetpp::cCommBuffer *b, const AircraftPacket& obj) {obj.parsimPack(b);}

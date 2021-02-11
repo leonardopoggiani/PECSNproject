@@ -11,6 +11,7 @@ class ControlTower : public cSimpleModule
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 
+  private:
     simsignal_t computeReceivedPackets_;
 
 };
