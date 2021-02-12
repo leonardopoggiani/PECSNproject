@@ -16,7 +16,7 @@ void PacketGenerator::initialize()
     simtime_t arrivalTime = exponential(k,0);
 
     scheduleAt(simTime() + arrivalTime, msg );
-    emit(computeArrivalTime_, arrivalTime);
+    emit(computeArrivalTime_,arrivalTime);
 
 }
 

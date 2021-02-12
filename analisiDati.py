@@ -1128,14 +1128,14 @@ def min_responseTime_validation():
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
-    df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\serviceTime-50ms.csv")
+    df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
     # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
 
     # lorenz_curve_analysis()
     # min_responseTime_validation
     # plot_ecdf_comparation()
 
-    df = pd.DataFrame(df[df.name == 'serviceTime'].value.iloc[0])
+    df = pd.DataFrame(df[df.name == 'actualCapacity'].value.iloc[0])
     df.to_csv('x.csv')
     x = df['value']
 
