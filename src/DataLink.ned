@@ -12,15 +12,11 @@ simple DataLink
 		       	
 		 @signal[computeActualCapacity](type=long);
 		 @statistic[actualCapacity](source=computeActualCapacity; record=mean,vector;);
-		 
-		 @signal[computeThroughput](type=long);
-		 @statistic[throughput](source=computeThroughput; record=vector,mean;);
-		 
+
          @signal[computeSentPackets](type=int);
 		 @statistic[sentPackets](source=computeSentPackets;record=count);
        	
      gates:
          input in;
-         output out;
-        
+         output out;       
 }

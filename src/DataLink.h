@@ -49,7 +49,6 @@ class DataLink : public cSimpleModule
     simsignal_t computeTDistribution_;
     simsignal_t computeMeanMalus_;
     simsignal_t computeActualCapacity_;
-    simsignal_t computeThroughput_;
     simsignal_t computeSentPackets_;
 
 };

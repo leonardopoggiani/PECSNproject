@@ -10,7 +10,6 @@ void DataLink::initialize()
    computeTDistribution_ = registerSignal("computeTDistribution");
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeSentPackets_ = registerSignal("computeSentPackets");
-   computeThroughput_ = registerSignal("computeThroughput");
 
    operationMode = getAncestorPar("operationMode");
    transmitting = false;
