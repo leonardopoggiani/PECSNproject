@@ -20,7 +20,6 @@ module Aircraft
     gates:
         output out[nDL];
 
-
     submodules:
         packetGenerator: PacketGenerator {
             @display("p=390.825,96.5;i=device/pc4");

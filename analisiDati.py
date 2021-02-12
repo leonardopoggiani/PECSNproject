@@ -7,11 +7,15 @@ import pandas as pd
 # import px
 import pylab
 import seaborn as sns
-from scipy.stats import linregress as regr
+from scipy.stats import linregress as regr, stats
 import pprint
 from pylab import *
 import matplotlib.pyplot as plt
 import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.compat import scipy
+from scipy.optimize import curve_fit
+import sympy as sym
 
 color = sns.color_palette()
 import plotly.offline as py
@@ -958,17 +962,20 @@ def data_analysis(dataframe, attribute):
 
 
 def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
-    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-20ms.csv")
-    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-35ms.csv")
-    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-50ms.csv")
+    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
+    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-35ms.csv")
+    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-20ms.csv")
+    df3 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-10ms.csv")
 
-    sample = df[df.name == "waitingTime"]
+    sample = df[df.name == "responseTime"]
     x = np.sort(sample['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
-    plt.scatter(x=x, y=y, label="20ms")
-
+    plt.scatter(x=x, y=y, label="50ms")
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.show()
 
     sample1 = df1[df1.name == "responseTime"]
 
@@ -977,7 +984,9 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     y = np.arange(1, n + 1) / n
 
     plt.scatter(x=x, y=y, label="35ms")
-
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.show()
 
     sample2 = df2[df2.name == "responseTime"]
 
@@ -985,8 +994,21 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     n = x.size
     y = np.arange(1, n + 1) / n
 
-    plt.scatter(x=x, y=y, label="50ms")
+    plt.scatter(x=x, y=y, label="20ms")
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.show()
 
+    sample3 = df3[df3.name == "responseTime"]
+
+    x = np.sort(sample3['value'].dropna())
+    n = x.size
+    y = np.arange(1, n + 1) / n
+
+    plt.scatter(x=x, y=y, label="10ms")
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.show()
 
     stats = data_analysis(df, "responseTime")
     stats.to_csv('stats1.csv', index=False)
@@ -994,11 +1016,12 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     stats.to_csv('stats2.csv', index=False)
     stats = data_analysis(df2, "responseTime")
     stats.to_csv('stats3.csv', index=False)
+    stats = data_analysis(df3, "responseTime")
+    stats.to_csv('stats4.csv', index=False)
 
     # data_analysis(df, "responseTime")
     # data_analysis(df1, "responseTime")
     # data_analysis(df2, "responseTime")
-
 
     '''
     sample = df[df.name == "responseTime"]
@@ -1040,7 +1063,7 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
 
 def plot_lorenz_curve(data, name):
     # sort the data
-    sample = data[data.name == "waitingTime"]
+    sample = data[data.name == "responseTime"]
     sorted_data = np.sort(sample['value'].dropna())
 
     # compute required stuff
@@ -1078,26 +1101,62 @@ def lorenz_curve_analysis():
     df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-10ms.csv")
     '''
 
-    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-20ms.csv")
-    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-35ms.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\lognormal\\scalar-50ms.csv")
+    df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-10ms.csv")
+    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-20ms.csv")
+    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-35ms.csv")
+    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
     # plot_lorenz_curve(df, "7.5ms")
     # plot_lorenz_curve(df0, "8.5ms")
     # plot_lorenz_curve(df0, "7ms")
+    plot_lorenz_curve(df4, "10ms")
     plot_lorenz_curve(df5, "20ms")
     plot_lorenz_curve(df6, "35ms")
     plot_lorenz_curve(df7, "50ms")
-
 
     # plot_lorenz_curve(df2, "20ms")
     # plot_lorenz_curve(df3, "35ms")
     # plot_lorenz_curve(df4, "9ms")
 
 
+def min_responseTime_validation():
+    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\serviceTime-min-validation.csv")
+    x = np.sort(df['value'].dropna())
+
+    pprint.pprint(f"Minimum service time {x.min()}")
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+    # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
+    df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\serviceTime-50ms.csv")
+    # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
 
     # lorenz_curve_analysis()
+    # min_responseTime_validation
+    # plot_ecdf_comparation()
+
+    df = pd.DataFrame(df[df.name == 'serviceTime'].value.iloc[0])
+    df.to_csv('x.csv')
+    x = df['value']
+
+    # An "interface" to matplotlib.axes.Axes.hist() method
+    n, bins, patches = plt.hist(x=x, bins=15, color='#0504aa',
+                                alpha=0.7, rwidth=0.85)
+    plt.grid(axis='y', alpha=0.75)
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.title('Service time')
+    plt.text(23, 45, r'$\mu=15, b=3$')
+    maxfreq = n.max()
+    # Set a clean upper y-axis limit.
+    plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
+    plt.show()
+
+    sns.set_style('darkgrid')
+    sns.displot(x, kind="ecdf")
+    sns.displot(x, kde=True)
+
+    plt.show()
 
     '''
     dataframe = scalar_df_parse()
@@ -1126,7 +1185,7 @@ def main():
     # pprint.pprint(stats)
     # plot_ecdf_vec(dataframe, "responseTime", iteration=0, sample_size=1000, replace=False)
 
-    plot_ecdf_comparation()
+    # plot_ecdf_comparation()
 
     '''
     plot_mean_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])

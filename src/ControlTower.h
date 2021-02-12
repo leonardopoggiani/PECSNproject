@@ -1,5 +1,5 @@
-#ifndef CONTROLTOWER_H_
-#define CONTROLTOWER_H_
+#ifndef __AEROCOMSYSTEMPROJECT_CONTROLTOWER_H_
+#define __AEROCOMSYSTEMPROJECT_CONTROLTOWER_H_
 
 #include <omnetpp.h>
 
@@ -15,4 +15,5 @@ class ControlTower : public cSimpleModule
     simsignal_t computeReceivedPackets_;
 
 };
-#endif /* CONTROLTOWER_H_ */
+
+#endif /* __AEROCOMSYSTEMPROJECT_CONTROLTOWER_H_ */

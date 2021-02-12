@@ -3,7 +3,6 @@ package aerocomsystemproject.simulations;
 import aerocomsystemproject.Aircraft;
 import aerocomsystemproject.ControlTower;
 
-
 network Aerocom
 {
     parameters:
