@@ -7,11 +7,15 @@ import pandas as pd
 # import px
 import pylab
 import seaborn as sns
-from scipy.stats import linregress as regr
+from scipy.stats import linregress as regr, stats
 import pprint
 from pylab import *
 import matplotlib.pyplot as plt
 import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.compat import scipy
+from scipy.optimize import curve_fit
+import sympy as sym
 
 color = sns.color_palette()
 import plotly.offline as py
@@ -1123,10 +1127,36 @@ def min_responseTime_validation():
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+    # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
+    df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\serviceTime-50ms.csv")
+    # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
 
     # lorenz_curve_analysis()
     # min_responseTime_validation
-    plot_ecdf_comparation()
+    # plot_ecdf_comparation()
+
+    df = pd.DataFrame(df[df.name == 'serviceTime'].value.iloc[0])
+    df.to_csv('x.csv')
+    x = df['value']
+
+    # An "interface" to matplotlib.axes.Axes.hist() method
+    n, bins, patches = plt.hist(x=x, bins=15, color='#0504aa',
+                                alpha=0.7, rwidth=0.85)
+    plt.grid(axis='y', alpha=0.75)
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.title('Service time')
+    plt.text(23, 45, r'$\mu=15, b=3$')
+    maxfreq = n.max()
+    # Set a clean upper y-axis limit.
+    plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
+    plt.show()
+
+    sns.set_style('darkgrid')
+    sns.displot(x, kind="ecdf")
+    sns.displot(x, kde=True)
+
+    plt.show()
 
     '''
     dataframe = scalar_df_parse()
