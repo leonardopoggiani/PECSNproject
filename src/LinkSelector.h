@@ -25,6 +25,7 @@ class LinkSelector : public cSimpleModule
     int MaxIndexActualCapacity;
     int size;
     bool transmitting;
+    bool schedulePenalty;
 
     void handlePacketArrival(cMessage *msg);
     void scheduleCheckCapacity();
