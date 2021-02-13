@@ -8,6 +8,7 @@ void LinkSelector::initialize()
     operationMode = getAncestorPar("operationMode"); // 0-> monitoraggio costante dei DataLink attivo, 1-> non attivo, scelgo un DL e inviero' sempre su quello
     malusX = getAncestorPar("X").doubleValue();
     penalty = false;
+    schedulePenalty = false;
     nDL = getAncestorPar("nDL");
     transmitting = false;
     computeQueueLength_ = registerSignal("computeQueueLength");
@@ -106,6 +107,7 @@ void LinkSelector::getMaxIndexCapacity(){
     // monitoring
     std::vector<int> capacities;
     DataLink* dl;
+    penalty  = true;
     int actualCapacity;
 
     for(int i = 0; i < nDL; i++){
@@ -124,7 +126,8 @@ void LinkSelector::getMaxIndexCapacity(){
     MaxIndexActualCapacity = capacities.at(maxCapacityDataLinkIndex);
     // faccio partire il malus perch� ho monitorato
     EV << "monitoraggio: " << maxCapacityDataLinkIndex << ", capacita " << MaxIndexActualCapacity << endl;
-    penalty = true;
+
+
     handleStartMalusPenalty();
 
 }
@@ -138,15 +141,13 @@ void LinkSelector::handleServiceTimeElapsed(cMessage* msg){
 
     transmitting = false;
 
-    sendPacketToDataLink(msg); // mando il prossimo pacchetto in coda
-    //Se ritorno � perch� penalty a true o perch� transmitting a true
-    //Se � penalty ad essere a true allora vado avanti e comincio il malus, altrimenti niente
+    sendPacketToDataLink(msg);
 
-    if (penalty) {
+    if (schedulePenalty) {
        EV_INFO << "Penalty started, "<< simTime() << endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
-       penalty = false;
+       //penalty = false;
     }
 }
 
@@ -155,9 +156,11 @@ void LinkSelector::handleStartMalusPenalty() {
         EV_INFO << "Penalty started, "<< simTime() << endl;
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
+        schedulePenalty = false;
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
-        penalty = true;
+        schedulePenalty = true;
+
     }
 }
 
