@@ -16,6 +16,7 @@ import statsmodels.api as sm
 from statsmodels.compat import scipy
 from scipy.optimize import curve_fit
 import sympy as sym
+import os
 
 color = sns.color_palette()
 import plotly.offline as py
@@ -1127,14 +1128,50 @@ def min_responseTime_validation():
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+    path_csv = "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\responseTime\\"
+    list = os.listdir(path_csv)
+    mean = []
+    name = []
+    name_errors = []
+    errors = []
+
+    for i in range(len(list)):
+        with open(path_csv + list[i]) as file:
+            df = scalar_df_parse(file)
+            mean.append(df['value'].mean())
+            name.append(list[i])
+
+    df = pd.DataFrame()
+    df['file'] = name
+    df['mean'] = mean
+    # df.to_csv("mean_values.csv", index=False)
+    sum = 0
+    somma = []
+    media = []
+
+    for j in range(100):
+        for i in range(len(list)):
+            with open(path_csv + list[i]) as file:
+                df = scalar_df_parse(file)
+                errors.append(df['value'].iloc[j] - mean[i])
+                sum += pow((df['value'].iloc[j] - mean[i]),  2)
+
+        name_errors.append(f"y{j} - ym")
+        somma.append(sum)
+        sum = 0
+
+    df1 = pd.DataFrame()
+    df1['iteration'] = name_errors
+    df1['squared_sum_errors'] = somma
+    df1.to_csv("errors.csv", index=False)
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
-    df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
+    # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
     # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
 
     # lorenz_curve_analysis()
     # min_responseTime_validation
     # plot_ecdf_comparation()
-
+    '''
     df = pd.DataFrame(df[df.name == 'actualCapacity'].value.iloc[0])
     df.to_csv('x.csv')
     x = df['value']
@@ -1157,6 +1194,7 @@ def main():
     sns.displot(x, kde=True)
 
     plt.show()
+    '''
 
     '''
     dataframe = scalar_df_parse()
