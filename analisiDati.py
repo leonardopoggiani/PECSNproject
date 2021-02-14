@@ -914,20 +914,18 @@ def aggregate_users_signals(data, signal, datalinks=range(0, NUM_DATA_LINK)):
 
 def data_analysis(dataframe, attribute):
     stats = pd.DataFrame()
-    pprint.pprint(dataframe['value'].mean())
     attributes = dataframe.name.unique()
+    name = []
 
     for attr in attributes:
-        stats[attr] = dataframe[dataframe.name == attribute].value.describe(percentiles=[.25, .50, .75, .95])
-    NUM_DATA_LINK = 10
-    stats['mean' + attribute] = aggregate_users_signals(dataframe, attribute)
-    stats['meanThroughput'] = aggregate_users_signals(dataframe, 'tptUser')
-    stats['meanCQI'] = aggregate_users_signals(dataframe, 'CQI')
-    stats['meanNumberRBs'] = aggregate_users_signals(dataframe, 'numberRBs')
+        name.append(attr)
+        stats[attr] = dataframe[dataframe.name == attr].value.describe(percentiles=[.25, .50, .75, .95])
 
     # Transpose...
     stats = stats.T
 
+    stats['name'] = name
+    stats.set_index('name')
     # COMPUTE CI
     stats['ci95_l'] = stats['mean'] - 1.96 * (stats['std'] / np.sqrt(stats['count']))
     stats['ci95_h'] = stats['mean'] + 1.96 * (stats['std'] / np.sqrt(stats['count']))
@@ -1173,9 +1171,8 @@ def main():
     plt.show()
     '''
 
-
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\test\\scalar.csv")
-    scalar_analysis(dataframe)
+    # dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\test\\scalar.csv")
+    # (dataframe)
 
     '''
     pprint.pprint(f"Mean service time nA=1, k=50ms: {df1['serviceTime'].mean()}")
@@ -1187,10 +1184,19 @@ def main():
     pprint.pprint(f"Mean service time nDL=200, k=25ms: {df8['serviceTime'].mean()}, mean queue length: {df8['queueLength'].mean()}")
     pprint.pprint(f"Mean service time nDL=1000, k=25ms: {df9['serviceTime'].mean()}, mean queue length: {df9['queueLength'].mean()}")
     '''
-    # stats = responseTimeAnalysis(dataframe)
-    # stats.to_csv("stats1.csv", index=False)
-    # pprint.pprint(stats)
-    # plot_ecdf_vec(dataframe, "responseTime", iteration=0, sample_size=1000, replace=False)
+
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\20ms.csv")
+    stats = data_analysis(dataframe, "responseTime")
+    stats.to_csv("stats20ms.csv", index=False)
+
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\35ms.csv")
+    stats = data_analysis(dataframe, "responseTime")
+    stats.to_csv("stats35ms.csv", index=False)
+
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\50ms.csv")
+    stats = data_analysis(dataframe, "responseTime")
+    stats.to_csv("stats50ms.csv", index=False)
+    # plot_ecdf_vec(dataframe, "responseTime", iteration=0, sample_size=100, replace=False)
 
     # plot_ecdf_comparation()
 
