@@ -845,6 +845,9 @@ def scalar_analysis(dataframe):
     module = []
     queueLength = []
 
+    dati3 = dataframe[dataframe.name == "serviceTime"]
+    dati4 = dataframe[dataframe.name == "queueLength"]
+
     for i in range(0, 10):
         dati = dataframe[dataframe.run == i]
         dati = dati[dati.name == "sentPackets"]
@@ -852,58 +855,29 @@ def scalar_analysis(dataframe):
         dati2 = dataframe[dataframe.run == i]
         dati2 = dati2[dati2.name == "receivedPackets"]
 
-        dati3 = dataframe[dataframe.run == i]
-        dati3 = dati3[dati3.name == "serviceTime"]
+        for j in range(len(dati['value'])):
+            pprint.pprint(
+                f"{i}: {dati2['value'].sum()} packets received of"
+                f" {dati['value'].sum()} packets sent, packet loss rate { 1 - (dati2['value'].sum() / dati['value'].sum())}")
 
-        dati4 = dataframe[dataframe.run == i]
-        dati4 = dati4[dati4.name == "queueLength"]
+            packetReceived.append(dati2['value'].sum())
+            packetSent.append(dati['value'].sum())
 
-        pprint.pprint(
-            f"{i}: {dati2['value'].sum()} packets received of"
-            f" {dati['value'].sum()} packets sent, packet loss rate {dati2['value'].sum() / dati['value'].sum()}")
 
-        packetReceived.append(dati2['value'].sum())
-        packetSent.append(dati['value'].sum())
+            tot = 0
+            # totMalus = 0
+            aircraft = dati['module'].iloc[0].split('.')[0]
+            totale = []
 
-        tot = 0
-        # totMalus = 0
-        aircraft = dati['module'].iloc[0].split('.')[0]
-        totale = []
-
-        for j in range(0, dati['value'].size):
-            to_control = dati['module'].iloc[j].split('.')[0]
-            dataLink = dati['module'].iloc[j].split('.')[1]
-
-            throughput = dati['value'].iloc[j] / 400
-            serviceTime = (dati3['value'].iloc[j]) / 400
-            queLen = (dati4['value'].iloc[j])
+            throughput = dati['value'].iloc[i] / 400
+            serviceTime = (dati3['value'].iloc[i]) / 400
+            queLen = (dati4['value'].iloc[i])
 
             if throughput != 0:
-                pprint.pprint(f"throughput {dati['module'].iloc[j]}:  {throughput} packets/seconds")
-                pprint.pprint(f"serviceTime of {dati3['module'].iloc[j]}: {serviceTime} seconds")
-                pprint.pprint(f"queueLength of {dati3['module'].iloc[j]}: {queLen} seconds")
+                pprint.pprint(f"throughput {dati['module'].iloc[i]}:  {throughput} packets/seconds")
+                pprint.pprint(f"serviceTime of {dati3['module'].iloc[i]}: {serviceTime} seconds")
+                pprint.pprint(f"queueLength of {dati3['module'].iloc[i]}: {queLen} packets")
 
-                totaleServiceTime.append(serviceTime)
-                srvTime.append(serviceTime)
-                thru.append(throughput)
-                module.append(dati['module'].iloc[j])
-                queueLength.append(dati4['value'].iloc[j])
-
-                if aircraft == to_control:
-                    tot += throughput
-                else:
-                    pprint.pprint(f"cumulative throughput {aircraft}:  {tot} packets/seconds")
-                    # pprint.pprint(f"cumulative malus {aircraft}:  {totMalus} packets/seconds")
-
-                    # if tot != 0:
-                    # pprint.pprint(f"Percentage of malus over throughput {aircraft}:  {int((totMalus / tot) * 100)}% ")
-
-                    aircraft = to_control
-                    totale.append(tot)
-                    totaleServiceTime.append(serviceTime)
-                    # totaleMalus.append(totMalus)
-                    tot = 0
-                    # totMalus = 0
 
         # pprint.pprint(f"Total:  {totale} packets/seconds")
         # pprint.pprint(f"Total serviceTime:  {totaleServiceTime} seconds")
@@ -1119,15 +1093,14 @@ def lorenz_curve_analysis():
     # plot_lorenz_curve(df4, "9ms")
 
 
-def min_responseTime_validation():
+def min_serviceTime_validation():
     df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\serviceTime-min-validation.csv")
     x = np.sort(df['value'].dropna())
 
     pprint.pprint(f"Minimum service time {x.min()}")
 
 
-def main():
-    pprint.pprint("Performance Evaluation - Python Data Analysis")
+def extract_2kr_matrix():
     path_csv = "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\responseTime\\"
     list = os.listdir(path_csv)
     mean = []
@@ -1154,7 +1127,7 @@ def main():
             with open(path_csv + list[i]) as file:
                 df = scalar_df_parse(file)
                 errors.append(df['value'].iloc[j] - mean[i])
-                sum += pow((df['value'].iloc[j] - mean[i]),  2)
+                sum += pow((df['value'].iloc[j] - mean[i]), 2)
 
         name_errors.append(f"y{j} - ym")
         somma.append(sum)
@@ -1164,6 +1137,10 @@ def main():
     df1['iteration'] = name_errors
     df1['squared_sum_errors'] = somma
     df1.to_csv("errors.csv", index=False)
+
+def main():
+    pprint.pprint("Performance Evaluation - Python Data Analysis")
+
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
     # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
@@ -1196,19 +1173,11 @@ def main():
     plt.show()
     '''
 
-    '''
-    dataframe = scalar_df_parse()
+
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\test\\scalar.csv")
     scalar_analysis(dataframe)
 
-    df1 = pd.read_csv('test.csv')
-    df2 = pd.read_csv('test2.csv')
-    df3 = pd.read_csv('test3.csv')
-    df5 = pd.read_csv('test5.csv')
-    df6 = pd.read_csv('test6.csv')
-    df7 = pd.read_csv('test7.csv')
-    df8 = pd.read_csv('test8.csv')
-    df9 = pd.read_csv('test9.csv')
-
+    '''
     pprint.pprint(f"Mean service time nA=1, k=50ms: {df1['serviceTime'].mean()}")
     pprint.pprint(f"Mean service time nA=2, k=25ms: {df2['serviceTime'].mean()}")
     pprint.pprint(f"Mean service time nA=4, k=12.5ms: {df3['serviceTime'].mean()}")

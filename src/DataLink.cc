@@ -6,7 +6,6 @@ Define_Module(DataLink);
 void DataLink::initialize()
 {
    //** SIGNALS **//
-   computeResponseTime_ = registerSignal("computeResponseTime");
    computeTDistribution_ = registerSignal("computeTDistribution");
    computeActualCapacity_ = registerSignal("computeActualCapacity");
    computeSentPackets_ = registerSignal("computeSentPackets");
@@ -65,10 +64,7 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
 }
 
 void DataLink::handlePacketArrival(cMessage *msg) {
-    AircraftPacket* ap = check_and_cast<AircraftPacket*>(msg);
     emit(computeSentPackets_, 1);
-    EV << "ARRIVALTIME " << msg->getArrivalTime() << ",SIMTIME " << simTime() << endl;
-    emit(computeResponseTime_, simTime() - ap->getArrival());
     send(msg,"out");
 }
 

@@ -15,19 +15,22 @@ void LinkSelector::initialize()
     computeWaitingTime_ = registerSignal("computeWaitingTime");
     computeMeanMalus_ = registerSignal("computeMeanMalus");
     computeServiceTime_ = registerSignal("computeServiceTime");
+    computeResponseTime_ = registerSignal("computeResponseTime");
 
     size = getAncestorPar("s").doubleValue(); // la dimensione di un pacchetto
 
 
-    if(operationMode == 0){
+    if(operationMode == 0 && nDL > 0){
         // monitoraggio ogni m secondi
         m = getAncestorPar("m");
         // avvio la schedulazione dei pacchetti di monitoraggio dei DataLink
         scheduleCheckCapacity();
     }
 
-    cMessage* checkingMaxCapacity = new cMessage("setMaxIndexCapacity");
-    scheduleAt(simTime() + 0.000001, checkingMaxCapacity);
+    if(nDL > 0){
+        cMessage* checkingMaxCapacity = new cMessage("setMaxIndexCapacity");
+        scheduleAt(simTime() + 0.000001, checkingMaxCapacity);
+    }
 
 }
 
@@ -52,27 +55,33 @@ void LinkSelector::handleMessage(cMessage* msg){
         }
 
     } else {
-
         handlePacketArrival(msg);
     }
 }
 
 
 void LinkSelector::sendPacketToDataLink(cMessage* msg){
+    AircraftPacket* ap = check_and_cast<AircraftPacket*>(msg);
+    emit(computeResponseTime_, simTime() - ap->getArrival());
+
     send(msg,"out",maxCapacityDataLinkIndex);
     sendPacket();
 }
 
 void LinkSelector::handlePacketArrival(cMessage* msg) {
-    // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
-    AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
-    pa->setArrival(simTime().dbl());
-    pa->setName("packetToSend");
-    queue.insert(pa);
+    if(nDL > 0){
+        // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
+        AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
+        pa->setArrival(simTime().dbl());
+        pa->setName("packetToSend");
+        queue.insert(pa);
 
-   if ( !transmitting ) {
-        // provo a mandare un pacchetto, se non sto trasmettendo (sta scadendo il serviceTime)
-        sendPacket();
+       if ( !transmitting ) {
+            // provo a mandare un pacchetto, se non sto trasmettendo (sta scadendo il serviceTime)
+            sendPacket();
+        }
+    } else {
+        delete msg;
     }
 }
 

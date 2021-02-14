@@ -3,9 +3,6 @@ package aerocomsystemproject;
 simple DataLink
 {
     parameters:
-		         
-		 @signal[computeResponseTime](type=simtime_t);
-		 @statistic[responseTime](source=computeResponseTime; record=vector,mean;);
 		
 		 @signal[computeTDistribution](type=long);
 		 @statistic[tDistribution](source=computeTDistribution; record=vector;);

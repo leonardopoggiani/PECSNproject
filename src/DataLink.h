@@ -45,7 +45,6 @@ class DataLink : public cSimpleModule
     double obtainServiceTime();
     void handleSentPacket(cMessage* msg);
 
-    simsignal_t computeResponseTime_;
     simsignal_t computeTDistribution_;
     simsignal_t computeMeanMalus_;
     simsignal_t computeActualCapacity_;

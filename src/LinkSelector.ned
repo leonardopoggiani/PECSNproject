@@ -16,6 +16,9 @@ simple LinkSelector
 	  
 	  @signal[computeMeanMalus](type=int);
       @statistic[meanMalus](source=computeMeanMalus; record=sum;);
+      
+      @signal[computeResponseTime](type=simtime_t);
+      @statistic[responseTime](source=computeResponseTime; record=vector,mean;);
    	gates:
       output out[nDL];	//collegamento con gate dell'aereo
       input in; //collegamento con packetGenerator    
