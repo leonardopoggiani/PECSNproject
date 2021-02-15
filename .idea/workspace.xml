@@ -2,30 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-05-20-05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-05-20-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-05-35-05.csv.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-05-35-4.csv.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-05-50-4.cs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-3-50-05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-3-50-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-3-8-05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lorenze-curvescalar-3-8-4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/aerocom.ini" beforeDir="false" afterPath="$PROJECT_DIR$/simulations/aerocom.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-10-#0.sca" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-10-#0.vci" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-10-#0.vec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-20-#0.sca" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-20-#0.vci" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-20-#0.vec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-35-#0.sca" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-35-#0.vci" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-35-#0.vec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-50-#0.sca" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-50-#0.vci" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/results/Exponential-capacity-50-#0.vec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-05-20-05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-05-20-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-05-35-05.csv.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-05-35-4.csv.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-05-50-4.cs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-3-50-05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-3-50-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-3-8-05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lorenze-curvescalar-3-8-4.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +136,7 @@
       <workItem from="1613288913297" duration="986000" />
       <workItem from="1613294368115" duration="6076000" />
       <workItem from="1613315898425" duration="1236000" />
-      <workItem from="1613394664954" duration="2839000" />
+      <workItem from="1613394664954" duration="3465000" />
     </task>
     <servers />
   </component>
