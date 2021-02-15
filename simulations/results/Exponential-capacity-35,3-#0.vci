@@ -1,0 +1,60 @@
+file 2390116 1613383350                                         
+version 2
+run Exponential-capacity-8-20210215-11:02:30-3776
+attr configname Exponential-capacity
+attr datetime 20210215-11:02:30
+attr experiment Exponential-capacity
+attr inifile aerocom.ini
+attr iterationvars "$0=35, $1=3"
+attr iterationvarsf 35,3-
+attr measurement "$0=35, $1=3"
+attr network Aerocom
+attr processid 3776
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 8
+attr seedset 0
+param **.t 1s
+param **.k 35ms
+param **.X 0.4s
+param **.m 3s
+param **.tDistribution "\"exponential\""
+param **.operationMode 0
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 1
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+vector 0 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 1 Aerocom.aircraft[0].linkSelector waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 2 Aerocom.aircraft[0].linkSelector queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 3 Aerocom.aircraft[0].dataLink[0] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 4 Aerocom.aircraft[0].linkSelector serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 5 Aerocom.aircraft[0].linkSelector responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 6 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	1508 445848 1527 59119 10.089882227233 399.938715992406 11034 1.937316e-006 0.358136874346 389.93503104393 27.464644176194
+1	447356 350547 1528 59120 10.089882227233 399.938715992406 11034 0 0.40966560507 345.76312400236 88.697098064402
+2	797903 302904 1528 59120 10.089882227233 399.938715992406 11034 0 18 10122 85152
+3	1100807 337962 1528 59120 10.089882227233 399.938715992406 11164 8007 9989 100167178 901172904790
+4	1438769 488699 1528 59120 10.089882227233 399.938715992406 11034 0.0070077084793273 0.0087423504433621 86.315951846852 0.6770712784033
+5	1927468 445793 1529 59121 10.097900554839 399.9464851378 11034 0.00701754386 0.418090204902 432.07907584917 94.772097288242
+6	2373261 16853 1542 58886 10.19835258653 398.023229865342 400 0.00012359181449871 5.0916301550693 389.91689248652 726.70497007989
+

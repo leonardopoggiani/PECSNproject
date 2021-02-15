@@ -1,0 +1,60 @@
+file 4291285 1613383347                                         
+version 2
+run Exponential-capacity-5-20210215-11:02:27-10772
+attr configname Exponential-capacity
+attr datetime 20210215-11:02:27
+attr experiment Exponential-capacity
+attr inifile aerocom.ini
+attr iterationvars "$0=20, $1=3"
+attr iterationvarsf 20,3-
+attr measurement "$0=20, $1=3"
+attr network Aerocom
+attr processid 10772
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 5
+attr seedset 0
+param **.t 1s
+param **.k 20ms
+param **.X 0.4s
+param **.m 3s
+param **.tDistribution "\"exponential\""
+param **.operationMode 0
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 1
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+vector 0 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 1 Aerocom.aircraft[0].linkSelector waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 2 Aerocom.aircraft[0].linkSelector queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 3 Aerocom.aircraft[0].dataLink[0] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 4 Aerocom.aircraft[0].linkSelector serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 5 Aerocom.aircraft[0].linkSelector responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 6 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	1510 796322 2664 109046 10.012383330987 399.994805035006 19625 4.00603e-007 0.214446499592 390.00103189072 15.456759134965
+1	797832 658667 2665 109047 10.012383330987 399.994805035006 19625 0 0.412467064368 577.69148583163 145.35536710373
+2	1456499 544124 2665 109047 10.012383330987 399.994805035006 19625 0 28 29085 394929
+3	2000623 603944 2665 109047 10.012383330987 399.994805035006 19755 8006 9991 177341535 1596243787769
+4	2604567 873758 2665 109047 10.012383330987 399.994805035006 19625 0.0070063056751076 0.0087434424181864 153.4358045602 1.2028533257112
+5	3478325 796037 2669 109043 10.020375110871 399.987029655793 19624 0.007011217949 0.42067279946 731.11954531543 155.58585797962
+6	4274362 16921 2742 108462 10.19835258653 398.023229865342 400 0.00012359181449871 5.0916301550693 389.91689248652 726.70497007989
+

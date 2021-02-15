@@ -1,0 +1,53 @@
+version 2
+run Exponential-capacity-1-20210215-11:02:20-888
+attr configname Exponential-capacity
+attr datetime 20210215-11:02:20
+attr experiment Exponential-capacity
+attr inifile aerocom.ini
+attr iterationvars "$0=10, $1=2"
+attr iterationvarsf 10,2-
+attr measurement "$0=10, $1=2"
+attr network Aerocom
+attr processid 888
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 1
+attr seedset 0
+param **.t 1s
+param **.k 10ms
+param **.X 0.4s
+param **.m 2s
+param **.tDistribution "\"exponential\""
+param **.operationMode 0
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 1
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+scalar Aerocom.aircraft[0].linkSelector responseTime:mean 0.0645422452121
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[0].linkSelector meanMalus:sum 9997.9999999953
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[0].linkSelector waitingTime:mean 0.056716996263701
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[0].linkSelector serviceTime:mean 0.0078252489484011
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[0].linkSelector queueLength:mean 5.6409773479257
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[0].dataLink[0] sentPackets:count 39290
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[0] actualCapacity:mean 8969.9714582384
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.controlTower receivedPackets:count 39290
+attr source computeReceivedPackets
+

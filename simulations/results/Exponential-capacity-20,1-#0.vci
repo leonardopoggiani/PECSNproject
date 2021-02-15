@@ -1,0 +1,60 @@
+file 4336689 1613383345                                         
+version 2
+run Exponential-capacity-3-20210215-11:02:24-1820
+attr configname Exponential-capacity
+attr datetime 20210215-11:02:24
+attr experiment Exponential-capacity
+attr inifile aerocom.ini
+attr iterationvars "$0=20, $1=1"
+attr iterationvarsf 20,1-
+attr measurement "$0=20, $1=1"
+attr network Aerocom
+attr processid 1820
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 3
+attr seedset 0
+param **.t 1s
+param **.k 20ms
+param **.X 0.4s
+param **.m 1s
+param **.tDistribution "\"exponential\""
+param **.operationMode 0
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 1
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+vector 0 Aerocom.aircraft[0].dataLink[0] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 1 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 2 Aerocom.aircraft[0].linkSelector waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 3 Aerocom.aircraft[0].linkSelector queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 4 Aerocom.aircraft[0].linkSelector serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 5 Aerocom.aircraft[0].linkSelector responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 6 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	1508 607624 2622 109770 10 400 20016 8006 9976 179524451 1614491851139
+1	609132 796384 2624 109768 10.012383330987 399.994805035006 19625 4.00603e-007 0.214446499592 390.00103189072 15.456759134965
+2	1405516 699494 2625 109769 10.012383330987 399.994805035006 19625 0 0.427267328 1647.6801627255 440.7685201473
+3	2105010 545872 2625 109769 10.012383330987 399.994805035006 19625 0 32 83337 1207165
+4	2650882 872789 2625 109769 10.012383330987 399.994805035006 19625 0.0070168404170008 0.0087434424181864 153.57738402988 1.2050985823965
+5	3523671 796099 2629 109765 10.020375110871 399.987029655793 19624 0.007016840417 0.435530815192 1801.249801679 467.7887202817
+6	4319770 16917 2702 109191 10.19835258653 398.023229865342 400 0.00012359181449871 5.0916301550693 389.91689248652 726.70497007989
+
