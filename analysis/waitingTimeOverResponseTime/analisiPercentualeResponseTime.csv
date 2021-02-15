@@ -1,0 +1,5 @@
+run,repetition,Module,responseTime:mean,serviceTime:mean,waitingTime:mean
+Exponential-capacity-0-20210214-21:13:30-6516,0,Aerocom.aircraft[0].linkSelector,0.119415947,0.007826893,0.111589054
+Exponential-capacity-2-20210214-21:13:31-6516,0,Aerocom.aircraft[0].linkSelector,0.095004515,0.007827732,0.087176782
+Exponential-capacity-1-20210214-21:13:31-6516,0,Aerocom.aircraft[0].linkSelector,0.091788106,0.007825599,0.083958225
+Exponential-capacity-3-20210214-21:13:32-6516,0,Aerocom.aircraft[0].linkSelector,0.091823614,0.00782713,0.083996484
