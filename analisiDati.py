@@ -1166,7 +1166,7 @@ def main():
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
     # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
 
-    lorenz_curve_analysis()
+    #lorenz_curve_analysis()
     # min_responseTime_validation
     # plot_ecdf_comparation()
     '''
