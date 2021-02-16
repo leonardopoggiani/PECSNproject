@@ -1,10 +1,9 @@
 ../out/clang-release/src/PacketGenerator.o: PacketGenerator.cc \
-  PacketGenerator.h \
-  C:/Users/clari/OneDrive/Desktop/omnetpp-5.6.2/include\omnetpp.h \
+  PacketGenerator.h C:/omnetpp-5.5.1/include\omnetpp.h \
   AircraftPacket_m.h
 
 PacketGenerator.h:
 
-C:/Users/clari/OneDrive/Desktop/omnetpp-5.6.2/include\omnetpp.h:
+C:/omnetpp-5.5.1/include\omnetpp.h:
 
 AircraftPacket_m.h:
