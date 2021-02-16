@@ -305,8 +305,10 @@ def scalar_stats(data, attr=None, datalinks=range(0, NUM_DATA_LINK)):
 ####################################################
 
 def gini(data, precision=3):
-    sorted_list = sorted(data)
+    data = data[data.name == "responseTime"]
+    sorted_list = np.sort(data['value'])
     height, area = 0, 0
+
     for value in sorted_list:
         height += value
         area += height - value / 2.
@@ -1050,7 +1052,7 @@ def plot_lorenz_curve(data, name):
     plt.plot([0, 1], [0, 1], 'k')
     plt.title("Lorenz Curve for " + name)
     plt.plot(x, y, alpha=1, label=name)
-    plt.savefig(f"lorenze-curve{name}.png")
+    pprint.pprint(f"gini for {name} {gini(sorted_data)}")
     plt.show()
     return
 
@@ -1074,20 +1076,30 @@ def lorenz_curve_analysis():
     df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-10ms.csv")
     '''
 
-    df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-8-4.csv")
-    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-8-05.csv")
-    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-4.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-05.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-20-4.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-20-05.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-35-4.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-35-05.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-4.csv")
+    df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-10ms.csv")
+    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-20ms.csv")
+    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-35ms.csv")
+    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-50ms.csv")
 
     # plot_lorenz_curve(df, "7.5ms")
     # plot_lorenz_curve(df0, "8.5ms")
     # plot_lorenz_curve(df0, "7ms")
-    plot_lorenz_curve(df4, "scalar-3-8-4")
+    pprint.pprint(f"mean LCG for 10ms exponential {gini(df4)}")
+    pprint.pprint(f"mean LCG for 20ms exponential {gini(df5)}")
+    pprint.pprint(f"mean LCG for 35ms exponential {gini(df6)}")
+    pprint.pprint(f"mean LCG for 50ms exponential {gini(df7)}")
+
+    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-4.csv")
+    df8 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-4.csv")
+    df9 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-05.csv")
+
+    pprint.pprint(f"mean LCG for 50ms exponential t=0.5, m=4  {gini(df7)}")
+    pprint.pprint(f"mean LCG for 50ms exponential t=3, m=4 {gini(df8)}")
+    pprint.pprint(f"mean LCG for 50ms exponential t=3,m=0.5 {gini(df9)}")
+
+    # plot_lorenz_curve(df4, "scalar-3-8-4")
+
+    '''
     plot_lorenz_curve(df5, "scalar-3-8-05")
     plot_lorenz_curve(df6, "scalar-3-50-4")
     plot_lorenz_curve(df7, "scalar-3-50-05")
@@ -1096,7 +1108,7 @@ def lorenz_curve_analysis():
     plot_lorenz_curve(df6, "scalar-05-35-4.csv")
     plot_lorenz_curve(df7, "scalar-05-35-05.csv")
     plot_lorenz_curve(df7, "scalar-05-50-4.cs")
-
+    '''
     # plot_lorenz_curve(df2, "20ms")
     # plot_lorenz_curve(df3, "35ms")
     # plot_lorenz_curve(df4, "9ms")
@@ -1196,11 +1208,12 @@ def main():
     pprint.pprint(f"Mean service time nDL=1000, k=25ms: {df9['serviceTime'].mean()}, mean queue length: {df9['queueLength'].mean()}")
     '''
 
-    '''
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\20ms.csv")
-    stats = data_analysis(dataframe, "responseTime")
-    stats.to_csv("stats20ms.csv", index=False)
 
+    # dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\exponential\\50ms10nA.csv")
+    # stats = data_analysis(dataframe, "responseTime")
+    # stats.to_csv("stats50ms.csv", index=False)
+
+    '''
     dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\35ms.csv")
     stats = data_analysis(dataframe, "responseTime")
     stats.to_csv("stats35ms.csv", index=False)
