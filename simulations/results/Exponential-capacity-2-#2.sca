@@ -1,0 +1,683 @@
+version 2
+run Exponential-capacity-8-20210217-10:37:02-11836
+attr configname Exponential-capacity
+attr datetime 20210217-10:37:02
+attr experiment Exponential-capacity
+attr inifile aerocom.ini
+attr iterationvars $0=2
+attr iterationvarsf 2-
+attr measurement $0=2
+attr network Aerocom
+attr processid 11836
+attr repetition 2
+attr replication #2
+attr resultdir results
+attr runnumber 8
+attr seedset 2
+param **.t 2s
+param **.k 50ms
+param **.X 2s
+param **.m 2s
+param **.tDistribution "\"exponential\""
+param **.operationMode 0
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 10
+param **.nA 10
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+scalar Aerocom.aircraft[0].linkSelector responseTime:mean 0.0079888320548554
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[0].linkSelector meanMalus:sum 3004
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[0].linkSelector waitingTime:mean 0.00061579936243964
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[0].linkSelector serviceTime:mean 0.0073730326924372
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[0].linkSelector queueLength:mean 0.012655024044546
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[0].dataLink[0] sentPackets:count 834
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[0] actualCapacity:mean 9373.7383268482
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[1] sentPackets:count 632
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[1] actualCapacity:mean 9416.7013301088
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[2] sentPackets:count 732
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[2] actualCapacity:mean 9458
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[3] sentPackets:count 702
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[3] actualCapacity:mean 9376.6035634744
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[4] sentPackets:count 926
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[4] actualCapacity:mean 9429.3475935829
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[5] sentPackets:count 696
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[5] actualCapacity:mean 9416.1696629213
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[6] sentPackets:count 852
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[6] actualCapacity:mean 9338.2647619048
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[7] sentPackets:count 878
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[7] actualCapacity:mean 9353.3020446097
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[8] sentPackets:count 507
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[8] actualCapacity:mean 9362.2877492877
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[9] sentPackets:count 1143
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[9] actualCapacity:mean 9512.192077728
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].linkSelector responseTime:mean 0.0080218142518022
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[1].linkSelector meanMalus:sum 2232
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[1].linkSelector waitingTime:mean 0.00065961746842954
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[1].linkSelector serviceTime:mean 0.0073621967833939
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[1].linkSelector queueLength:mean 0.012938765052524
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[1].dataLink[0] sentPackets:count 285
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[0] actualCapacity:mean 9297.2058212058
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[1] sentPackets:count 852
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[1] actualCapacity:mean 9433.1267874166
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[2] sentPackets:count 857
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[2] actualCapacity:mean 9400.7946768061
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[3] sentPackets:count 638
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[3] actualCapacity:mean 9461.5467625899
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[4] sentPackets:count 697
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[4] actualCapacity:mean 9463.4282511211
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[5] sentPackets:count 1221
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[5] actualCapacity:mean 9507.4120141343
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[6] sentPackets:count 863
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[6] actualCapacity:mean 9270.8885741265
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[7] sentPackets:count 942
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[7] actualCapacity:mean 9490.1384750219
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[8] sentPackets:count 631
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[8] actualCapacity:mean 9374.4451145959
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[1].dataLink[9] sentPackets:count 820
+attr source computeSentPackets
+scalar Aerocom.aircraft[1].dataLink[9] actualCapacity:mean 9371.0384615385
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].linkSelector responseTime:mean 0.0080269069218752
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[2].linkSelector meanMalus:sum 2816
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[2].linkSelector waitingTime:mean 0.00065361596316143
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[2].linkSelector serviceTime:mean 0.0073732909587332
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[2].linkSelector queueLength:mean 0.01509003296982
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[2].dataLink[0] sentPackets:count 1083
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[0] actualCapacity:mean 9522.5465935787
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[1] sentPackets:count 891
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[1] actualCapacity:mean 9417.5105795768
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[2] sentPackets:count 1034
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[2] actualCapacity:mean 9354.5044751831
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[3] sentPackets:count 480
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[3] actualCapacity:mean 9287.6327433628
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[4] sentPackets:count 627
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[4] actualCapacity:mean 9412.5905224787
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[5] sentPackets:count 474
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[5] actualCapacity:mean 9351.2414307004
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[6] sentPackets:count 459
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[6] actualCapacity:mean 9250.7515243902
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[7] sentPackets:count 1055
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[7] actualCapacity:mean 9434.0144115292
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[8] sentPackets:count 684
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[8] actualCapacity:mean 9468.2709750567
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[2].dataLink[9] sentPackets:count 1099
+attr source computeSentPackets
+scalar Aerocom.aircraft[2].dataLink[9] actualCapacity:mean 9455.4227202473
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].linkSelector responseTime:mean 0.0080245156678372
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[3].linkSelector meanMalus:sum 2658
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[3].linkSelector waitingTime:mean 0.00066013699554076
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[3].linkSelector serviceTime:mean 0.0073644724673654
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[3].linkSelector queueLength:mean 0.012838618564642
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[3].dataLink[0] sentPackets:count 551
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[0] actualCapacity:mean 9274.5514018692
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[1] sentPackets:count 597
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[1] actualCapacity:mean 9330.3127364439
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[2] sentPackets:count 813
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[2] actualCapacity:mean 9462.9153386454
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[3] sentPackets:count 1088
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[3] actualCapacity:mean 9473.7717391304
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[4] sentPackets:count 856
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[4] actualCapacity:mean 9398.5848341232
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[5] sentPackets:count 708
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[5] actualCapacity:mean 9393.6603982301
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[6] sentPackets:count 717
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[6] actualCapacity:mean 9346.8304157549
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[7] sentPackets:count 994
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[7] actualCapacity:mean 9549.4102780118
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[8] sentPackets:count 872
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[8] actualCapacity:mean 9378.484962406
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[3].dataLink[9] sentPackets:count 594
+attr source computeSentPackets
+scalar Aerocom.aircraft[3].dataLink[9] actualCapacity:mean 9382.3046776233
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].linkSelector responseTime:mean 0.0079551225095536
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[4].linkSelector meanMalus:sum 2862
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[4].linkSelector waitingTime:mean 0.00057826330555275
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[4].linkSelector serviceTime:mean 0.0073768592040113
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[4].linkSelector queueLength:mean 0.010639661581848
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[4].dataLink[0] sentPackets:count 654
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[0] actualCapacity:mean 9292.8722157093
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[1] sentPackets:count 1087
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[1] actualCapacity:mean 9450.7191887676
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[2] sentPackets:count 819
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[2] actualCapacity:mean 9434.2924901186
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[3] sentPackets:count 723
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[3] actualCapacity:mean 9338.7261904762
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[4] sentPackets:count 642
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[4] actualCapacity:mean 9398.1656734207
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[5] sentPackets:count 1258
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[5] actualCapacity:mean 9546.6526533425
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[6] sentPackets:count 500
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[6] actualCapacity:mean 9366.1729106628
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[7] sentPackets:count 801
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[7] actualCapacity:mean 9417.0550550551
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[8] sentPackets:count 535
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[8] actualCapacity:mean 9351.8178082192
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[4].dataLink[9] sentPackets:count 782
+attr source computeSentPackets
+scalar Aerocom.aircraft[4].dataLink[9] actualCapacity:mean 9366.9559877175
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].linkSelector responseTime:mean 0.0080398105405637
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[5].linkSelector meanMalus:sum 3326
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[5].linkSelector waitingTime:mean 0.00060712080830637
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[5].linkSelector serviceTime:mean 0.0074327774743064
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[5].linkSelector queueLength:mean 0.010473186119874
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[5].dataLink[0] sentPackets:count 985
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[0] actualCapacity:mean 9372.2372881356
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[1] sentPackets:count 1090
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[1] actualCapacity:mean 9522.3081712062
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[2] sentPackets:count 589
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[2] actualCapacity:mean 9236.1123882503
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[3] sentPackets:count 555
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[3] actualCapacity:mean 9338.82689747
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[4] sentPackets:count 673
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[4] actualCapacity:mean 9284.3294930876
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[5] sentPackets:count 896
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[5] actualCapacity:mean 9312.1602564103
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[6] sentPackets:count 937
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[6] actualCapacity:mean 9330.9064430715
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[7] sentPackets:count 1088
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[7] actualCapacity:mean 9436.2293934681
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[8] sentPackets:count 617
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[8] actualCapacity:mean 9270.4338235294
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[5].dataLink[9] sentPackets:count 496
+attr source computeSentPackets
+scalar Aerocom.aircraft[5].dataLink[9] actualCapacity:mean 9152.9131693198
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].linkSelector responseTime:mean 0.0079823383117755
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[6].linkSelector meanMalus:sum 2294
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[6].linkSelector waitingTime:mean 0.00061249454750716
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[6].linkSelector serviceTime:mean 0.0073699113833401
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[6].linkSelector queueLength:mean 0.011500127779198
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[6].dataLink[0] sentPackets:count 663
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[0] actualCapacity:mean 9359.3080513419
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[1] sentPackets:count 820
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[1] actualCapacity:mean 9416.947885939
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[2] sentPackets:count 975
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[2] actualCapacity:mean 9464.9974358974
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[3] sentPackets:count 659
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[3] actualCapacity:mean 9493.4713450292
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[4] sentPackets:count 674
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[4] actualCapacity:mean 9359.8656716418
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[5] sentPackets:count 673
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[5] actualCapacity:mean 9398.7753456221
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[6] sentPackets:count 851
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[6] actualCapacity:mean 9374.1106870229
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[7] sentPackets:count 681
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[7] actualCapacity:mean 9426.700913242
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[8] sentPackets:count 1121
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[8] actualCapacity:mean 9416.782674772
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[6].dataLink[9] sentPackets:count 710
+attr source computeSentPackets
+scalar Aerocom.aircraft[6].dataLink[9] actualCapacity:mean 9355.5814977974
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].linkSelector responseTime:mean 0.0081194974460711
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[7].linkSelector meanMalus:sum 3144
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[7].linkSelector waitingTime:mean 0.0006855423218926
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[7].linkSelector serviceTime:mean 0.0074339551241934
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[7].linkSelector queueLength:mean 0.015957446808511
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[7].dataLink[0] sentPackets:count 643
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[0] actualCapacity:mean 9363.6618876941
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[1] sentPackets:count 1085
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[1] actualCapacity:mean 9382.6736924278
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[2] sentPackets:count 852
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[2] actualCapacity:mean 9404.9075309819
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[3] sentPackets:count 809
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[3] actualCapacity:mean 9223.8995024876
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[4] sentPackets:count 970
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[4] actualCapacity:mean 9357.3373287671
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[5] sentPackets:count 587
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[5] actualCapacity:mean 9295.3051282051
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[6] sentPackets:count 910
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[6] actualCapacity:mean 9430.7906137184
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[7] sentPackets:count 863
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[7] actualCapacity:mean 9365.6986817326
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[8] sentPackets:count 641
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[8] actualCapacity:mean 9258.7877697842
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[7].dataLink[9] sentPackets:count 536
+attr source computeSentPackets
+scalar Aerocom.aircraft[7].dataLink[9] actualCapacity:mean 9340.5765027322
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].linkSelector responseTime:mean 0.007977968368405
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[8].linkSelector meanMalus:sum 2276
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[8].linkSelector waitingTime:mean 0.00062141076413309
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[8].linkSelector serviceTime:mean 0.0073565576042853
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[8].linkSelector queueLength:mean 0.011411719451212
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[8].dataLink[0] sentPackets:count 671
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[0] actualCapacity:mean 9353.9793103448
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[1] sentPackets:count 653
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[1] actualCapacity:mean 9461.7126030624
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[2] sentPackets:count 1192
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[2] actualCapacity:mean 9501.140591204
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[3] sentPackets:count 848
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[3] actualCapacity:mean 9452.5434574976
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[4] sentPackets:count 659
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[4] actualCapacity:mean 9373.4243845252
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[5] sentPackets:count 716
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[5] actualCapacity:mean 9394.7214912281
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[6] sentPackets:count 748
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[6] actualCapacity:mean 9502.7804878049
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[7] sentPackets:count 694
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[7] actualCapacity:mean 9396.8412162162
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[8] sentPackets:count 749
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[8] actualCapacity:mean 9376.3100529101
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[8].dataLink[9] sentPackets:count 869
+attr source computeSentPackets
+scalar Aerocom.aircraft[8].dataLink[9] actualCapacity:mean 9425.59342723
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].linkSelector responseTime:mean 0.0080497395773042
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[9].linkSelector meanMalus:sum 2432
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[9].linkSelector waitingTime:mean 0.00064917029250346
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[9].linkSelector serviceTime:mean 0.0074013235965109
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[9].linkSelector queueLength:mean 0.012797542871769
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[9].dataLink[0] sentPackets:count 387
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[0] actualCapacity:mean 9250.3167808219
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[1] sentPackets:count 587
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[1] actualCapacity:mean 9330.4654731458
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[2] sentPackets:count 303
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[2] actualCapacity:mean 9294.3527054108
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[3] sentPackets:count 923
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[3] actualCapacity:mean 9365.858162355
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[4] sentPackets:count 941
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[4] actualCapacity:mean 9451.3327480246
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[5] sentPackets:count 979
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[5] actualCapacity:mean 9437.7514893617
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[6] sentPackets:count 988
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[6] actualCapacity:mean 9361.2632911392
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[7] sentPackets:count 939
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[7] actualCapacity:mean 9353.4095322154
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[8] sentPackets:count 827
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[8] actualCapacity:mean 9425.3274509804
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[9].dataLink[9] sentPackets:count 940
+attr source computeSentPackets
+scalar Aerocom.aircraft[9].dataLink[9] actualCapacity:mean 9399.9894366197
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.controlTower receivedPackets:count 78447
+attr source computeReceivedPackets
+
