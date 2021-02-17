@@ -2,23 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/stats50msparametri05-50-05.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stats50msparametri05-50-4.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stats50msparametri3-50-05.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stats50msparametri3-50-4.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/language.settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/language.settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cleanedData.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/clang-release/src/.last-copts" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/.last-copts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/clang-release/src/Aircraft.o.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/Aircraft.o.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/clang-release/src/AircraftPacket_m.o.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/AircraftPacket_m.o.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/clang-release/src/ControlTower.o.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/ControlTower.o.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/clang-release/src/DataLink.o.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/DataLink.o.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/clang-release/src/LinkSelector.o.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/LinkSelector.o.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/dataAnalysis/lognormal/stats50ms.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/dataAnalysis/non-monitoring/stats50ms.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/clang-release/src/PECSNproject.exe" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/PECSNproject.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/clang-release/src/PacketGenerator.o.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/clang-release/src/PacketGenerator.o.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scalar.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/simulations/aerocom.ini" beforeDir="false" afterPath="$PROJECT_DIR$/simulations/aerocom.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/src/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PECSNproject.exe" beforeDir="false" afterPath="$PROJECT_DIR$/src/PECSNproject.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/x.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,6 +139,7 @@
       <workItem from="1613315898425" duration="1236000" />
       <workItem from="1613394664954" duration="3465000" />
       <workItem from="1613467382229" duration="3542000" />
+      <workItem from="1613481885436" duration="5284000" />
     </task>
     <servers />
   </component>
@@ -169,6 +164,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PECSNproject$analisiDati.coverage" NAME="setup Coverage Results" MODIFIED="1612887640896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PECSNproject$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1613398406702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1613474210024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1613488552060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

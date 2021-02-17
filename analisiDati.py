@@ -2,19 +2,18 @@ import argparse
 import csv
 import math
 import matplotlib.pyplot as plt
-import numpy  as np
+import numpy as np
 import pandas as pd
 # import px
 import pylab
 import seaborn as sns
-from scipy.stats import linregress as regr, stats
 import pprint
 from pylab import *
 import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
-from statsmodels.compat import scipy
-from scipy.optimize import curve_fit
+import scipy.stats
+
 import sympy as sym
 import os
 
@@ -860,11 +859,10 @@ def scalar_analysis(dataframe):
         for j in range(len(dati['value'])):
             pprint.pprint(
                 f"{i}: {dati2['value'].sum()} packets received of"
-                f" {dati['value'].sum()} packets sent, packet loss rate { 1 - (dati2['value'].sum() / dati['value'].sum())}")
+                f" {dati['value'].sum()} packets sent, packet loss rate {1 - (dati2['value'].sum() / dati['value'].sum())}")
 
             packetReceived.append(dati2['value'].sum())
             packetSent.append(dati['value'].sum())
-
 
             tot = 0
             # totMalus = 0
@@ -879,7 +877,6 @@ def scalar_analysis(dataframe):
                 pprint.pprint(f"throughput {dati['module'].iloc[i]}:  {throughput} packets/seconds")
                 pprint.pprint(f"serviceTime of {dati3['module'].iloc[i]}: {serviceTime} seconds")
                 pprint.pprint(f"queueLength of {dati3['module'].iloc[i]}: {queLen} packets")
-
 
         # pprint.pprint(f"Total:  {totale} packets/seconds")
         # pprint.pprint(f"Total serviceTime:  {totaleServiceTime} seconds")
@@ -928,6 +925,8 @@ def data_analysis(dataframe, attribute):
 
     stats['name'] = name
     stats.set_index('name')
+    pprint.pprint(stats)
+
     # COMPUTE CI
     stats['ci95_l'] = stats['mean'] - 1.96 * (stats['std'] / np.sqrt(stats['count']))
     stats['ci95_h'] = stats['mean'] + 1.96 * (stats['std'] / np.sqrt(stats['count']))
@@ -1076,10 +1075,14 @@ def lorenz_curve_analysis():
     df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-10ms.csv")
     '''
 
-    df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-10ms.csv")
-    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-20ms.csv")
-    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-35ms.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-50ms.csv")
+    df4 = scalar_df_parse(
+        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-10ms.csv")
+    df5 = scalar_df_parse(
+        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-20ms.csv")
+    df6 = scalar_df_parse(
+        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-35ms.csv")
+    df7 = scalar_df_parse(
+        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-50ms.csv")
 
     # plot_lorenz_curve(df, "7.5ms")
     # plot_lorenz_curve(df0, "8.5ms")
@@ -1094,6 +1097,7 @@ def lorenz_curve_analysis():
     df9 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-05.csv")
 
     pprint.pprint(f"mean LCG for 50ms exponential t=0.5, m=4  {gini(df7)}")
+    pprint.pprint(mean_confidence_interval(df7))
     pprint.pprint(f"mean LCG for 50ms exponential t=3, m=4 {gini(df8)}")
     pprint.pprint(f"mean LCG for 50ms exponential t=3,m=0.5 {gini(df9)}")
 
@@ -1159,6 +1163,16 @@ def extract_2kr_matrix():
     df1['squared_sum_errors'] = somma
     df1.to_csv("errors.csv", index=False)
 
+
+def mean_confidence_interval(data, confidence=0.99):
+    data = data[data.name == 'responseTime']
+    a = 1.0 * np.array(data['value'])
+    n = len(a)
+    m, se = np.mean(a), scipy.stats.sem(a)
+    h = se * scipy.stats.t.ppf((1 + confidence) / 2., n - 1)
+    return m, m - h, m + h
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
@@ -1166,7 +1180,7 @@ def main():
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
     # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
 
-    lorenz_curve_analysis()
+    # lorenz_curve_analysis()
     # min_responseTime_validation
     # plot_ecdf_comparation()
     '''
@@ -1208,10 +1222,21 @@ def main():
     pprint.pprint(f"Mean service time nDL=1000, k=25ms: {df9['serviceTime'].mean()}, mean queue length: {df9['queueLength'].mean()}")
     '''
 
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-4.csv")
+    stats = data_analysis(dataframe, "responseTime")
+    stats.to_csv("stats50msparametri3-50-4.csv", index=False)
 
-    # dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\exponential\\50ms10nA.csv")
-    # stats = data_analysis(dataframe, "responseTime")
-    # stats.to_csv("stats50ms.csv", index=False)
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-4.csv")
+    stats = data_analysis(dataframe, "responseTime")
+    stats.to_csv("stats50msparametri05-50-4.csv", index=False)
+
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-05.csv")
+    stats = data_analysis(dataframe, "responseTime")
+    stats.to_csv("stats50msparametri3-50-05.csv", index=False)
+
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-05.csv")
+    stats = data_analysis(dataframe, "responseTime")
+    stats.to_csv("stats50msparametri05-50-05.csv", index=False)
 
     '''
     dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\35ms.csv")
