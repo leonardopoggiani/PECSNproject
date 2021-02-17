@@ -1,0 +1,132 @@
+file 2649850 1613502071                                         
+version 2
+run Exponential-capacity-12-20210216-20:01:10-5736
+attr configname Exponential-capacity
+attr datetime 20210216-20:01:10
+attr experiment Exponential-capacity
+attr inifile aerocom.ini
+attr iterationvars "$0=35, $1=0.7"
+attr iterationvarsf 35,0.7-
+attr measurement "$0=35, $1=0.7"
+attr network Aerocom
+attr processid 5736
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 12
+attr seedset 0
+param **.t 1s
+param **.k 35ms
+param **.X 50ms
+param **.m 0.7s
+param **.tDistribution "\"exponential\""
+param **.operationMode 0
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 10
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+vector 0 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 1 Aerocom.aircraft[0].linkSelector waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 2 Aerocom.aircraft[0].linkSelector queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 3 Aerocom.aircraft[0].dataLink[8] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 4 Aerocom.aircraft[0].linkSelector serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 5 Aerocom.aircraft[0].linkSelector responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 6 Aerocom.aircraft[0].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 7 Aerocom.aircraft[0].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 8 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 9 Aerocom.aircraft[0].dataLink[0] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 10 Aerocom.aircraft[0].dataLink[1] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 11 Aerocom.aircraft[0].dataLink[2] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 12 Aerocom.aircraft[0].dataLink[3] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 13 Aerocom.aircraft[0].dataLink[4] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 14 Aerocom.aircraft[0].dataLink[5] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 15 Aerocom.aircraft[0].dataLink[6] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 16 Aerocom.aircraft[0].dataLink[7] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 17 Aerocom.aircraft[0].dataLink[9] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 18 Aerocom.aircraft[0].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 19 Aerocom.aircraft[0].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 20 Aerocom.aircraft[0].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 21 Aerocom.aircraft[0].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 22 Aerocom.aircraft[0].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 23 Aerocom.aircraft[0].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 24 Aerocom.aircraft[0].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	3586 445998 1602 64076 10.089882227233 399.938715992406 11034 1.937316e-006 0.358136874346 389.93503104393 27.464644176194
+1	449584 339157 1603 64077 10.089882227233 399.938715992406 11034 0 0.063020204223 33.238609842137 0.88501972817451
+2	788741 300904 1603 64077 10.089882227233 399.938715992406 11034 0 5 974 1708
+3	1089645 36149 1603 64054 10.089882227233 399.7 1394 8035 9995 13012926 121807957568
+4	1125794 487236 1603 64077 10.089882227233 399.938715992406 11034 0.0070035017508754 0.0087173100871731 81.034794834337 0.59600413087749
+5	1613030 446029 1604 64078 10.097009085307 399.946004622144 11034 0.007003501751 0.070075944572 114.27340467625 1.9653203056022
+6	2059059 18882 1617 64033 10.195530479815 399.531824074835 448 0.00046858062143858 4.5969873950114 392.60944509323 663.24396395861
+7	2077941 15674 1618 63917 10.231100016177 398.599861515051 373 0.0024855087139075 5.8553159328738 390.84022742546 802.17398724391
+8	2093615 17469 1651 63918 10.427056730335 398.62556036574 414 0.004703906220746 5.6853850636561 391.58372694686 721.55513685387
+9	2111084 54483 1665 64054 10.5 399.7 2001 8011 9971 18793045 176901636331
+10	2165567 45936 1665 64054 10.5 399.7 1662 8069 9951 15612579 146956173921
+11	2211503 44466 1665 64054 10.5 399.7 1613 8018 9982 15039867 140638100141
+12	2255969 57081 1665 64054 10.5 399.7 2017 8044 9971 19053112 180374270340
+13	2313050 37790 1665 64054 10.5 399.7 1400 8026 9959 13030549 121665016009
+14	2350840 48872 1665 64054 10.5 399.7 1755 8045 9986 16459820 154706032776
+15	2399712 40619 1665 64077 10.5 399.938715992406 1493 8037 9978 13995313 131511717925
+16	2440331 47229 1665 64054 10.5 399.7 1702 8037 9987 15905165 149005271421
+17	2487560 42860 1665 64054 10.5 399.7 1567 8034 9937 14566809 135768934925
+18	2530420 17910 1672 64017 10.589143172582 399.384120383163 415 0.0018844320688851 5.4400638357789 389.86273410498 710.29195188133
+19	2548330 17372 1714 63976 11.019995833196 399.139608699086 402 0.00012359181449871 7.7512023953318 390.10962708975 845.86750006598
+20	2565702 16694 1740 63806 11.167216926612 397.8417113111 387 0.0025859150943617 6.5044674794512 388.92988761984 770.5822460086
+21	2582396 16183 1831 63830 11.770581468296 398.054009604438 375 0.0015419235172678 7.2888921875472 388.51856274567 827.55298216986
+22	2598579 16879 1959 63669 12.476454100424 396.963073561627 391 0.0027066362142686 6.3651571449549 387.88865806586 753.37949136275
+23	2615458 18059 2089 63916 13.481960993213 398.584954438043 418 0.00038836613746553 5.4284265520006 387.88024916169 747.54762606095
+24	2633517 16331 2299 63919 14.694997286335 398.628191179598 379 0.00090222306082665 5.2881247296081 386.67360661758 751.94746314648
+

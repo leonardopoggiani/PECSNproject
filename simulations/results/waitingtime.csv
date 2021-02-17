@@ -1,0 +1,17 @@
+run,repetition,Module,waitingTime:mean
+Exponential-capacity-5-20210216-20:01:16-9872,0,Aerocom.aircraft[0].linkSelector,0.00818935615525
+Exponential-capacity-1-20210216-20:01:16-7008,0,Aerocom.aircraft[0].linkSelector,0.01076105735329
+Exponential-capacity-2-20210216-20:01:20-7008,0,Aerocom.aircraft[0].linkSelector,0.0099099741725784
+Exponential-capacity-15-20210216-20:01:16-5736,0,Aerocom.aircraft[0].linkSelector,0.0052135356455282
+Exponential-capacity-13-20210216-20:01:12-5736,0,Aerocom.aircraft[0].linkSelector,0.0020100457497094
+Exponential-capacity-8-20210216-20:01:10-4940,0,Aerocom.aircraft[0].linkSelector,0.0041717740231878
+Exponential-capacity-18-20210216-20:01:18-7340,0,Aerocom.aircraft[0].linkSelector,0.0015151421784564
+Exponential-capacity-0-20210216-20:01:10-7008,0,Aerocom.aircraft[0].linkSelector,0.013358255474154
+Exponential-capacity-7-20210216-20:01:21-9872,0,Aerocom.aircraft[0].linkSelector,0.0052695338580598
+Exponential-capacity-11-20210216-20:01:18-4940,0,Aerocom.aircraft[0].linkSelector,0.0039447919770157
+Exponential-capacity-3-20210216-20:01:23-7008,0,Aerocom.aircraft[0].linkSelector,0.0088288735101635
+Exponential-capacity-10-20210216-20:01:17-4940,0,Aerocom.aircraft[0].linkSelector,0.0059862948001785
+Exponential-capacity-12-20210216-20:01:10-5736,0,Aerocom.aircraft[0].linkSelector,0.003012380808604
+Exponential-capacity-17-20210216-20:01:18-7340,0,Aerocom.aircraft[0].linkSelector,0.0025025819083241
+Exponential-capacity-16-20210216-20:01:17-7340,0,Aerocom.aircraft[0].linkSelector,0.0032967075605745
+Exponential-capacity-6-20210216-20:01:18-9872,0,Aerocom.aircraft[0].linkSelector,0.0063421283947045

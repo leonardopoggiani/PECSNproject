@@ -1,0 +1,132 @@
+file 5997973 1613502072                                         
+version 2
+run Exponential-capacity-8-20210216-20:01:10-4940
+attr configname Exponential-capacity
+attr datetime 20210216-20:01:10
+attr experiment Exponential-capacity
+attr inifile aerocom.ini
+attr iterationvars "$0=15, $1=1.5"
+attr iterationvarsf 15,1.5-
+attr measurement "$0=15, $1=1.5"
+attr network Aerocom
+attr processid 4940
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 8
+attr seedset 0
+param **.t 1s
+param **.k 15ms
+param **.X 50ms
+param **.m 1.5s
+param **.tDistribution "\"exponential\""
+param **.operationMode 0
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 10
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+vector 0 Aerocom.aircraft[0].linkSelector responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 1 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 2 Aerocom.aircraft[0].linkSelector waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 3 Aerocom.aircraft[0].linkSelector queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 4 Aerocom.aircraft[0].dataLink[8] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 5 Aerocom.aircraft[0].linkSelector serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 6 Aerocom.aircraft[0].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 7 Aerocom.aircraft[0].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 8 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 9 Aerocom.aircraft[0].dataLink[0] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 10 Aerocom.aircraft[0].dataLink[1] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 11 Aerocom.aircraft[0].dataLink[2] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 12 Aerocom.aircraft[0].dataLink[3] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 13 Aerocom.aircraft[0].dataLink[4] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 14 Aerocom.aircraft[0].dataLink[5] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 15 Aerocom.aircraft[0].dataLink[6] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 16 Aerocom.aircraft[0].dataLink[7] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 17 Aerocom.aircraft[0].dataLink[9] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 18 Aerocom.aircraft[0].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 19 Aerocom.aircraft[0].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 20 Aerocom.aircraft[0].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 21 Aerocom.aircraft[0].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 22 Aerocom.aircraft[0].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 23 Aerocom.aircraft[0].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 24 Aerocom.aircraft[0].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	3584 1070034 3589 150968 10.001873568795 399.968548086839 26190 0.007003501751 0.091213442619 304.9793545597 5.4405178339744
+1	1073618 1069889 3592 150966 10.020364233319 399.960743426342 26189 3.00452e-007 0.160834874694 389.99668517737 11.590851499697
+2	2143507 894546 3593 150967 10.020364233319 399.960743426342 26189 0 0.083809169296 109.25458989327 2.3510950846675
+3	3038053 731401 3593 150967 10.020364233319 399.960743426342 26189 0 10 7465 18793
+4	3769454 94482 3593 150571 10.020364233319 399 3172 8023 9995 29641969 277666209533
+5	3863936 1173452 3593 150967 10.020364233319 399.960743426342 26189 0.0070035017508754 0.0087249158668827 195.71694961167 1.4660766678095
+6	5037388 19073 3675 150780 10.195530479815 399.531824074835 448 0.00046858062143858 4.5969873950114 392.60944509323 663.24396395861
+7	5056461 15842 3706 150391 10.231100016177 398.599861515051 373 0.0024855087139075 5.8553159328738 390.84022742546 802.17398724391
+8	5072303 17656 3797 150392 10.427056730335 398.62556036574 414 0.004703906220746 5.6853850636561 391.58372694686 721.55513685387
+9	5089959 100286 3828 150571 10.5 399 3335 8017 9971 31316397 294663247487
+10	5190245 89252 3828 150571 10.5 399 2904 8057 9959 27276952 256725685040
+11	5279497 76818 3828 150571 10.5 399 2515 8026 9979 23542423 220859785413
+12	5356315 129481 3828 150571 10.5 399 4146 8044 9972 38795721 363956531759
+13	5485796 86044 3828 150571 10.5 399 2774 8026 9981 25929658 243008870710
+14	5571840 81152 3828 150571 10.5 399 2646 8066 9986 24753220 232084237230
+15	5652992 60018 3828 150571 10.5 399 1973 8075 9981 18465792 173256708256
+16	5713010 90927 3828 150967 10.5 399.960743426342 2930 8042 9987 27203988 253180280120
+17	5803937 73356 3828 150571 10.5 399 2394 8060 9939 22361099 209327318957
+18	5877293 18096 3865 150732 10.589143172582 399.384120383163 415 0.0018844320688851 5.4400638357789 389.86273410498 710.29195188133
+19	5895389 17574 4027 150619 11.019995833196 399.139608699086 402 0.00012359181449871 7.7512023953318 390.10962708975 845.86750006598
+20	5912963 16876 4083 150117 11.167216926612 397.8417113111 387 0.0025859150943617 6.5044674794512 388.92988761984 770.5822460086
+21	5929839 16364 4251 150166 11.770581468296 398.054009604438 375 0.0015419235172678 7.2888921875472 388.51856274567 827.55298216986
+22	5946203 17057 4600 149864 12.476454100424 396.963073561627 391 0.0027066362142686 6.3651571449549 387.88865806586 753.37949136275
+23	5963260 18223 4946 150385 13.481960993213 398.584954438043 418 0.00038836613746553 5.4284265520006 387.88024916169 747.54762606095
+24	5981483 16488 5346 150393 14.694997286335 398.628191179598 379 0.00090222306082665 5.2881247296081 386.67360661758 751.94746314648
+
