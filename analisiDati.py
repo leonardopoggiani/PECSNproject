@@ -1175,6 +1175,9 @@ def mean_confidence_interval(data, confidence=0.99):
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\mOttimale.csv")
+    pprint.pprint(dataframe.groupby('run')[.mean())
+
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
@@ -1222,6 +1225,7 @@ def main():
     pprint.pprint(f"Mean service time nDL=1000, k=25ms: {df9['serviceTime'].mean()}, mean queue length: {df9['queueLength'].mean()}")
     '''
 
+    '''
     dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-4.csv")
     stats = data_analysis(dataframe, "responseTime")
     stats.to_csv("stats50msparametri3-50-4.csv", index=False)
@@ -1237,7 +1241,7 @@ def main():
     dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-05.csv")
     stats = data_analysis(dataframe, "responseTime")
     stats.to_csv("stats50msparametri05-50-05.csv", index=False)
-
+    '''
     '''
     dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\35ms.csv")
     stats = data_analysis(dataframe, "responseTime")

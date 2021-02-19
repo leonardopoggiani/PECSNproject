@@ -19,7 +19,6 @@ void LinkSelector::initialize()
 
     size = getAncestorPar("s").doubleValue(); // la dimensione di un pacchetto
 
-
     if(operationMode == 0 && nDL > 0){
         // monitoraggio ogni m secondi
         m = getAncestorPar("m");
@@ -59,10 +58,10 @@ void LinkSelector::handleMessage(cMessage* msg){
     }
 }
 
-
 void LinkSelector::sendPacketToDataLink(cMessage* msg){
     AircraftPacket* ap = check_and_cast<AircraftPacket*>(msg);
     emit(computeResponseTime_, simTime() - ap->getArrival());
+    EV << "responseTime: " << simTime() - ap->getArrival() << endl;
 
     send(msg,"out",maxCapacityDataLinkIndex);
     sendPacket();
@@ -73,6 +72,8 @@ void LinkSelector::handlePacketArrival(cMessage* msg) {
         // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
         AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
         pa->setArrival(simTime().dbl());
+        EV << "arrival: " << simTime()<< endl;
+
         pa->setName("packetToSend");
         queue.insert(pa);
 
@@ -91,7 +92,7 @@ void LinkSelector::sendPacket() {
         AircraftPacket* ap = (AircraftPacket*) queue.front();
 
         queue.pop();
-        EV << "WaitingTime: " << simTime() - ap->getArrival()<< endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
+        EV << "WaitingTime: " << simTime() - ap->getArrival() << endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
         emit(computeWaitingTime_, simTime() - ap->getArrival());
         emit(computeQueueLength_, queue.getLength());
 
