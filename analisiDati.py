@@ -1176,8 +1176,6 @@ def mean_confidence_interval(data, confidence=0.99):
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
     dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\mOttimale.csv")
-    pprint.pprint(dataframe.groupby('run')[.mean())
-
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
