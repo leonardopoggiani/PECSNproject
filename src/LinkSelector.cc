@@ -28,7 +28,7 @@ void LinkSelector::initialize()
 
     if(nDL > 0){
         cMessage* checkingMaxCapacity = new cMessage("setMaxIndexCapacity");
-        scheduleAt(simTime() + 0.001, checkingMaxCapacity);
+        scheduleAt(simTime(), checkingMaxCapacity);
     }
 
 }
