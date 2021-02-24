@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/~$TODO.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO.docx" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/aerocom.ini" beforeDir="false" afterPath="$PROJECT_DIR$/simulations/aerocom.ini" afterDir="false" />
-    </list>
+    <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -141,6 +135,7 @@
       <workItem from="1613637743140" duration="1046000" />
       <workItem from="1613659074302" duration="441000" />
       <workItem from="1613917380181" duration="2020000" />
+      <workItem from="1614187932384" duration="441000" />
     </task>
     <servers />
   </component>
