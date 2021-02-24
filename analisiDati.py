@@ -1,30 +1,13 @@
-import argparse
+import seaborn as sns
+import matplotlib as plt
 import csv
-import math
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-# import px
-import pylab
-import seaborn as sns
 import pprint
-from pylab import *
-import matplotlib.pyplot as plt
-import seaborn as sns
-import statsmodels.api as sm
 import scipy.stats
-
-import sympy as sym
 import os
+from pylab import *
 
 color = sns.color_palette()
-import plotly.offline as py
-import plotly.graph_objs as go
-import plotly.tools as tls
-import plotly.express as px
-from gekko import GEKKO
-
-# import pandas_profiling
 
 # seaborn settings, just to give a nicer look
 sns.reset_defaults()
@@ -720,7 +703,7 @@ def fitDistribution(df, name, maxError):
 
 
 def qqPlot(theoreticalQ, sampleQ, name):
-    slope, intercept, r_value, p_value, std_err = regr(theoreticalQ, sampleQ)
+    slope, intercept, r_value, p_value, std_err = 0 # regr(theoreticalQ, sampleQ)
 
     plt.figure()
     plt.scatter(theoreticalQ, sampleQ, s=0.8, label=name, c='blue')
@@ -1173,9 +1156,15 @@ def mean_confidence_interval(data, confidence=0.99):
     return m, m - h, m + h
 
 
+def plot_response_time(dataframe):
+    pprint.pprint(dataframe)
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\mOttimale.csv")
+    # dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\mOttimale.csv")
+    dataframe = scalar_df_parse("/home/leonardo/Documents/dataset/responseTime-non-monitoring-exponential.csv")
+    del dataframe['module']
+    plot_response_time(dataframe)
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")

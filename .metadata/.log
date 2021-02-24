@@ -30,3 +30,12 @@ java.io.IOException: Server returned HTTP response code: 403 for URL: https://mo
 	at org.omnetpp.ide.installer.InstallProjectTask.run(InstallProjectTask.java:46)
 	at org.omnetpp.ide.installer.InstallProjectJob.run(InstallProjectJob.java:32)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SESSION 2021-02-24 12:07:50.664 -----------------------------------------------
+eclipse.buildId=5.6.2.200518-aa79d0918f
+java.version=11.0.9.1
+java.vendor=Debian
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.omnetpp.main 1 0 2021-02-24 12:08:30.634
+!MESSAGE OMNeT++ IDE 5.6.2.200518-aa79d0918f started.

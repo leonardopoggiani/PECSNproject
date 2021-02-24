@@ -1,0 +1,120 @@
+file 6598428 1614185338                                         
+version 2
+run Nonmonitoring-exponential-203-20210224-17:48:57-26777
+attr configname Nonmonitoring-exponential
+attr datetime 20210224-17:48:57
+attr experiment Nonmonitoring-exponential
+attr inifile aerocom.ini
+attr iterationvars $0=13
+attr iterationvarsf 13-
+attr measurement $0=13
+attr network Aerocom
+attr processid 26777
+attr repetition 3
+attr replication #3
+attr resultdir results
+attr runnumber 203
+attr seedset 3
+param **.t 2s
+param **.k 13ms
+param **.X 0.05s
+param **.m 1s
+param **.tDistribution "\"exponential\""
+param **.operationMode 1
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 16
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+vector 0 Aerocom.aircraft[0].linkSelector responseTime:vector ETV
+attr "" ""
+attr source computeResponseTime
+vector 1 Aerocom.aircraft[0].packetGenerator arrivalTime:vector ETV
+attr "" ""
+attr source computeArrivalTime
+vector 2 Aerocom.aircraft[0].linkSelector waitingTime:vector ETV
+attr "" ""
+attr source computeWaitingTime
+vector 3 Aerocom.aircraft[0].linkSelector queueLength:vector ETV
+attr "" ""
+attr source computeQueueLength
+vector 4 Aerocom.aircraft[0].dataLink[9] actualCapacity:vector ETV
+attr "" ""
+attr source computeActualCapacity
+vector 5 Aerocom.aircraft[0].linkSelector serviceTime:vector ETV
+attr "" ""
+attr source computeServiceTime
+vector 6 Aerocom.aircraft[0].dataLink[9] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 7 Aerocom.aircraft[0].dataLink[11] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 8 Aerocom.aircraft[0].dataLink[4] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 9 Aerocom.aircraft[0].dataLink[15] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 10 Aerocom.aircraft[0].dataLink[10] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 11 Aerocom.aircraft[0].dataLink[12] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 12 Aerocom.aircraft[0].dataLink[0] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 13 Aerocom.aircraft[0].dataLink[14] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 14 Aerocom.aircraft[0].dataLink[7] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 15 Aerocom.aircraft[0].dataLink[6] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 16 Aerocom.aircraft[0].dataLink[2] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 17 Aerocom.aircraft[0].dataLink[8] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 18 Aerocom.aircraft[0].dataLink[5] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 19 Aerocom.aircraft[0].dataLink[13] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 20 Aerocom.aircraft[0].dataLink[1] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+vector 21 Aerocom.aircraft[0].dataLink[3] tDistribution:vector ETV
+attr "" ""
+attr source computeTDistribution
+0	3130 1197176 4005 157224 10.00082591744 399.998736856412 30021 0.007021767479 0.073598098897 413.5376532206 7.7036699585459
+1	1200306 1197104 4008 157219 10.003515134982 399.991334685575 30021 7.99786e-07 0.138298320063 390.00306205044 10.160315659554
+2	2397410 1042845 4009 157224 10.003515134982 399.998736856412 30021 0 0.065063595117 179.17570841204 3.0427510161367
+3	3440255 810268 4009 157224 10.003515134982 399.998736856412 30021 0 8 13735 30669
+4	4250523 900331 4009 157224 10.003515134982 399.998736856412 30021 8008 9969 269886429 2432547896231
+5	5150854 1316455 4009 157224 10.003515134982 399.998736856412 30021 0.0070217674791855 0.0087412587412587 234.36818146191 1.8344588984094
+6	6467309 7881 4098 153854 10.216860410636 391.544684394548 191 0.01231379231736 12.7482479455 394.07607192941 1602.3035355478
+7	6475190 8193 4387 153887 11.012746397988 391.702243839138 199 0.016630757673853 9.7472451668389 389.27117419199 1467.3498894323
+8	6483383 9414 4390 156367 11.0151134398 397.837576064359 227 0.025157688338571 6.3138714974188 392.14321001681 1161.1884265162
+9	6492797 7047 4509 155545 11.39756473878 395.805902582889 171 0.027884494528193 9.4450565980765 391.68472688185 1601.5944719629
+10	6499844 8935 4624 157154 11.641471746595 399.819847465663 211 0.0035248876616137 9.2603524398492 389.15734142137 1396.719982517
+11	6508779 7634 4668 157209 11.74466330329 399.97504194149 181 0.0071446189111888 12.827897284243 392.16104554021 1761.9989431336
+12	6516413 7667 4710 155696 11.844045017952 396.201548456821 181 2.6742640860209e-05 12.46633045631 389.52862476521 1669.6705620336
+13	6524080 8015 4714 157024 11.888320796404 399.547472833432 190 0.034868948186759 16.858662847299 388.51284629736 1852.9146498574
+14	6532095 8136 4997 157064 12.601573631734 399.638603566969 192 0.031338494461658 10.958861749711 387.77145198401 1453.1941959178
+15	6540231 9143 5045 156724 12.787152875359 398.767278823667 216 0.0061376531033557 10.008927448096 389.60343131955 1385.4719862385
+16	6549374 8314 5211 156154 13.236267102444 397.310528751352 196 0.00034453474225788 10.123231318883 386.77509690396 1407.7663107386
+17	6557688 7952 5224 156004 13.249069126171 397.003559191518 188 0.0083168661595931 10.158834956883 391.08223939562 1513.4378612762
+18	6565640 8852 5653 156896 14.279652412296 399.233550526176 209 0.01323590091375 8.3733729124758 386.68681401927 1349.3162296212
+19	6574492 7998 5755 156128 14.471558439782 397.220651700615 189 0.0088396239064303 11.824049849056 387.55849030705 1462.8822479245
+20	6582490 7886 6383 156378 15.992873718725 397.869809503621 186 0.0044907246559529 10.165343509221 388.04762085093 1528.5683115742
+21	6590376 8051 7467 157051 18.461294500125 399.598632965743 190 0.014328120370517 14.498669879436 382.70989007601 1562.4521276379
+

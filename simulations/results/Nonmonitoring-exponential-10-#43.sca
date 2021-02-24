@@ -1,0 +1,128 @@
+version 2
+run Nonmonitoring-exponential-143-20210224-17:48:53-26736
+attr configname Nonmonitoring-exponential
+attr datetime 20210224-17:48:53
+attr experiment Nonmonitoring-exponential
+attr inifile aerocom.ini
+attr iterationvars $0=10
+attr iterationvarsf 10-
+attr measurement $0=10
+attr network Aerocom
+attr processid 26736
+attr repetition 43
+attr replication #43
+attr resultdir results
+attr runnumber 143
+attr seedset 43
+param **.t 2s
+param **.k 10ms
+param **.X 0.05s
+param **.m 1s
+param **.tDistribution "\"exponential\""
+param **.operationMode 1
+param **.s "70 byte"
+param **.dimPoolMax 10000
+param **.dimPoolMin 8000
+param **.nDL 16
+param **.nA 1
+param **.DLMaxCapacity 0
+param **.trasmitting false
+
+scalar Aerocom.aircraft[0].linkSelector responseTime:mean 0.022626718373636
+attr "" ""
+attr source computeResponseTime
+scalar Aerocom.aircraft[0].linkSelector meanMalus:sum 0
+attr "" ""
+attr source computeMeanMalus
+scalar Aerocom.aircraft[0].linkSelector waitingTime:mean 0.014856615425076
+attr "" ""
+attr source computeWaitingTime
+scalar Aerocom.aircraft[0].linkSelector serviceTime:mean 0.0077705722550324
+attr "" ""
+attr source computeServiceTime
+scalar Aerocom.aircraft[0].linkSelector queueLength:mean 1.4987471234978
+attr "" ""
+attr source computeQueueLength
+scalar Aerocom.aircraft[0].dataLink[0] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[0] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[1] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[1] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[2] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[2] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[3] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[3] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[4] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[4] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[5] sentPackets:count 39110
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[5] actualCapacity:mean 9031.1136793659
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[6] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[6] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[7] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[7] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[8] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[8] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[9] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[9] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[10] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[10] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[11] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[11] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[12] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[12] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[13] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[13] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[14] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[14] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.aircraft[0].dataLink[15] sentPackets:count 0
+attr source computeSentPackets
+scalar Aerocom.aircraft[0].dataLink[15] actualCapacity:mean -nan
+attr "" ""
+attr source computeActualCapacity
+scalar Aerocom.controlTower receivedPackets:count 39110
+attr source computeReceivedPackets
+
