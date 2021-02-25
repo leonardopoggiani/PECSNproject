@@ -113,7 +113,6 @@ def vector_parse(path_csv):
     # rename vecvalue for simplicity...
     data = data.rename({'vecvalue': 'value', 'vectime': 'time'}, axis=1)
     df = data[['run', 'name', 'time', 'value']].sort_values(['run', 'name'])
-    df.to_csv("cleanedData.csv", index=False)
     return data[['run', 'name', 'time', 'value']].sort_values(['run', 'name'])
 
 
@@ -703,7 +702,7 @@ def fitDistribution(df, name, maxError):
 
 
 def qqPlot(theoreticalQ, sampleQ, name):
-    slope, intercept, r_value, p_value, std_err = 0 # regr(theoreticalQ, sampleQ)
+    slope, intercept, r_value, p_value, std_err = 0  # regr(theoreticalQ, sampleQ)
 
     plt.figure()
     plt.scatter(theoreticalQ, sampleQ, s=0.8, label=name, c='blue')
@@ -813,7 +812,7 @@ def scalar_df_parse(path_csv):
     data = data[data.type == 'scalar']
     data.reset_index(inplace=True, drop=True)
 
-    # data['user'] = data.name.apply(lambda x: x.split['-'][1] if '-' in x else 'global')
+    data['user'] = data.name.apply(lambda x: x.split['-'][1] if '-' in x else 'global')
 
     return data[['run', 'module', 'name', 'value']].sort_values(['run', 'name'])
 
@@ -1157,14 +1156,36 @@ def mean_confidence_interval(data, confidence=0.99):
 
 
 def plot_response_time(dataframe):
-    pprint.pprint(dataframe)
+    dataframe.pivot(index='run', columns='name', values='value')
+    del dataframe['run']
+    df = dataframe.groupby('name').mean()
+    pprint.pprint(df)
+
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    # dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\mOttimale.csv")
-    dataframe = scalar_df_parse("/home/leonardo/Documents/dataset/responseTime-non-monitoring-exponential.csv")
-    del dataframe['module']
-    plot_response_time(dataframe)
+    monitoring_time = [0.3, 0.5, 0.8, 1.5, 1.8, 2, 4, 5, 20, 50, 100, 400]
+
+    for m in monitoring_time:
+        os.system(
+            'scavetool x ./simulations/results/Exponential-capacity-' + str(
+                m) + '-*.sca -o ../csv/Exponential-capacity-' + str(m) + '.csv')
+
+    for m in monitoring_time:
+        os.system(
+            'scavetool x ./simulations/results/Lognormal-capacity-' + str(
+                m) + '-*.sca -o ../csv/Lognormal-capacity-' + str(m) + '.csv')
+
+    for m in monitoring_time:
+        os.system(
+            'scavetool x ./simulations/results/Nonmonitoring-exponential-' + str(
+                m) + '-*.sca -o ../csv/Nonmonitoring-exponential-' + str(m) + '.csv')
+
+    for m in monitoring_time:
+        os.system(
+            'scavetool x ./simulations/results/Nonmonitoring-lognormal-' + str(
+                m) + '-*.sca -o ../csv/Nonmonitoring-lognormal-' + str(m) + '.csv')
+
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
