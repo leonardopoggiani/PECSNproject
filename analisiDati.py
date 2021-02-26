@@ -6,6 +6,7 @@ import pprint
 import scipy.stats
 import os
 from pylab import *
+import matplotlib.transforms as mtransforms
 
 color = sns.color_palette()
 
@@ -1162,30 +1163,105 @@ def plot_response_time(dataframe):
     pprint.pprint(df)
 
 
+monitoring_time = [0.8,1.5,1.8,2,4,5,12,20,50,100,400]
+interarrival_time = [9,9.5,10,13,15,20,50]
+
+
+def scavetool():
+    for i in interarrival_time:
+        for m in monitoring_time:
+            os.system(
+                '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-' + str(i) + 
+                "," + str(m) + '-*.sca -o ./csv/Lognormal-capacity-' + str(i) + "," + str(m) + '.csv')
+
+    for i in interarrival_time:
+        for m in monitoring_time:
+            os.system(
+                '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-' + str(i) +
+                "," + str(m) + '-*.sca -o ./csv/Exponential-capacity-' + str(i) + "," + str(m) + '.csv')
+
+    for i in interarrival_time:
+        os.system(
+            '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-exponential-' + str(i) +
+            '-*.sca -o ./csv/Nonmonitoring-exponential-' + str(i) + '.csv')
+
+    for i in interarrival_time:
+            os.system(
+                '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal-' + str(i) +
+                '-*.sca -o ./csv/Nonmonitoring-lognormal-' + str(i) + '.csv')
+            
+
+def plot_scalar_mean(attribute):
+
+    meanResponseTime = []
+    meanResponseTimeLognormal = []
+    index = []
+
+    for i in interarrival_time:
+        meanResponseTime.clear()
+        index.clear()
+        meanResponseTimeLognormal.clear()
+
+        for m in monitoring_time:
+            filename = './csv/' + 'Exponential-capacity-' + str(i) + "," + str(m) + '.csv'
+            filename2 = './csv/' + 'Lognormal-capacity-' + str(i) + "," + str(m) + '.csv'
+
+            index.append("m=" + str(m))
+
+            with open(filename, 'r') as f:
+                df = scalar_df_parse(filename)
+                df = df[df.name == attribute]
+                del df['run']
+                meanResponseTime.append(df.value.mean())
+
+            with open(filename2, 'r') as f:
+                df = scalar_df_parse(filename2)
+                df = df[df.name == attribute]
+                del df['run']
+                meanResponseTimeLognormal.append(df.value.mean())
+
+        dataframe = pd.DataFrame()
+        dataframe['file'] = index
+        dataframe['meanResponseTimeExponential'] = meanResponseTime
+        dataframe['meanResponseTimeLognormal'] = meanResponseTimeLognormal
+        plt.plot(dataframe['meanResponseTimeExponential'], "g:o", label="exponential")
+        plt.plot(dataframe['meanResponseTimeLognormal'], "r:o", label="lognormal")
+        plt.fill_between(index, dataframe['meanResponseTimeExponential'], dataframe['meanResponseTimeLognormal']
+                         ,where= dataframe['meanResponseTimeExponential'] > dataframe['meanResponseTimeLognormal']
+                         ,facecolor='green', alpha=0.3)
+        plt.fill_between(index, dataframe['meanResponseTimeExponential'], dataframe['meanResponseTimeLognormal']
+                         , where=dataframe['meanResponseTimeExponential'] <= dataframe['meanResponseTimeLognormal']
+                         , facecolor='red', alpha=0.3)
+        plt.title('Response time for k=' + str(i) + "ms")
+        plt.xticks(rotation=25)
+        plt.xlabel("Value of m")
+        plt.ylabel(attribute)
+
+        plt.xticks([k for k in range(len(index))], [k for k in index])
+
+        filename3 = './csv/' + 'Nonmonitoring-exponential-' + str(i) + '.csv'
+        filename4 = './csv/' + 'Nonmonitoring-lognormal-' + str(i) + '.csv'
+
+        with open(filename3, 'r') as f:
+            df = scalar_df_parse(filename3)
+            df = df[df.name == attribute]
+            del df['run']
+            plt.plot([df['value'].mean() for k in range(len(index))], "b:v", label="Non-monitoring exponential")
+
+        with open(filename4, 'r') as f:
+            df = scalar_df_parse(filename4)
+            df = df[df.name == attribute]
+            del df['run']
+            plt.plot([df['value'].mean() for k in range(len(index))], "y:v", label="Non-monitoring lognormal")
+
+        plt.legend(loc='upper left')
+        plt.show()
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    monitoring_time = [0.3, 0.5, 0.8, 1.5, 1.8, 2, 4, 5, 20, 50, 100, 400]
 
-    for m in monitoring_time:
-        os.system(
-            'scavetool x ./simulations/results/Exponential-capacity-' + str(
-                m) + '-*.sca -o ../csv/Exponential-capacity-' + str(m) + '.csv')
-
-    for m in monitoring_time:
-        os.system(
-            'scavetool x ./simulations/results/Lognormal-capacity-' + str(
-                m) + '-*.sca -o ../csv/Lognormal-capacity-' + str(m) + '.csv')
-
-    for m in monitoring_time:
-        os.system(
-            'scavetool x ./simulations/results/Nonmonitoring-exponential-' + str(
-                m) + '-*.sca -o ../csv/Nonmonitoring-exponential-' + str(m) + '.csv')
-
-    for m in monitoring_time:
-        os.system(
-            'scavetool x ./simulations/results/Nonmonitoring-lognormal-' + str(
-                m) + '-*.sca -o ../csv/Nonmonitoring-lognormal-' + str(m) + '.csv')
-
+    scavetool()
+    plot_scalar_mean("responseTime")
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
