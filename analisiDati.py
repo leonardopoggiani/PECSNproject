@@ -7,7 +7,7 @@ import scipy.stats
 import os
 from pylab import *
 import matplotlib.transforms as mtransforms
-
+from matplotlib.pyplot import figure
 color = sns.color_palette()
 
 # seaborn settings, just to give a nicer look
@@ -819,7 +819,7 @@ def scalar_df_parse(path_csv):
 
 
 def scalar_analysis(dataframe):
-    dataframe.to_csv("scalar.csv", index=False)
+    # dataframe.to_csv("scalar.csv", index=False)
     totaleServiceTime = []
     df = pd.DataFrame()
     thru = []
@@ -829,7 +829,7 @@ def scalar_analysis(dataframe):
     module = []
     queueLength = []
 
-    dati3 = dataframe[dataframe.name == "serviceTime"]
+    dati3 = dataframe[dataframe.name == "responseTime"]
     dati4 = dataframe[dataframe.name == "queueLength"]
 
     for i in range(0, 10):
@@ -919,10 +919,10 @@ def data_analysis(dataframe, attribute):
 
 
 def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
-    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
-    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-35ms.csv")
-    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-20ms.csv")
-    df3 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-10ms.csv")
+    df = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-exponential.csv")
+    df1 = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-lognormal.csv")
+    df2 = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-lognormal.csv")
+    df3 = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-lognormal.csv")
 
     sample = df[df.name == "responseTime"]
     x = np.sort(sample['value'].dropna())
@@ -1168,28 +1168,24 @@ interarrival_time = [9,10,13,15,20,50]
 
 
 def scavetool():
-    for i in interarrival_time:
-        for m in monitoring_time:
-            os.system(
-                '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-' + str(i) + 
-                "," + str(m) + '-*.sca -o ./csv/Lognormal-capacity-' + str(i) + "," + str(m) + '.csv')
-
-    for i in interarrival_time:
-        for m in monitoring_time:
-            os.system(
-                '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-' + str(i) +
-                "," + str(m) + '-*.sca -o ./csv/Exponential-capacity-' + str(i) + "," + str(m) + '.csv')
-
-    for i in interarrival_time:
+    for m in monitoring_time:
         os.system(
-            '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-exponential-' + str(i) +
-            '-*.sca -o ./csv/Nonmonitoring-exponential-' + str(i) + '.csv')
+            '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-'
+            + str(m) + '-*.sca -o ./csv/analisiScenario/35ms/Lognormal-capacity-' + str(m) + '.csv')
 
-    for i in interarrival_time:
-            os.system(
-                '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal-' + str(i) +
-                '-*.sca -o ./csv/Nonmonitoring-lognormal-' + str(i) + '.csv')
-            
+    for m in monitoring_time:
+        os.system(
+            '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
+            + str(m) + '-*.sca -o ./csv/analisiScenario/35ms/Exponential-capacity-' + str(m) + '.csv')
+
+    os.system(
+        '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-exponential' +
+        '-*.sca -o ./csv/analisiScenario/35ms/Nonmonitoring-exponential' + '.csv')
+
+    os.system(
+            '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal' +
+            '-*.sca -o ./csv/analisiScenario/35ms/Nonmonitoring-lognormal' + '.csv')
+
 
 def plot_scalar_mean(attribute):
 
@@ -1232,7 +1228,7 @@ def plot_scalar_mean(attribute):
         plt.fill_between(index, dataframe['meanResponseTimeExponential'], dataframe['meanResponseTimeLognormal']
                          , where=dataframe['meanResponseTimeExponential'] <= dataframe['meanResponseTimeLognormal']
                          , facecolor='red', alpha=0.3)
-        plt.title('Queue length for k=' + str(i) + "ms")
+        plt.title('Response time for k=' + str(i) + "ms")
         plt.xticks(rotation=25)
         plt.xlabel("Value of m")
         plt.ylabel(attribute)
@@ -1259,6 +1255,7 @@ def plot_scalar_mean(attribute):
         plt.show()
 
 modes = ['Exponential-capacity-','Lognormal-capacity-','Nonmonitoring-exponential-','Nonmonitoring-lognormal-']
+plt.rcParams["figure.figsize"] = (8, 7)
 
 def plot_everything_scenario():
 
@@ -1270,8 +1267,55 @@ def plot_everything_scenario():
     meanResponseTime = []
     index = []
 
-    for i in interarrival_time:
-        index.append("k=" + str(i))
+    for m in monitoring_time:
+        index.append("m=" + str(m))
+
+    dataframe = pd.DataFrame()
+    dataframe['file'] = index
+
+    for mode in modes:
+        for i in interarrival_time:
+
+            meanResponseTime.clear()
+
+            for m in monitoring_time:
+                if mode == 'Nonmonitoring-exponential-' or mode == 'Nonmonitoring-lognormal-':
+                    filename = './csv/pool_max_40000/' + mode + str(i) + '.csv'
+                else:
+                    filename = './csv/pool_max_40000/' + mode + str(i) + "," + str(m) + '.csv'
+                with open(filename, 'r') as f:
+                    df = scalar_df_parse(filename)
+                    df = df[df.name == 'queueLength']
+                    del df['run']
+                    meanResponseTime.append(df.value.mean())
+
+            dataframe[f'k={i}'] = meanResponseTime
+            plt.plot(dataframe[f'k={i}'],":o",label=f"k={i}")
+
+        plt.xticks([k for k in range(len(index))], [k for k in index])
+        var = mode.split('-')[0]
+        var2 = mode.split('-')[1]
+        plt.title("scenario: " + var + " " + var2 )
+        plt.xticks(rotation=25)
+        plt.xlabel("Value of m")
+        plt.ylabel("Queue length")
+        plt.legend(loc='upper left')
+        plt.savefig(f"./analysis/immagini per clarissa/pool_40000/queueLength/{var}{var2}.png")
+        plt.show()
+
+
+def plot_everything_scenario_invertitoKM():
+
+    num_plots = 6
+
+    colormap = plt.cm.gist_ncar
+    plt.gca().set_prop_cycle(plt.cycler('color', plt.cm.jet(np.linspace(0, 1, num_plots))))
+
+    meanResponseTime = []
+    index = []
+
+    for k in interarrival_time:
+        index.append("k=" + str(k))
 
     dataframe = pd.DataFrame()
     dataframe['file'] = index
@@ -1283,12 +1327,12 @@ def plot_everything_scenario():
 
             for i in interarrival_time:
                 if mode == 'Nonmonitoring-exponential-' or mode == 'Nonmonitoring-lognormal-':
-                    filename = './csv/' + mode + str(i) + '.csv'
+                    filename = './csv/pool_max_40000/' + mode + str(i) + '.csv'
                 else:
-                    filename = './csv/' + mode + str(i) + "," + str(m) + '.csv'
+                    filename = './csv/pool_max_40000/' + mode + str(i) + "," + str(m) + '.csv'
                 with open(filename, 'r') as f:
                     df = scalar_df_parse(filename)
-                    df = df[df.name == 'queueLength']
+                    df = df[df.name == 'responseTime']
                     del df['run']
                     meanResponseTime.append(df.value.mean())
 
@@ -1300,19 +1344,16 @@ def plot_everything_scenario():
         var2 = mode.split('-')[1]
         plt.title("scenario: " + var + " " + var2 )
         plt.xticks(rotation=25)
-        plt.xlabel("Value of m")
-        plt.ylabel("Queue length")
-        plt.legend(loc='upper right')
-        plt.savefig(f"./analysis/immagini per clarissa/queueLength/separatiPerScenario/{var}{var2}.png")
+        plt.xlabel("Value of k")
+        plt.ylabel("Response time")
+        plt.legend(loc='upper left')
+        plt.savefig(f"./analysis/immagini per clarissa/pool_40000/responseTime/invertitiKM/{var}{var2}.png")
         plt.show()
-
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    # scavetool()
-    # plot_scalar_mean("queueLength")
-
-    plot_everything_scenario()
+    scavetool()
+    # plot_everything_scenario()
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
