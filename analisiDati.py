@@ -1270,30 +1270,30 @@ def plot_everything_scenario():
     meanResponseTime = []
     index = []
 
-    for m in monitoring_time:
-        index.append("m=" + str(m))
+    for i in interarrival_time:
+        index.append("k=" + str(i))
 
     dataframe = pd.DataFrame()
     dataframe['file'] = index
 
     for mode in modes:
-        for i in interarrival_time:
+        for m in monitoring_time:
 
             meanResponseTime.clear()
 
-            for m in monitoring_time:
+            for i in interarrival_time:
                 if mode == 'Nonmonitoring-exponential-' or mode == 'Nonmonitoring-lognormal-':
                     filename = './csv/' + mode + str(i) + '.csv'
                 else:
                     filename = './csv/' + mode + str(i) + "," + str(m) + '.csv'
                 with open(filename, 'r') as f:
                     df = scalar_df_parse(filename)
-                    df = df[df.name == 'responseTime']
+                    df = df[df.name == 'queueLength']
                     del df['run']
                     meanResponseTime.append(df.value.mean())
 
-            dataframe[f'k={i}'] = meanResponseTime
-            plt.plot(dataframe[f'k={i}'],":o",label=f"k={i}")
+            dataframe[f'm={m}'] = meanResponseTime
+            plt.plot(dataframe[f'm={m}'],":o",label=f"m={m}")
 
         plt.xticks([k for k in range(len(index))], [k for k in index])
         var = mode.split('-')[0]
@@ -1301,9 +1301,9 @@ def plot_everything_scenario():
         plt.title("scenario: " + var + " " + var2 )
         plt.xticks(rotation=25)
         plt.xlabel("Value of m")
-        plt.ylabel("Response time")
-        plt.legend(loc='upper left')
-        plt.savefig(f"./analysis/immagini per clarissa/responseTime/separatiPerScenario/{var}{var2}.png")
+        plt.ylabel("Queue length")
+        plt.legend(loc='upper right')
+        plt.savefig(f"./analysis/immagini per clarissa/queueLength/separatiPerScenario/{var}{var2}.png")
         plt.show()
 
 

@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/analysis/immagini per clarissa/queueLength/separatiPerScenario/Exponentialcapacity.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/analysis/immagini per clarissa/queueLength/separatiPerScenario/Lognormalcapacity.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/analysis/immagini per clarissa/queueLength/separatiPerScenario/Nonmonitoringexponential.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/analysis/immagini per clarissa/queueLength/separatiPerScenario/Nonmonitoringlognormal.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +142,7 @@
       <workItem from="1614244895892" duration="4954000" />
       <workItem from="1614267900019" duration="3433000" />
       <workItem from="1614331957642" duration="1855000" />
-      <workItem from="1614335183708" duration="3369000" />
+      <workItem from="1614335183708" duration="3588000" />
     </task>
     <servers />
   </component>
@@ -171,7 +167,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/analisiDati_py$analisiDati.coverage" NAME="analisiDati Coverage Results" MODIFIED="1614185077718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PECSNproject$analisiDati.coverage" NAME="setup Coverage Results" MODIFIED="1612887640896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1614338544543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1614338587654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PECSNproject$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1613398406702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
