@@ -1258,10 +1258,61 @@ def plot_scalar_mean(attribute):
         plt.savefig(f'./analysis/immagini per clarissa/{attribute}/k={i}ms.png')
         plt.show()
 
+modes = ['Exponential-capacity-','Lognormal-capacity-','Nonmonitoring-exponential-','Nonmonitoring-lognormal-']
+
+def plot_everything_scenario():
+
+    num_plots = 6
+
+    colormap = plt.cm.gist_ncar
+    plt.gca().set_prop_cycle(plt.cycler('color', plt.cm.jet(np.linspace(0, 1, num_plots))))
+
+    meanResponseTime = []
+    index = []
+
+    for m in monitoring_time:
+        index.append("m=" + str(m))
+
+    dataframe = pd.DataFrame()
+    dataframe['file'] = index
+
+    for mode in modes:
+        for i in interarrival_time:
+
+            meanResponseTime.clear()
+
+            for m in monitoring_time:
+                if mode == 'Nonmonitoring-exponential-' or mode == 'Nonmonitoring-lognormal-':
+                    filename = './csv/' + mode + str(i) + '.csv'
+                else:
+                    filename = './csv/' + mode + str(i) + "," + str(m) + '.csv'
+                with open(filename, 'r') as f:
+                    df = scalar_df_parse(filename)
+                    df = df[df.name == 'responseTime']
+                    del df['run']
+                    meanResponseTime.append(df.value.mean())
+
+            dataframe[f'k={i}'] = meanResponseTime
+            plt.plot(dataframe[f'k={i}'],":o",label=f"k={i}")
+
+        plt.xticks([k for k in range(len(index))], [k for k in index])
+        var = mode.split('-')[0]
+        var2 = mode.split('-')[1]
+        plt.title('k=' + str(i) + "ms, scenario: " + var + " " + var2 )
+        plt.xticks(rotation=25)
+        plt.xlabel("Value of m")
+        plt.ylabel("Response time")
+        plt.legend(loc='upper left')
+        plt.savefig(f"./analysis/immagini per clarissa/responseTime/separatiPerScenario/{var}{var2}.png")
+        plt.show()
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
     # scavetool()
     # plot_scalar_mean("queueLength")
+
+    plot_everything_scenario()
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
