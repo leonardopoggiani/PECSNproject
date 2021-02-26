@@ -1298,7 +1298,7 @@ def plot_everything_scenario():
         plt.xticks([k for k in range(len(index))], [k for k in index])
         var = mode.split('-')[0]
         var2 = mode.split('-')[1]
-        plt.title('k=' + str(i) + "ms, scenario: " + var + " " + var2 )
+        plt.title("scenario: " + var + " " + var2 )
         plt.xticks(rotation=25)
         plt.xlabel("Value of m")
         plt.ylabel("Response time")
