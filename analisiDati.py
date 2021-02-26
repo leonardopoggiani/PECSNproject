@@ -1163,8 +1163,8 @@ def plot_response_time(dataframe):
     pprint.pprint(df)
 
 
-monitoring_time = [0.8,1.5,1.8,2,4,5,12,20,50,100,400]
-interarrival_time = [9,9.5,10,13,15,20,50]
+monitoring_time = [0.5,1.5,1.8,4.5,12,20]
+interarrival_time = [9,10,13,15,20,50]
 
 
 def scavetool():
@@ -1227,12 +1227,12 @@ def plot_scalar_mean(attribute):
         plt.plot(dataframe['meanResponseTimeExponential'], "g:o", label="exponential")
         plt.plot(dataframe['meanResponseTimeLognormal'], "r:o", label="lognormal")
         plt.fill_between(index, dataframe['meanResponseTimeExponential'], dataframe['meanResponseTimeLognormal']
-                         ,where= dataframe['meanResponseTimeExponential'] > dataframe['meanResponseTimeLognormal']
-                         ,facecolor='green', alpha=0.3)
+                         , where= dataframe['meanResponseTimeExponential'] > dataframe['meanResponseTimeLognormal']
+                         , facecolor='green', alpha=0.3)
         plt.fill_between(index, dataframe['meanResponseTimeExponential'], dataframe['meanResponseTimeLognormal']
                          , where=dataframe['meanResponseTimeExponential'] <= dataframe['meanResponseTimeLognormal']
                          , facecolor='red', alpha=0.3)
-        plt.title('Response time for k=' + str(i) + "ms")
+        plt.title('Queue length for k=' + str(i) + "ms")
         plt.xticks(rotation=25)
         plt.xlabel("Value of m")
         plt.ylabel(attribute)
@@ -1255,13 +1255,13 @@ def plot_scalar_mean(attribute):
             plt.plot([df['value'].mean() for k in range(len(index))], "y:v", label="Non-monitoring lognormal")
 
         plt.legend(loc='upper left')
+        plt.savefig(f'./analysis/immagini per clarissa/{attribute}/k={i}ms.png')
         plt.show()
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-
-    scavetool()
-    plot_scalar_mean("responseTime")
+    # scavetool()
+    # plot_scalar_mean("queueLength")
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
