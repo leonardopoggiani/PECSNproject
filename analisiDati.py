@@ -8,6 +8,8 @@ import os
 from pylab import *
 import matplotlib.transforms as mtransforms
 from matplotlib.pyplot import figure
+from tqdm.notebook import tqdm, trange
+
 color = sns.color_palette()
 
 # seaborn settings, just to give a nicer look
@@ -918,20 +920,24 @@ def data_analysis(dataframe, attribute):
     return stats
 
 
-def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
+def plot_ecdf_single(iteration=0, sample_size=1000, replace=False):
     df = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-exponential.csv")
-    df1 = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-lognormal.csv")
-    df2 = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-lognormal.csv")
-    df3 = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-lognormal.csv")
+    df1 = scalar_df_parse("csv/analisiScenario/35ms/Nonmonitoring-exponential.csv")
+    df2 = scalar_df_parse("csv/analisiScenario/50ms/Nonmonitoring-exponential.csv")
+    df3 = scalar_df_parse("csv/analisiScenario/10ms/Nonmonitoring-exponential.csv")
 
     sample = df[df.name == "responseTime"]
     x = np.sort(sample['value'].dropna())
     n = x.size
     y = np.arange(1, n + 1) / n
 
-    plt.scatter(x=x, y=y, label="50ms")
+    plt.scatter(x=x, y=y, label="20ms")
     plt.legend(loc='best')
     plt.grid(True)
+    plt.xlabel('x')
+    plt.ylabel('F(x)')
+    plt.title("ECDF for 20ms")
+    plt.savefig('./analysis/analisiScenario/non-monitoring-exponential/20ms.png')
     plt.show()
 
     sample1 = df1[df1.name == "responseTime"]
@@ -943,6 +949,10 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     plt.scatter(x=x, y=y, label="35ms")
     plt.legend(loc='best')
     plt.grid(True)
+    plt.xlabel('x')
+    plt.ylabel('F(x)')
+    plt.title("ECDF for 35ms")
+    plt.savefig('./analysis/analisiScenario/non-monitoring-exponential/35ms.png')
     plt.show()
 
     sample2 = df2[df2.name == "responseTime"]
@@ -951,9 +961,13 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     n = x.size
     y = np.arange(1, n + 1) / n
 
-    plt.scatter(x=x, y=y, label="20ms")
+    plt.scatter(x=x, y=y, label="50ms")
     plt.legend(loc='best')
     plt.grid(True)
+    plt.xlabel('x')
+    plt.ylabel('F(x)')
+    plt.title("ECDF for 50ms")
+    plt.savefig('./analysis/analisiScenario/non-monitoring-exponential/50ms.png')
     plt.show()
 
     sample3 = df3[df3.name == "responseTime"]
@@ -965,16 +979,20 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
     plt.scatter(x=x, y=y, label="10ms")
     plt.legend(loc='best')
     plt.grid(True)
+    plt.xlabel('x')
+    plt.ylabel('F(x)')
+    plt.title("ECDF for 10ms")
+    plt.savefig('./analysis/analisiScenario/non-monitoring-exponential/10ms.png')
     plt.show()
 
     stats = data_analysis(df, "responseTime")
-    stats.to_csv('stats1.csv', index=False)
+    stats.to_csv('./analysis/analisiScenario/non-monitoring-exponential/stats20ms.csv', index=False)
     stats = data_analysis(df1, "responseTime")
-    stats.to_csv('stats2.csv', index=False)
+    stats.to_csv('./analysis/analisiScenario/non-monitoring-exponential/stats35ms.csv', index=False)
     stats = data_analysis(df2, "responseTime")
-    stats.to_csv('stats3.csv', index=False)
+    stats.to_csv('./analysis/analisiScenario/non-monitoring-exponential/stats50ms.csv', index=False)
     stats = data_analysis(df3, "responseTime")
-    stats.to_csv('stats4.csv', index=False)
+    stats.to_csv('./analysis/analisiScenario/non-monitoring-exponential/stats10ms.csv', index=False)
 
     # data_analysis(df, "responseTime")
     # data_analysis(df1, "responseTime")
@@ -1009,14 +1027,59 @@ def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
 
     plot_ecdf(sample2, "20ms")
 
-    '''
+    
     plt.xlabel('x')
     plt.ylabel('F(x)')
     plt.legend(loc='best')
     plt.grid(True)
     plt.title("Comparison for the waiting time ecdfs")
     plt.show()
+    '''
 
+def plot_ecdf_comparation(iteration=0, sample_size=1000, replace=False):
+    df = scalar_df_parse("csv/analisiScenario/20ms/Nonmonitoring-exponential.csv")
+    df1 = scalar_df_parse("csv/analisiScenario/35ms/Nonmonitoring-exponential.csv")
+    df2 = scalar_df_parse("csv/analisiScenario/50ms/Nonmonitoring-exponential.csv")
+    df3 = scalar_df_parse("csv/analisiScenario/10ms/Nonmonitoring-exponential.csv")
+
+    sample = df[df.name == "responseTime"]
+    x = np.sort(sample['value'].dropna())
+    n = x.size
+    y = np.arange(1, n + 1) / n
+
+    plt.scatter(x=x, y=y, label="20ms")
+
+    sample1 = df1[df1.name == "responseTime"]
+
+    x = np.sort(sample1['value'].dropna())
+    n = x.size
+    y = np.arange(1, n + 1) / n
+
+    plt.scatter(x=x, y=y, label="35ms")
+
+    sample2 = df2[df2.name == "responseTime"]
+
+    x = np.sort(sample2['value'].dropna())
+    n = x.size
+    y = np.arange(1, n + 1) / n
+
+    plt.scatter(x=x, y=y, label="50ms")
+
+    sample3 = df3[df3.name == "responseTime"]
+
+    x = np.sort(sample3['value'].dropna())
+    n = x.size
+    y = np.arange(1, n + 1) / n
+
+    plt.scatter(x=x, y=y, label="10ms")
+
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.xlabel('x')
+    plt.ylabel('F(x)')
+    plt.title("ECDF for response time compared")
+    plt.savefig('./analysis/analisiScenario/non-monitoring-exponential/comparison.png')
+    plt.show()
 
 def plot_lorenz_curve(data, name):
     # sort the data
@@ -1163,28 +1226,29 @@ def plot_response_time(dataframe):
     pprint.pprint(df)
 
 
-monitoring_time = [0.5,1.5,1.8,4.5,12,20]
+monitoring_time = [0.5,1,4]
 interarrival_time = [9,10,13,15,20,50]
 
 
 def scavetool():
+
     for m in monitoring_time:
         os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-'
-            + str(m) + '-*.sca -o ./csv/analisiScenario/35ms/Lognormal-capacity-' + str(m) + '.csv')
+            + str(m) + '-*.sca -o ./csv/analisiScenario/50ms/Lognormal-capacity-' + str(m) + '.csv')
 
     for m in monitoring_time:
         os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
-            + str(m) + '-*.sca -o ./csv/analisiScenario/35ms/Exponential-capacity-' + str(m) + '.csv')
+            + str(m) + '-*.sca -o ./csv/analisiScenario/50ms/Exponential-capacity-' + str(m) + '.csv')
 
     os.system(
         '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-exponential' +
-        '-*.sca -o ./csv/analisiScenario/35ms/Nonmonitoring-exponential' + '.csv')
+        '-*.sca -o ./csv/analisiScenario/50ms/Nonmonitoring-exponential' + '.csv')
 
     os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal' +
-            '-*.sca -o ./csv/analisiScenario/35ms/Nonmonitoring-lognormal' + '.csv')
+            '-*.sca -o ./csv/analisiScenario/50ms/Nonmonitoring-lognormal' + '.csv')
 
 
 def plot_scalar_mean(attribute):
@@ -1352,8 +1416,10 @@ def plot_everything_scenario_invertitoKM():
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    scavetool()
+    # scavetool()
     # plot_everything_scenario()
+
+    plot_ecdf_comparation()
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
