@@ -1068,23 +1068,24 @@ def plot_response_time(dataframe):
 monitoring_time = [0.5,1,4]
 interarrival_time = [9,10,13,15,20,50]
 capacity_change_time = [0.5,1,2,5]
+number_datalink = [1,2,16,40]
 
 def scavetool():
 
-    for i in capacity_change_time:
+    for i in number_datalink:
         os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-'
-            + str(i) + '-*.sca -o ./csv/pool_classico_varia_T/Lognormal-capacity-' + str(i) + '.csv')
+            + str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Lognormal-capacity-' + str(i) + '.csv')
         os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
-            + str(i) + '-*.sca -o ./csv/pool_classico_varia_T/Exponential-capacity-' + str(i) + '.csv')
+            + str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Exponential-capacity-' + str(i) + '.csv')
         os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-exponential-' +
-            str(i) + '-*.sca -o ./csv/pool_classico_varia_T/Nonmonitoring-exponential-' + str(i) + '.csv')
+            str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Nonmonitoring-exponential-' + str(i) + '.csv')
 
         os.system(
                 '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal-' +
-                str(i) + '-*.sca -o ./csv/pool_classico_varia_T/Nonmonitoring-lognormal-' + str(i) + '.csv')
+                str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Nonmonitoring-lognormal-' + str(i) + '.csv')
 
 
 def plot_scalar_mean(attribute):
@@ -1497,11 +1498,41 @@ def plot_response_time_variousT():
     plt.savefig("./analysis/variandoT/responseTimeAlVariareDiT.png")
     plt.show()
 
+def plot_response_time_variousNDL():
+    dataframe = pd.DataFrame()
+    index = []
 
+    for k in number_datalink:
+        index.append(f"nA={k}")
+
+    dataframe['index'] = index
+
+    for mode in modes:
+        meanResponseTime = []
+        var = mode.split("-")[0]
+        var2 = mode.split("-")[1]
+
+        for i in number_datalink:
+            df = scalar_df_parse(f"csv/pool_classico_varia_NA/{mode}{i}.csv")
+            response = df[df.name == "responseTime"]
+            meanResponseTime.append(response.value.mean())
+
+        dataframe[f'responseTime{mode}{i}'] = meanResponseTime
+
+        plt.plot(meanResponseTime, ":o", label=f"{var} {var2}")
+
+    plt.xticks([k for k in range(len(index))], [k for k in index])
+    plt.xticks(rotation=25)
+    plt.xlabel("Value of nA")
+    plt.ylabel("Response time")
+    plt.title("Comparison of various values of nA")
+    plt.legend(loc='best')
+    plt.savefig("./analysis/variandoNDLeNA/responseTimeAlVariareDinAT=2sk=20msm=3sx=0.05s.png")
+    plt.show()
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    # scavetool()
+    scavetool()
     # plot_everything_scenario()
 
     # plot_ecdf_comparation()
@@ -1509,7 +1540,9 @@ def main():
 
     # scenario_comparison()
 
-    plot_response_time_variousT()
+    # plot_response_time_variousT()
+
+    plot_response_time_variousNDL()
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
