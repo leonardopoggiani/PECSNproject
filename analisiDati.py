@@ -920,89 +920,6 @@ def data_analysis(dataframe, attribute):
     return stats
 
 
-def plot_lorenz_curve(data, name):
-    # sort the data
-    sample = data[data.name == "responseTime"]
-    sorted_data = np.sort(sample['value'].dropna())
-
-    # compute required stuff
-    n = sorted_data.size
-    T = sorted_data.sum()
-    x = [i / n for i in range(0, n + 1)]
-    y = sorted_data.cumsum() / T
-    y = np.hstack((0, y))
-
-    # plot
-    plt.plot([0, 1], [0, 1], 'k')
-    plt.title("Lorenz Curve for " + name)
-    plt.plot(x, y, alpha=1, label=name)
-    pprint.pprint(f"gini for {name} {gini(sorted_data)}")
-    plt.show()
-    return
-
-
-def lorenz_curve_analysis():
-    '''
-    df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.5ms.csv")
-    df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.8ms.csv")
-    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.7ms.csv")
-    df0 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-8.5ms.csv")
-    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-8ms.csv")
-    # df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-9ms.csv")
-    df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-20ms.csv")
-    df3 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-35ms.csv")
-    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.6ms.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\responseTime-7.9ms.csv")
-    df1 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-20ms.csv")
-    df4 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-35ms.csv")
-    df5 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-50ms.csv")
-    df6 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-8ms.csv")
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\queueLength-10ms.csv")
-    '''
-
-    df4 = scalar_df_parse(
-        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-10ms.csv")
-    df5 = scalar_df_parse(
-        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-20ms.csv")
-    df6 = scalar_df_parse(
-        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-35ms.csv")
-    df7 = scalar_df_parse(
-        "C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-analysis\\scalar-50ms.csv")
-
-    # plot_lorenz_curve(df, "7.5ms")
-    # plot_lorenz_curve(df0, "8.5ms")
-    # plot_lorenz_curve(df0, "7ms")
-    pprint.pprint(f"mean LCG for 10ms exponential {gini(df4)}")
-    pprint.pprint(f"mean LCG for 20ms exponential {gini(df5)}")
-    pprint.pprint(f"mean LCG for 35ms exponential {gini(df6)}")
-    pprint.pprint(f"mean LCG for 50ms exponential {gini(df7)}")
-
-    df7 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-4.csv")
-    df8 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-4.csv")
-    df9 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-05.csv")
-
-    pprint.pprint(f"mean LCG for 50ms exponential t=0.5, m=4  {gini(df7)}")
-    pprint.pprint(mean_confidence_interval(df7))
-    pprint.pprint(f"mean LCG for 50ms exponential t=3, m=4 {gini(df8)}")
-    pprint.pprint(f"mean LCG for 50ms exponential t=3,m=0.5 {gini(df9)}")
-
-    # plot_lorenz_curve(df4, "scalar-3-8-4")
-
-    '''
-    plot_lorenz_curve(df5, "scalar-3-8-05")
-    plot_lorenz_curve(df6, "scalar-3-50-4")
-    plot_lorenz_curve(df7, "scalar-3-50-05")
-    plot_lorenz_curve(df4, "scalar-05-20-4")
-    plot_lorenz_curve(df5, "scalar-05-20-05")
-    plot_lorenz_curve(df6, "scalar-05-35-4.csv")
-    plot_lorenz_curve(df7, "scalar-05-35-05.csv")
-    plot_lorenz_curve(df7, "scalar-05-50-4.cs")
-    '''
-    # plot_lorenz_curve(df2, "20ms")
-    # plot_lorenz_curve(df3, "35ms")
-    # plot_lorenz_curve(df4, "9ms")
-
-
 def min_serviceTime_validation():
     df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\serviceTime-min-validation.csv")
     x = np.sort(df['value'].dropna())
@@ -1065,8 +982,6 @@ def plot_response_time(dataframe):
     pprint.pprint(df)
 
 
-monitoring_time = [0.5,1,4]
-interarrival_time = [9,10,13,15,20,50]
 capacity_change_time = [0.5,1,2,5]
 number_datalink = [1,2,16,40]
 
@@ -1462,8 +1377,6 @@ def scenario_comparison():
     plt.show()
 
 
-modes = ['Exponential-capacity-','Lognormal-capacity-','Nonmonitoring-exponential-','Nonmonitoring-lognormal-']
-
 def plot_response_time_variousT():
     dataframe = pd.DataFrame()
     index = []
@@ -1530,9 +1443,55 @@ def plot_response_time_variousNDL():
     plt.savefig("./analysis/variandoNDLeNA/responseTimeAlVariareDinAT=2sk=20msm=3sx=0.05s.png")
     plt.show()
 
+
+
+def plot_lorenz_curve(data, name):
+    # sort the data
+    sample = data[data.name == "responseTime"]
+    sorted_data = np.sort(sample['value'].dropna())
+
+    # compute required stuff
+    n = sorted_data.size
+    T = sorted_data.sum()
+    x = [i / n for i in range(0, n + 1)]
+    y = sorted_data.cumsum() / T
+    y = np.hstack((0, y))
+
+    # plot
+    plt.plot([0, 1], [0, 1], 'k')
+    plt.title(name)
+    plt.plot(x, y, alpha=1, label=name)
+    plt.savefig(f"./analysis/analisiScenario/lorenzCurve/{name}.png")
+    plt.show()
+    return
+
+
+interarrival_time = [10,20,35,50]
+modes = ['Exponential-capacity-','Lognormal-capacity-','Nonmonitoring-exponential','Nonmonitoring-lognormal']
+monitoring_time = [0.5,1,4]
+
+
+def lorenz_curve_analysis():
+
+    for k in interarrival_time:
+        for mode in modes:
+            for m in monitoring_time:
+                if mode == 'Nonmonitoring-exponential' or mode == 'Nonmonitoring-lognormal':
+                    df = scalar_df_parse(
+                        f"./csv/analisiScenario/{k}ms/{mode}.csv")
+                else:
+                    df = scalar_df_parse(
+                        f"./csv/analisiScenario/{k}ms/{mode}{m}.csv")
+
+                plot_lorenz_curve(df, f"{mode}{k}ms,m={m}s,gini={gini(df)}")
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    scavetool()
+
+    lorenz_curve_analysis()
+
+    # scavetool()
     # plot_everything_scenario()
 
     # plot_ecdf_comparation()
@@ -1542,13 +1501,12 @@ def main():
 
     # plot_response_time_variousT()
 
-    plot_response_time_variousNDL()
+    # plot_response_time_variousNDL()
 
     # df = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\non-monitoring\\scalar-50ms.csv")
     # df = vector_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\actualCapacity-50ms.csv")
     # df2 = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\lognormal\\scalar-50ms.csv")
 
-    # lorenz_curve_analysis()
     # min_responseTime_validation
     # plot_ecdf_comparation()
     '''

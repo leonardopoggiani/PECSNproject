@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/language.settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/language.settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/Lognormal-capacity-10,0.01.anf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations/aerocom.ini" beforeDir="false" afterPath="$PROJECT_DIR$/simulations/aerocom.ini" afterDir="false" />
-    </list>
+    <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,6 +55,7 @@
       <recent name="$PROJECT_DIR$/analysis/analisiScenario" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/analysis/analisiScenario/ECDF" />
       <recent name="$PROJECT_DIR$/analysis/analisiScenario/responseTime" />
       <recent name="$PROJECT_DIR$/csv/analisiScenario/20ms" />
       <recent name="$PROJECT_DIR$/csv/analisiScenario" />
@@ -161,6 +156,7 @@
       <workItem from="1614363160687" duration="13233000" />
       <workItem from="1614431915170" duration="5677000" />
       <workItem from="1614444300166" duration="3292000" />
+      <workItem from="1614507269371" duration="5024000" />
     </task>
     <servers />
   </component>
@@ -185,7 +181,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/analisiDati_py$analisiDati.coverage" NAME="analisiDati Coverage Results" MODIFIED="1614185077718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PECSNproject$analisiDati.coverage" NAME="setup Coverage Results" MODIFIED="1612887640896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1614447895637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1614518407851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PECSNproject$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1613398406702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
