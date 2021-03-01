@@ -418,58 +418,6 @@ def plot_ecdf_vec(data, attribute, iteration=0, sample_size=1000, replace=False)
 
 
 ####################################################
-#                      IID                         #
-####################################################
-
-def check_iid_sca(data, attribute, aggregate=False, users=range(0, NUM_DATA_LINK), save=False):
-    if aggregate:
-        samples = data[data.name.isin([attribute + '-' + str(i) for i in users])].groupby('run').mean()
-    else:
-        samples = data[data.name == attribute].value
-    check_iid(samples, attribute, aggregate=aggregate, save=save)
-    return
-
-
-def check_iid_vec(data, attribute, iteration=0, sample_size=1000, seed=SEED_SAMPLING, save=False):
-    samples = pd.Series(data[data.name == attribute].value.iloc[iteration])
-
-    # consider a sample
-    if sample_size is not None:
-        samples = samples.sample(n=sample_size, random_state=seed)
-
-    check_iid(samples, attribute, save)
-    return
-
-
-def check_iid(samples, attribute, aggregate=False, save=False):
-    pd.plotting.lag_plot(samples)
-    plt.title("Lag-Plot for " + attribute + (" (mean) " if aggregate else ""))
-
-    if aggregate:
-        plt.ylim(samples.min().value - samples.std().value, samples.max().value + samples.std().value)
-        plt.xlim(samples.min().value - samples.std().value, samples.max().value + samples.std().value)
-    else:
-        plt.ylim(samples.min() - samples.std(), samples.max() + samples.std())
-        plt.xlim(samples.min() - samples.std(), samples.max() + samples.std())
-
-    if save:
-        plt.savefig("iid_lagplot_" + attribute + ".pdf", bbox_inches="tight")
-        plt.clf()
-    else:
-        plt.show()
-
-    pd.plotting.autocorrelation_plot(samples)
-    plt.title("Autocorrelation plot for " + attribute + (" (mean) " if aggregate else ""))
-    if save:
-        plt.savefig("iid_autocorrelation_" + attribute + ".pdf", bbox_inches="tight")
-        plt.clf()
-    else:
-        plt.show()
-
-    return
-
-
-####################################################
 ####################################################
 ####################################################
 
@@ -982,14 +930,17 @@ def plot_response_time(dataframe):
     pprint.pprint(df)
 
 
-capacity_change_time = [0.5,1,2,5]
-number_datalink = [1,2,16,40]
+capacity_change_time = [0.5, 1, 2, 5]
+number_datalink = [1, 2, 16, 40]
+modes = ['Exponential-capacity-', 'Lognormal-capacity-', 'Nonmonitoring-exponential', 'Nonmonitoring-lognormal']
+interarrival_time = [9, 10, 13, 15, 20, 50]
+monitoring_time = [0.5, 1.5, 4.5, 12]
+malus = [0.01, 0.05, 0.5, 1, 2, 10, 50]
 
-def scavetool():
-
+def scavetool_all():
     for i in number_datalink:
         os.system(
-            '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-'
+            'C:\\omnetpp-5.6.2\\bin\\scavetool.exe x ./simulations/results/Lognormal-capacity-'
             + str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Lognormal-capacity-' + str(i) + '.csv')
         os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
@@ -999,12 +950,19 @@ def scavetool():
             str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Nonmonitoring-exponential-' + str(i) + '.csv')
 
         os.system(
-                '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal-' +
-                str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Nonmonitoring-lognormal-' + str(i) + '.csv')
+            '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal-' +
+            str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Nonmonitoring-lognormal-' + str(i) + '.csv')
+
+
+def scavetool():
+    for k in interarrival_time:
+        for X in malus:
+            os.system('C:\\omnetpp-5.6.2\\bin\\scavetool x C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\simulations\\results\\Exponential-capacity-'
+                + str(k) + "," + str(X) + '-*.sca -o C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\csv\\pool_classico_variano_X_k\\m=0.5s\\Exponential-capacity-'
+                + str(k) + "," + str(X) + '.csv')
 
 
 def plot_scalar_mean(attribute):
-
     meanResponseTime = []
     meanResponseTimeLognormal = []
     index = []
@@ -1039,7 +997,7 @@ def plot_scalar_mean(attribute):
         plt.plot(dataframe['meanResponseTimeExponential'], "g:o", label="exponential")
         plt.plot(dataframe['meanResponseTimeLognormal'], "r:o", label="lognormal")
         plt.fill_between(index, dataframe['meanResponseTimeExponential'], dataframe['meanResponseTimeLognormal']
-                         , where= dataframe['meanResponseTimeExponential'] > dataframe['meanResponseTimeLognormal']
+                         , where=dataframe['meanResponseTimeExponential'] > dataframe['meanResponseTimeLognormal']
                          , facecolor='green', alpha=0.3)
         plt.fill_between(index, dataframe['meanResponseTimeExponential'], dataframe['meanResponseTimeLognormal']
                          , where=dataframe['meanResponseTimeExponential'] <= dataframe['meanResponseTimeLognormal']
@@ -1070,10 +1028,11 @@ def plot_scalar_mean(attribute):
         plt.savefig(f'./analysis/immagini per clarissa/{attribute}/k={i}ms.png')
         plt.show()
 
+
 plt.rcParams["figure.figsize"] = (8, 7)
 
-def plot_everything_scenario():
 
+def plot_everything_scenario():
     num_plots = 6
 
     colormap = plt.cm.gist_ncar
@@ -1105,12 +1064,12 @@ def plot_everything_scenario():
                     meanResponseTime.append(df.value.mean())
 
             dataframe[f'k={i}'] = meanResponseTime
-            plt.plot(dataframe[f'k={i}'],":o",label=f"k={i}")
+            plt.plot(dataframe[f'k={i}'], ":o", label=f"k={i}")
 
         plt.xticks([k for k in range(len(index))], [k for k in index])
         var = mode.split('-')[0]
         var2 = mode.split('-')[1]
-        plt.title("scenario: " + var + " " + var2 )
+        plt.title("scenario: " + var + " " + var2)
         plt.xticks(rotation=25)
         plt.xlabel("Value of m")
         plt.ylabel("Queue length")
@@ -1120,7 +1079,6 @@ def plot_everything_scenario():
 
 
 def plot_everything_scenario_invertitoKM():
-
     num_plots = 6
 
     colormap = plt.cm.gist_ncar
@@ -1152,12 +1110,12 @@ def plot_everything_scenario_invertitoKM():
                     meanResponseTime.append(df.value.mean())
 
             dataframe[f'm={m}'] = meanResponseTime
-            plt.plot(dataframe[f'm={m}'],":o",label=f"m={m}")
+            plt.plot(dataframe[f'm={m}'], ":o", label=f"m={m}")
 
         plt.xticks([k for k in range(len(index))], [k for k in index])
         var = mode.split('-')[0]
         var2 = mode.split('-')[1]
-        plt.title("scenario: " + var + " " + var2 )
+        plt.title("scenario: " + var + " " + var2)
         plt.xticks(rotation=25)
         plt.xlabel("Value of k")
         plt.ylabel("Response time")
@@ -1367,7 +1325,6 @@ def scenario_comparison():
 
     plt.scatter(x=x, y=y, label="Lognormal m=4")
 
-
     plt.legend(loc='best')
     plt.grid(True)
     plt.xlabel('x')
@@ -1382,34 +1339,39 @@ def plot_response_time_variousT():
     index = []
 
     for k in capacity_change_time:
-        index.append(f"t={k}s")
+        for mode in modes:
+            index.append(f"{mode},t={k}s")
 
     dataframe['index'] = index
 
     for mode in modes:
+
+        index = []
         meanResponseTime = []
-        var = mode.split("-")[0]
-        var2 = mode.split("-")[1]
 
         for i in capacity_change_time:
-
-            df = scalar_df_parse(f"csv/pool_classico_varia_T/{mode}{i}.csv")
+            df = scalar_df_parse(
+                f"C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\csv\\pool_classico_varia_T\\{mode}{i}.csv")
             response = df[df.name == "responseTime"]
             meanResponseTime.append(response.value.mean())
+            index.append(i)
 
-        dataframe[f'responseTime{mode}{i}'] = meanResponseTime
+        plt.bar(index, meanResponseTime)
+        plt.title(f"{mode}")
+        plt.rcParams["figure.figsize"] = (12, 10)
+        plt.xticks(rotation=25)
+        plt.show()
 
-        plt.plot(meanResponseTime, ":o" ,label=f"{var} {var2}")
-
-
-    plt.xticks([k for k in range(len(index))], [k for k in index])
-    plt.xticks(rotation=25)
+    # pprint.pprint(meanResponseTime)
+    # plt.xticks(x_pos, index)
+    # plt.xticks([k for k in range(len(index))], [k for k in index])
     plt.xlabel("Value of t")
     plt.ylabel("Response time")
     plt.title("Comparison of various values of t")
     plt.legend(loc='best')
-    plt.savefig("./analysis/variandoT/responseTimeAlVariareDiT.png")
-    plt.show()
+    plt.savefig(
+        "C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\analysis\\variandoT\\responseTimeAlVariareDiT2.png")
+
 
 def plot_response_time_variousNDL():
     dataframe = pd.DataFrame()
@@ -1444,7 +1406,6 @@ def plot_response_time_variousNDL():
     plt.show()
 
 
-
 def plot_lorenz_curve(data, name):
     # sort the data
     sample = data[data.name == "responseTime"]
@@ -1466,13 +1427,7 @@ def plot_lorenz_curve(data, name):
     return
 
 
-interarrival_time = [10,20,35,50]
-modes = ['Exponential-capacity-','Lognormal-capacity-','Nonmonitoring-exponential','Nonmonitoring-lognormal']
-monitoring_time = [0.5,1,4]
-
-
 def lorenz_curve_analysis():
-
     for k in interarrival_time:
         for mode in modes:
             for m in monitoring_time:
@@ -1486,12 +1441,60 @@ def lorenz_curve_analysis():
                 plot_lorenz_curve(df, f"{mode}{k}ms,m={m}s,gini={gini(df)}")
 
 
+####################################################
+#                      IID                         #
+####################################################
+
+def check_iid_sca(data, attribute, mode, aggregate=False, users=range(0, 1000), save=False):
+    if aggregate:
+        samples = data.groupby('run').mean()
+        pprint.pprint(samples)
+        check_iid(samples, attribute, mode, aggregate=aggregate, save=save)
+    return
+
+
+def check_iid(samples, attribute, mode, aggregate=False, save=False):
+
+    pd.plotting.lag_plot(samples)
+    plt.title("Lag-Plot for " + attribute + (" (mean) " if aggregate else ""))
+
+    if aggregate:
+        plt.ylim(samples.min().value - samples.std().value, samples.max().value + samples.std().value)
+        plt.xlim(samples.min().value - samples.std().value, samples.max().value + samples.std().value)
+
+    plt.savefig(f"C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\analysis\\lagPlot\\responseTime\\{mode}.png")
+    plt.show()
+
+    pd.plotting.autocorrelation_plot(samples)
+    plt.title("Autocorrelation plot for " + attribute + (" (mean) " if aggregate else ""))
+
+    plt.savefig(f"C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\analysis\\autocorrelation\\responseTime\\{mode}.png")
+    plt.show()
+
+    return
+
+
+def iid_grafici():
+    for k in interarrival_time:
+        for mode in modes:
+            for t in monitoring_time:
+                if mode == "Nonmonitoring-exponential" or mode == "Nonmonitoring-lognormal":
+                    df = scalar_df_parse(
+                        f"C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\csv\\analisiScenario\\{k}ms\\{mode}.csv")
+                else:
+                    df = scalar_df_parse(
+                        f"C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\csv\\analisiScenario\\{k}ms\\{mode}{t}.csv")
+                pprint.pprint(df)
+                check_iid_sca(df, "responseTime", mode + str(k) + "-" + str(t), True)
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+    # iid_grafici()
 
-    lorenz_curve_analysis()
+    # lorenz_curve_analysis()
 
-    # scavetool()
+    scavetool()
     # plot_everything_scenario()
 
     # plot_ecdf_comparation()
@@ -1509,74 +1512,9 @@ def main():
 
     # min_responseTime_validation
     # plot_ecdf_comparation()
-    '''
-    df = pd.DataFrame(df[df.name == 'actualCapacity'].value.iloc[0])
-    df.to_csv('x.csv')
-    x = df['value']
-
-    # An "interface" to matplotlib.axes.Axes.hist() method
-    n, bins, patches = plt.hist(x=x, bins=15, color='#0504aa',
-                                alpha=0.7, rwidth=0.85)
-    plt.grid(axis='y', alpha=0.75)
-    plt.xlabel('Value')
-    plt.ylabel('Frequency')
-    plt.title('Service time')
-    plt.text(23, 45, r'$\mu=15, b=3$')
-    maxfreq = n.max()
-    # Set a clean upper y-axis limit.
-    plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
-    plt.show()
-
-    sns.set_style('darkgrid')
-    sns.displot(x, kind="ecdf")
-    sns.displot(x, kde=True)
-
-    plt.show()
-    '''
 
     # dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\test\\scalar.csv")
     # (dataframe)
-
-    '''
-    pprint.pprint(f"Mean service time nA=1, k=50ms: {df1['serviceTime'].mean()}")
-    pprint.pprint(f"Mean service time nA=2, k=25ms: {df2['serviceTime'].mean()}")
-    pprint.pprint(f"Mean service time nA=4, k=12.5ms: {df3['serviceTime'].mean()}")
-    pprint.pprint(f"Mean service time nDL=10, k=50ms: {df5['serviceTime'].mean()}, mean queue length: {df5['queueLength'].mean()}")
-    pprint.pprint(f"Mean service time nDL=20, k=25ms: {df6['serviceTime'].mean()}, mean queue length: {df6['queueLength'].mean()}")
-    pprint.pprint(f"Mean service time nDL=50, k=25ms: {df7['serviceTime'].mean()}, mean queue length: {df7['queueLength'].mean()}")
-    pprint.pprint(f"Mean service time nDL=200, k=25ms: {df8['serviceTime'].mean()}, mean queue length: {df8['queueLength'].mean()}")
-    pprint.pprint(f"Mean service time nDL=1000, k=25ms: {df9['serviceTime'].mean()}, mean queue length: {df9['queueLength'].mean()}")
-    '''
-
-    '''
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-4.csv")
-    stats = data_analysis(dataframe, "responseTime")
-    stats.to_csv("stats50msparametri3-50-4.csv", index=False)
-
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-4.csv")
-    stats = data_analysis(dataframe, "responseTime")
-    stats.to_csv("stats50msparametri05-50-4.csv", index=False)
-
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-3-50-05.csv")
-    stats = data_analysis(dataframe, "responseTime")
-    stats.to_csv("stats50msparametri3-50-05.csv", index=False)
-
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\exponential\\scalar-05-50-05.csv")
-    stats = data_analysis(dataframe, "responseTime")
-    stats.to_csv("stats50msparametri05-50-05.csv", index=False)
-    '''
-    '''
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\35ms.csv")
-    stats = data_analysis(dataframe, "responseTime")
-    stats.to_csv("stats35ms.csv", index=False)
-
-    dataframe = scalar_df_parse("C:\\Users\\Leonardo Poggiani\\Desktop\\dataset\\v2\\analysis\\lognormal\\50ms.csv")
-    stats = data_analysis(dataframe, "responseTime")
-    stats.to_csv("stats50ms.csv", index=False)
-    '''
-    # plot_ecdf_vec(dataframe, "responseTime", iteration=0, sample_size=100, replace=False)
-
-    # plot_ecdf_comparation()
 
     '''
     plot_mean_vectors(df, "arrivalTime", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9])
@@ -1589,7 +1527,6 @@ def main():
     plot_winavg_vectors(df, "tDistribution", start=0, duration=400, iterations=[0, 1, 2, 3, 4, 5, 6 ,7 ,8 ,9], win=5000)
 
     describe_attribute_vec(df, "arrivalTime", iteration=0)
-    check_iid_vec(df, "arrivalTime", iteration=0, sample_size=1000, seed=42, save=False)
     lorenz_curve_vec(df, "serviceTime")
 
     stats = vector_stats(df, group=False)
