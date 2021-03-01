@@ -930,13 +930,6 @@ def plot_response_time(dataframe):
     pprint.pprint(df)
 
 
-capacity_change_time = [0.5, 1, 2, 5]
-number_datalink = [1, 2, 16, 40]
-modes = ['Exponential-capacity-', 'Lognormal-capacity-', 'Nonmonitoring-exponential', 'Nonmonitoring-lognormal']
-interarrival_time = [9, 10, 13, 15, 20, 50]
-monitoring_time = [0.5, 1.5, 4.5, 12]
-malus = [0.01, 0.05, 0.5, 1, 2, 10, 50]
-
 def scavetool_all():
     for i in number_datalink:
         os.system(
@@ -952,14 +945,6 @@ def scavetool_all():
         os.system(
             '/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Nonmonitoring-lognormal-' +
             str(i) + '-*.sca -o ./csv/pool_classico_varia_NA/Nonmonitoring-lognormal-' + str(i) + '.csv')
-
-
-def scavetool():
-    for k in interarrival_time:
-        for X in malus:
-            os.system('C:\\omnetpp-5.6.2\\bin\\scavetool x C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\simulations\\results\\Exponential-capacity-'
-                + str(k) + "," + str(X) + '-*.sca -o C:\\Users\\Leonardo Poggiani\\Documents\\GitHub\\PECSNproject\\csv\\pool_classico_variano_X_k\\m=0.5s\\Exponential-capacity-'
-                + str(k) + "," + str(X) + '.csv')
 
 
 def plot_scalar_mean(attribute):
@@ -1488,13 +1473,64 @@ def iid_grafici():
                 check_iid_sca(df, "responseTime", mode + str(k) + "-" + str(t), True)
 
 
+
+def scavetool():
+    for k in interarrival_time:
+        for X in malus:
+            os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
+                + str(k) + "," + str(X) + '-*.sca -o ./csv/pool_classico_variano_X_k/m=12s/Exponential-capacity-'
+                + str(k) + "," + str(X) + '.csv')
+
+
+capacity_change_time = [0.5, 1, 2, 5]
+number_datalink = [1, 2, 16, 40]
+modes = ['Exponential-capacity-', 'Lognormal-capacity-', 'Nonmonitoring-exponential', 'Nonmonitoring-lognormal']
+interarrival_time = [9, 10, 13, 15, 20, 50]
+monitoring_time = [0.5, 1.5, 4.5, 12]
+malus = [0.01, 0.05, 0.5, 1, 2, 10]
+
+
+def plot_response_time_various_X_k():
+    dataframe = pd.DataFrame()
+    index = []
+
+    for k in interarrival_time:
+        index.append(f"t={k}s")
+
+    dataframe['index'] = index
+    plt.xticks([k for k in range(len(index))], [k for k in index])
+
+    for m in monitoring_time:
+        for X in malus:
+            meanResponseTime = []
+
+            for k in interarrival_time:
+                df = scalar_df_parse(
+                    f"./csv/pool_classico_variano_X_k/m={m}s/{modes[0]}{k},{X}.csv")
+                response = df[df.name == "queueLength"]
+                meanResponseTime.append(response.value.mean())
+
+            plt.plot(index,meanResponseTime,label=f"X={X}s")
+
+        # plt.xticks(x_pos, index)
+        # plt.xticks([k for k in range(len(index))], [k for k in index])
+        plt.xlabel("Value of k")
+        plt.ylabel("Queue length")
+        plt.title(f"Comparison of various values of X, m={m}s")
+        plt.legend(loc='best')
+        plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
+        plt.show()
+
+
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+
+    plot_response_time_various_X_k()
     # iid_grafici()
 
     # lorenz_curve_analysis()
 
-    scavetool()
+    # scavetool()
     # plot_everything_scenario()
 
     # plot_ecdf_comparation()
