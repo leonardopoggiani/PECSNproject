@@ -1475,11 +1475,10 @@ def iid_grafici():
 
 
 def scavetool():
-    for k in interarrival_time:
-        for X in malus:
-            os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
-                + str(k) + "," + str(X) + '-*.sca -o ./csv/pool_classico_variano_X_k/m=12s/Exponential-capacity-'
-                + str(k) + "," + str(X) + '.csv')
+    for X in malus:
+        os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
+                  + str(X) + '-*.sca -o ./csv/pool_classico_vario_X/Exponential-capacity-' +
+                  str(X) + '.csv')
 
 
 capacity_change_time = [0.5, 1, 2, 5]
@@ -1518,19 +1517,20 @@ def plot_response_time_various_X_k():
         plt.ylabel("Queue length")
         plt.title(f"Comparison of various values of X, m={m}s")
         plt.legend(loc='best')
-        plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
+        # plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
         plt.show()
 
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
+    scavetool_all()
+
     plot_response_time_various_X_k()
     # iid_grafici()
 
     # lorenz_curve_analysis()
 
-    # scavetool()
     # plot_everything_scenario()
 
     # plot_ecdf_comparation()
