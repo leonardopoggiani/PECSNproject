@@ -41,6 +41,7 @@ class LinkSelector : public cSimpleModule
     simsignal_t computeWaitingTime_;
     simsignal_t computeMeanMalus_;
     simsignal_t computeResponseTime_;
+    simsignal_t packetDelivered_;
 
 };
 

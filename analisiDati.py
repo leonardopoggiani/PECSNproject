@@ -188,44 +188,6 @@ def plot_mean_vectors_datalink(data, prefix, start=0, duration=SIM_TIME, iterati
     return
 
 
-def plot_mean_vectors(data, attribute, start=WARMUP_PERIOD, duration=SIM_TIME, iterations=None):
-    if iterations is None:
-        iterations = [0]
-
-    sel = data[data.name == attribute]
-
-    # plot a mean vector for each iteration
-    for i in iterations:
-        tmp = sel[sel.run == i]
-
-        for row in tmp.itertuples():
-            plt.plot(row.time, running_avg(row.value))
-
-    # plot the data
-    if attribute == "queueLength":
-        plt.title("queueLength")
-    elif attribute == "responseTime":
-        plt.title("responseTime")
-    elif attribute == "waitingTime":
-        plt.title("waitingTime")
-    elif attribute == "meanMalus":
-        plt.title("meanMalus")
-    elif attribute == "actualCapacity":
-        plt.title("actualCapacity")
-    elif attribute == "arrivalTime":
-        plt.title("arrivalTime")
-    elif attribute == "tDistribution":
-        plt.title("tDistribution")
-    elif attribute == "serviceTime":
-        plt.title("serviceTime")
-    elif attribute == "utilization":
-        plt.title("utilization")
-
-    plt.xlim(start, duration)
-    plt.show()
-    return
-
-
 def describe_attribute_sca(data, name, value='value'):
     # print brief summary of attribute name (with percentiles and stuff)
     pprint.pprint(data[data.name == name][value].describe(percentiles=[.25, .50, .75, .95]))
@@ -421,47 +383,6 @@ def plot_ecdf_vec(data, attribute, iteration=0, sample_size=1000, replace=False)
 ####################################################
 ####################################################
 
-
-def plot_winavg_vectors(data, attribute, start=0, duration=SIM_TIME, iterations=None, win=100):
-    if iterations is None:
-        iterations = [0]
-
-    sel = data[data.name == attribute]
-
-    # plot a mean vector for each iteration
-    for i in iterations:
-        tmp = sel[sel.run == i]
-        for row in tmp.itertuples():
-            plt.plot(row.time, winavg(row.value, win))
-
-    # plot the data
-    if attribute == "queueLength":
-        plt.title("queueLength")
-    elif attribute == "responseTime":
-        plt.title("responseTime")
-    elif attribute == "waitingTime":
-        plt.title("waitingTime")
-    elif attribute == "meanMalus":
-        plt.title("meanMalus")
-    elif attribute == "actualCapacity":
-        plt.title("actualCapacity")
-    elif attribute == "arrivalTime":
-        plt.title("arrivalTime")
-    elif attribute == "tDistribution":
-        plt.title("tDistribution")
-    elif attribute == "serviceTime":
-        plt.title("serviceTime")
-    elif attribute == "utilization":
-        plt.title("utilization")
-    elif attribute == "arrivalTime":
-        plt.title("arrivalTime")
-
-    # plot the data
-    plt.xlim(start, duration)
-    plt.show()
-    return
-
-
 def stats_to_csv():
     exp = {
         'uni': ['l09', 'l15', 'l2', 'l5'],
@@ -474,32 +395,6 @@ def stats_to_csv():
             data = scalar_parse(m, l)
             stats = scalar_stats(data)
             stats.to_csv('stats_' + m + '_' + l + '.csv')
-    return
-
-
-def unibin_ci_plot(lambda_val, attr, bin_mode='bin', ci=95, save=False):
-    # get the data...
-    stats1 = scalar_stats(scalar_parse('uni', lambda_val))
-    stats2 = scalar_stats(scalar_parse(bin_mode, lambda_val))
-
-    bar1 = stats1['mean'][attr]
-    bar2 = stats2['mean'][attr]
-
-    error = np.array([bar1 - stats1['ci' + str(ci) + '_l'][attr], stats1['ci' + str(ci) + '_h'][attr] - bar1]).reshape(
-        2, 1)
-    plt.bar(MODE_DESCRIPTION['uni'], bar1, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
-
-    error = np.array([bar2 - stats2['ci' + str(ci) + '_l'][attr], stats2['ci' + str(ci) + '_h'][attr] - bar2]).reshape(
-        2, 1)
-    plt.bar(MODE_DESCRIPTION[bin_mode], bar2, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
-
-    # Show graphic
-    plt.title("Comparison for " + attr + " and " + LAMBDA_DESCRIPTION[lambda_val])
-    if save:
-        plt.savefig("compare_unibin_" + attr + "_" + lambda_val + ".pdf", bbox_inches="tight")
-        plt.clf()
-    else:
-        plt.show()
     return
 
 
@@ -1477,7 +1372,7 @@ def iid_grafici():
 def scavetool():
     for X in malus:
         os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
-                  + str(X) + '-*.sca -o ./csv/pool_classico_vario_X/Exponential-capacity-' +
+                  + str(X) + '-*.vec -o ./csv/pool_classico_vario_X/Exponential-capacity-' +
                   str(X) + '.csv')
 
 
@@ -1486,7 +1381,7 @@ number_datalink = [1, 2, 16, 40]
 modes = ['Exponential-capacity-', 'Lognormal-capacity-', 'Nonmonitoring-exponential', 'Nonmonitoring-lognormal']
 interarrival_time = [9, 10, 13, 15, 20, 50]
 monitoring_time = [0.5, 1.5, 4.5, 12]
-malus = [0.01, 0.05, 0.5, 1, 2, 10]
+malus = [0.5, 1, 2, 5]
 
 
 def plot_response_time_various_X_k():
@@ -1520,13 +1415,109 @@ def plot_response_time_various_X_k():
         # plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
         plt.show()
 
+def plot_response_time_various_X():
+    dataframe = pd.DataFrame()
+    index = []
+    meanResponseTime = []
+
+    for X in malus:
+        index.append(f"X={X}s")
+
+    dataframe['index'] = index
+    plt.xticks([k for k in range(len(index))], [k for k in index])
+
+    for X in malus:
+        df = scalar_df_parse(
+            f"./csv/pool_classico_vario_X/{modes[0]}{X}.csv")
+        response = df[df.name == "queueLength"]
+        meanResponseTime.append(response.value.mean())
+
+    plt.plot(index,meanResponseTime,label=f"X={X}s")
+
+    # plt.xticks(x_pos, index)
+    # plt.xticks([k for k in range(len(index))], [k for k in index])
+    plt.xlabel("Value of k")
+    plt.ylabel("Queue length")
+    plt.title(f"Comparison of various values of X")
+    plt.legend(loc='best')
+    # plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
+    plt.show()
+
+
+def plot_mean_vectors(data, attribute, start=WARMUP_PERIOD, duration=SIM_TIME, iterations=None):
+    if iterations is None:
+        iterations = [0]
+
+    sel = data[data.name == attribute]
+
+    # plot a mean vector for each iteration
+    for i in iterations:
+        tmp = sel[sel.run == i]
+
+        for row in tmp.itertuples():
+            plt.plot(row.time, running_avg(row.value))
+
+    plt.title("responseTime")
+    plt.xlim(start, duration)
+    plt.show()
+    return
+
+
+def plot_winavg_vectors(data, attribute, start=0, duration=SIM_TIME, win=100):
+    sel = data[data.name == attribute]
+    index_malus = 0
+
+    for row in sel.itertuples():
+        pprint.pprint(row)
+        plt.plot(row.time, winavg(row.value, win),label=f"{malus[index_malus]}")
+        index_malus = index_malus + 1
+
+    plt.title("responseTime")
+    plt.xlim(start, duration)
+    return
+
+
+def unibin_ci_plot(lambda_val, attr, bin_mode='bin', ci=95, save=False):
+    # get the data...
+    stats1 = scalar_stats(scalar_parse('uni', lambda_val))
+    stats2 = scalar_stats(scalar_parse(bin_mode, lambda_val))
+
+    bar1 = stats1['mean'][attr]
+    bar2 = stats2['mean'][attr]
+
+    error = np.array([bar1 - stats1['ci' + str(ci) + '_l'][attr], stats1['ci' + str(ci) + '_h'][attr] - bar1]).reshape(
+        2, 1)
+    plt.bar(MODE_DESCRIPTION['uni'], bar1, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
+
+    error = np.array([bar2 - stats2['ci' + str(ci) + '_l'][attr], stats2['ci' + str(ci) + '_h'][attr] - bar2]).reshape(
+        2, 1)
+    plt.bar(MODE_DESCRIPTION[bin_mode], bar2, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
+
+    # Show graphic
+    plt.title("Comparison for " + attr + " and " + LAMBDA_DESCRIPTION[lambda_val])
+    if save:
+        plt.savefig("compare_unibin_" + attr + "_" + lambda_val + ".pdf", bbox_inches="tight")
+        plt.clf()
+    else:
+        plt.show()
+    return
+
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
-    scavetool_all()
+    scavetool()
 
-    plot_response_time_various_X_k()
+    for X in malus:
+        df = vector_parse(f"./csv/pool_classico_vario_X/Exponential-capacity-{X}.csv")
+        index_malus = 0
+        plot_winavg_vectors(df, "responseTime", start=10, duration=400, win=5000)
+
+    plt.legend()
+    plt.show()
+    # plot_response_time_various_X()
+
+    # plot_response_time_various_X()
     # iid_grafici()
 
     # lorenz_curve_analysis()
