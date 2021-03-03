@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/language.settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/language.settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvariabile mfisso lognormal.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvariabile mfisso lognormal.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m0.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m0.5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m1.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m1.5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m12.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m4.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m4.5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m0.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m0.5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m1.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m1.5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m12.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m4.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m4.5.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +179,7 @@
       <workItem from="1614689665714" duration="5079000" />
       <workItem from="1614719814487" duration="68000" />
       <workItem from="1614759960022" duration="1767000" />
-      <workItem from="1614780388187" duration="2802000" />
+      <workItem from="1614780388187" duration="3111000" />
     </task>
     <servers />
   </component>
@@ -197,7 +204,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PECSNproject$analisiDati.coverage" NAME="setup Coverage Results" MODIFIED="1612887640896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PECSNproject$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1613398406702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1614783711209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/analisiDati_py$AnalisiDati.coverage" NAME="AnalisiDati Coverage Results" MODIFIED="1614784668438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/analisiDati_py$analisiDati.coverage" NAME="analisiDati Coverage Results" MODIFIED="1614185077718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

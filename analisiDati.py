@@ -1389,7 +1389,7 @@ def plot_response_time_various_X_k():
     index = []
 
     for k in interarrival_time:
-        index.append(f"t={k}s")
+        index.append(f"k={k}s")
 
     dataframe['index'] = index
     plt.xticks([k for k in range(len(index))], [k for k in index])
@@ -1401,18 +1401,18 @@ def plot_response_time_various_X_k():
             for k in interarrival_time:
                 df = scalar_df_parse(
                     f"./csv/pool_classico_variano_X_k/m={m}s/{modes[0]}{k},{X}.csv")
-                response = df[df.name == "responseTime"]
+                response = df[df.name == "queueLength"]
                 meanResponseTime.append(response.value.mean())
 
             plt.plot(index,meanResponseTime,label=f"X={X}s")
 
         # plt.xticks(x_pos, index)
         # plt.xticks([k for k in range(len(index))], [k for k in index])
-        plt.xlabel("Value of t")
-        plt.ylabel("Response time")
+        plt.xlabel("Value of k")
+        plt.ylabel("Queue length")
         plt.title(f"Comparison of various values of X, m={m}s")
         plt.legend(loc='best')
-        plt.savefig(f"./analysis/Experiment2/Response Time Xvario-mfisso exponential_m{m}.png")
+        plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
         plt.show()
 
 def plot_response_time_various_X():
@@ -1508,9 +1508,9 @@ def main():
 
     # scavetool()
 
-    # plot_response_time_various_X_k()
+    plot_response_time_various_X_k()
 
-    unibin_ci_plot("responseTime")
+    # unibin_ci_plot("responseTime")
 
     # plot_response_time_various_X()
 
