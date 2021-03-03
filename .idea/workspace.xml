@@ -3,15 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m0.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m0.5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m1.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m1.5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m12.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m4.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Queue Length Xvario-mfisso exponential_m4.5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m0.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m0.5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m1.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m1.5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m12.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m4.5.png" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/Experiment2/Response Time Xvario-mfisso exponential_m4.5.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +169,7 @@
       <workItem from="1614677445912" duration="593000" />
       <workItem from="1614689665714" duration="5079000" />
       <workItem from="1614719814487" duration="68000" />
-      <workItem from="1614759960022" duration="639000" />
+      <workItem from="1614759960022" duration="1767000" />
     </task>
     <servers />
   </component>
