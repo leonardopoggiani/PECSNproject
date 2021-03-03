@@ -159,7 +159,7 @@ void LinkSelector::handleServiceTimeElapsed(cMessage* msg){
        EV_INFO << "Penalty started, "<< simTime() << endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
-       //penalty = false;
+       penalty = true;
     }
 }
 
@@ -169,6 +169,7 @@ void LinkSelector::handleStartMalusPenalty() {
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
         schedulePenalty = false;
+
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
         schedulePenalty = true;
