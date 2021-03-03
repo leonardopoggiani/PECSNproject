@@ -1381,7 +1381,7 @@ number_datalink = [1, 2, 16, 40]
 modes = ['Exponential-capacity-', 'Lognormal-capacity-', 'Nonmonitoring-exponential', 'Nonmonitoring-lognormal']
 interarrival_time = [9, 10, 13, 15, 20, 50]
 monitoring_time = [0.5, 1.5, 4.5, 12]
-malus = [0.5, 1, 2, 5]
+malus = [0.01,0.05, 0.5, 1, 2, 10]
 
 
 def plot_response_time_various_X_k():
@@ -1401,18 +1401,18 @@ def plot_response_time_various_X_k():
             for k in interarrival_time:
                 df = scalar_df_parse(
                     f"./csv/pool_classico_variano_X_k/m={m}s/{modes[0]}{k},{X}.csv")
-                response = df[df.name == "queueLength"]
+                response = df[df.name == "responseTime"]
                 meanResponseTime.append(response.value.mean())
 
             plt.plot(index,meanResponseTime,label=f"X={X}s")
 
         # plt.xticks(x_pos, index)
         # plt.xticks([k for k in range(len(index))], [k for k in index])
-        plt.xlabel("Value of k")
-        plt.ylabel("Queue length")
+        plt.xlabel("Value of t")
+        plt.ylabel("Response time")
         plt.title(f"Comparison of various values of X, m={m}s")
         plt.legend(loc='best')
-        # plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
+        plt.savefig(f"./analysis/Experiment2/Response Time Xvario-mfisso exponential_m{m}.png")
         plt.show()
 
 def plot_response_time_various_X():
@@ -1436,7 +1436,7 @@ def plot_response_time_various_X():
 
     # plt.xticks(x_pos, index)
     # plt.xticks([k for k in range(len(index))], [k for k in index])
-    plt.xlabel("Value of k")
+    plt.xlabel("Value of t")
     plt.ylabel("Queue length")
     plt.title(f"Comparison of various values of X")
     plt.legend(loc='best')
@@ -1506,15 +1506,10 @@ def unibin_ci_plot(lambda_val, attr, bin_mode='bin', ci=95, save=False):
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
-    scavetool()
+    # scavetool()
 
-    for X in malus:
-        df = vector_parse(f"./csv/pool_classico_vario_X/Exponential-capacity-{X}.csv")
-        index_malus = 0
-        plot_winavg_vectors(df, "responseTime", start=10, duration=400, win=5000)
+    plot_response_time_various_X_k()
 
-    plt.legend()
-    plt.show()
     # plot_response_time_various_X()
 
     # plot_response_time_various_X()
