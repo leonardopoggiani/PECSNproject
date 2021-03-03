@@ -221,7 +221,7 @@ def aggregate_users_signals(data, signal, datalinks=range(0, NUM_DATA_LINK)):
         percentiles=[.25, .50, .75, .95])
 
 
-def scalar_stats(data, attr=None, datalinks=range(0, NUM_DATA_LINK)):
+def scalar_stats(data, attr, datalinks=range(0, NUM_DATA_LINK)):
     stats = pd.DataFrame()
 
     # STATS FOR EACH SIGNAL
@@ -1364,7 +1364,7 @@ def iid_grafici():
 def scavetool():
     for X in malus:
         os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-'
-                  + str(X) + '-*.sca -o ./csv/pool_classico_vario_X/Lognormal-capacity-' +
+                  + str(X) + '-*.vec -o ./csv/pool_classico_vario_X/Lognormal-capacity-' +
                   str(X) + '.csv')
 
 
@@ -1392,20 +1392,14 @@ def plot_response_time_various_X_k():
             meanResponseTime = []
 
             for k in interarrival_time:
-                ci = 99
-                attr = "responseTime"
                 df = scalar_df_parse(
-                    f"./csv/pool_classico_variano_X_k/m={m}s/{modes[1]}{k},{X}.csv")
+                    f"./csv/pool_classico_variano_X_k/m={m}s/{modes[0]}{k},{X}.csv")
                 response = df[df.name == "responseTime"]
-                stats = scalar_stats(df, "responseTime")
                 meanResponseTime.append(response.value.mean())
 
-                error.append(np.array(
-                    [response.value.mean() - stats['ci' + str(ci) + '_l'][attr], stats['ci' + str(ci) + '_h'][attr] -
-                     response.value.mean()]).reshape(2, 1))
 
-            plt.plot(index,meanResponseTime,label=f"X={X}s")
-            plt.errorbar(index,  meanResponseTime, yerr=error[0], label='Line1')
+        plt.plot(index, meanResponseTime, label=f"X={X}s")
+
         # plt.xticks(x_pos, index)
         # plt.xticks([k for k in range(len(index))], [k for k in index])
         plt.xlabel("Value of k")
@@ -1477,13 +1471,18 @@ def plot_winavg_vectors(data, attribute, start=0, duration=SIM_TIME, win=100):
     return
 
 
-def unibin_ci_plot( attr, bin_mode='bin', ci=95, save=False):
+def unibin_ci_plot( attr ):
     # get the data...
-    stats1 = scalar_stats(scalar_df_parse("./csv/pool_classico_variano_m_e_k/Exponential-capacity-9,0.5.csv"))
-    stats2 = scalar_stats(scalar_df_parse("./csv/pool_classico_variano_m_e_k/Exponential-capacity-9,1.5.csv"))
+    ci = 99
+    stats1 = scalar_stats(scalar_df_parse("./csv/pool_classico_varia_NA/Exponential-capacity-2.csv"), attr)
+    stats2 = scalar_stats(scalar_df_parse("./csv/pool_classico_varia_NA/Lognormal-capacity-2.csv"), attr)
+    stats3 = scalar_stats(scalar_df_parse("./csv/pool_classico_varia_NA/Nonmonitoring-exponential-2.csv"), attr)
+    stats4 = scalar_stats(scalar_df_parse("./csv/pool_classico_varia_NA/Nonmonitoring-lognormal-2.csv"), attr)
 
     bar1 = stats1['mean'][attr]
     bar2 = stats2['mean'][attr]
+    bar3 = stats3['mean'][attr]
+    bar4 = stats4['mean'][attr]
 
     error = np.array([bar1 - stats1['ci' + str(ci) + '_l'][attr], stats1['ci' + str(ci) + '_h'][attr] - bar1]).reshape(
         2, 1)
@@ -1493,26 +1492,33 @@ def unibin_ci_plot( attr, bin_mode='bin', ci=95, save=False):
         2, 1)
     plt.bar("lognormal", bar2, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
 
+    error = np.array([bar3 - stats3['ci' + str(ci) + '_l'][attr], stats3['ci' + str(ci) + '_h'][attr] - bar3]).reshape(
+        2, 1)
+    plt.bar("non-monitoring exponential", bar3, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
+
+    error = np.array([bar4 - stats4['ci' + str(ci) + '_l'][attr], stats4['ci' + str(ci) + '_h'][attr] - bar4]).reshape(
+        2, 1)
+    plt.bar("non-monitoring lognormal", bar4, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
+
     # Show graphic
-    # plt.title("Comparison for " + attr + " and " + LAMBDA_DESCRIPTION[lambda_val])
-    if save:
-        # plt.savefig("compare_unibin_" + attr + "_" + lambda_val + ".pdf", bbox_inches="tight")
-        plt.clf()
-    else:
-        plt.show()
+    plt.title("Comparison for response time")
+    plt.xticks(rotation=10)
+    plt.show()
     return
 
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
+    unibin_ci_plot("responseTime")
 
-    scavetool()
+    # scavetool()
+    # plot_mean_vectors()
 
     # plot_response_time_various_X_k()
 
     # unibin_ci_plot("responseTime")
 
-    plot_response_time_various_X()
+    # plot_response_time_various_X()
 
     # plot_response_time_various_X()
     # iid_grafici()
