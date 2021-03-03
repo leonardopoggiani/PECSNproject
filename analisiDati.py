@@ -1477,26 +1477,26 @@ def plot_winavg_vectors(data, attribute, start=0, duration=SIM_TIME, win=100):
     return
 
 
-def unibin_ci_plot(lambda_val, attr, bin_mode='bin', ci=95, save=False):
+def unibin_ci_plot( attr, bin_mode='bin', ci=95, save=False):
     # get the data...
-    stats1 = scalar_stats(scalar_parse('uni', lambda_val))
-    stats2 = scalar_stats(scalar_parse(bin_mode, lambda_val))
+    stats1 = scalar_stats(scalar_df_parse("./csv/pool_classico_variano_m_e_k/Exponential-capacity-9,0.5.csv"))
+    stats2 = scalar_stats(scalar_df_parse("./csv/pool_classico_variano_m_e_k/Exponential-capacity-9,1.5.csv"))
 
     bar1 = stats1['mean'][attr]
     bar2 = stats2['mean'][attr]
 
     error = np.array([bar1 - stats1['ci' + str(ci) + '_l'][attr], stats1['ci' + str(ci) + '_h'][attr] - bar1]).reshape(
         2, 1)
-    plt.bar(MODE_DESCRIPTION['uni'], bar1, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
+    plt.bar("exponential", bar1, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
 
     error = np.array([bar2 - stats2['ci' + str(ci) + '_l'][attr], stats2['ci' + str(ci) + '_h'][attr] - bar2]).reshape(
         2, 1)
-    plt.bar(MODE_DESCRIPTION[bin_mode], bar2, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
+    plt.bar("lognormal", bar2, yerr=error, align='center', alpha=0.5, ecolor='black', capsize=7)
 
     # Show graphic
-    plt.title("Comparison for " + attr + " and " + LAMBDA_DESCRIPTION[lambda_val])
+    # plt.title("Comparison for " + attr + " and " + LAMBDA_DESCRIPTION[lambda_val])
     if save:
-        plt.savefig("compare_unibin_" + attr + "_" + lambda_val + ".pdf", bbox_inches="tight")
+        # plt.savefig("compare_unibin_" + attr + "_" + lambda_val + ".pdf", bbox_inches="tight")
         plt.clf()
     else:
         plt.show()
@@ -1508,7 +1508,9 @@ def main():
 
     # scavetool()
 
-    plot_response_time_various_X_k()
+    # plot_response_time_various_X_k()
+
+    unibin_ci_plot("responseTime")
 
     # plot_response_time_various_X()
 
