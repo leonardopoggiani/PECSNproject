@@ -2,37 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2cc7f34-4a99-4e8c-ba60-8a53aff5d3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/csv/pool_classico_vario_X/Lognormal-capacity-0.01.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/csv/pool_classico_vario_X/Lognormal-capacity-0.05.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/csv/pool_classico_vario_X/Lognormal-capacity-0.5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/csv/pool_classico_vario_X/Lognormal-capacity-1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/csv/pool_classico_vario_X/Lognormal-capacity-10.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/csv/pool_classico_vario_X/Lognormal-capacity-2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/Lognormal-capacity-0.01.anf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/Lognormal-capacity-0.5.anf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/Lognormal-capacity-10.anf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.01-#0.sca" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.01-#0.vci" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.01-#0.vec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.05-#0.sca" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.05-#0.vci" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.05-#0.vec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.5-#0.sca" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.5-#0.vci" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-0.5-#0.vec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-1-#0.sca" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-1-#0.vci" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-1-#0.vec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-10-#0.sca" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-10-#0.vci" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-10-#0.vec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-2-#0.sca" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-2-#0.vci" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/simulations/results/Lognormal-capacity-2-#0.vec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis/differenzeConSenzaBool.ods" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simulations/Exponential-capacity.anf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simulations/Lognormal-capacity.anf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/language.settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/language.settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisiDati.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisiDati.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/gcc-release/src/LinkSelector.o" beforeDir="false" afterPath="$PROJECT_DIR$/out/gcc-release/src/LinkSelector.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/gcc-release/src/PECSNproject" beforeDir="false" afterPath="$PROJECT_DIR$/out/gcc-release/src/PECSNproject" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/simulations/aerocom.ini" beforeDir="false" afterPath="$PROJECT_DIR$/simulations/aerocom.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LinkSelector.cc" beforeDir="false" afterPath="$PROJECT_DIR$/src/LinkSelector.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/src/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PECSNproject" beforeDir="false" afterPath="$PROJECT_DIR$/src/PECSNproject" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +181,7 @@
       <workItem from="1614719814487" duration="68000" />
       <workItem from="1614759960022" duration="1767000" />
       <workItem from="1614780388187" duration="5336000" />
-      <workItem from="1614789853326" duration="3959000" />
+      <workItem from="1614789853326" duration="4977000" />
     </task>
     <servers />
   </component>

@@ -89,7 +89,7 @@ void LinkSelector::handlePacketArrival(cMessage* msg) {
 }
 
 void LinkSelector::sendPacket() {
-    if ( !queue.isEmpty() && !penalty) {
+    if ( !queue.isEmpty() && !penalty ) {
         // la coda non e' vuota e non sto scontando una  penalita'
         AircraftPacket* ap = (AircraftPacket*) queue.front();
 
@@ -119,7 +119,7 @@ void LinkSelector::getMaxIndexCapacity(){
     // monitoring
     std::vector<int> capacities;
     DataLink* dl;
-    penalty  = true;
+    penalty = true;
     int actualCapacity;
 
     for(int i = 0; i < nDL; i++){
@@ -159,7 +159,6 @@ void LinkSelector::handleServiceTimeElapsed(cMessage* msg){
        EV_INFO << "Penalty started, "<< simTime() << endl;
        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
-       penalty = true;
     }
 }
 
@@ -169,11 +168,9 @@ void LinkSelector::handleStartMalusPenalty() {
         EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
         schedulePenalty = false;
-
     } else {
         EV_INFO << "Penalty starting after finishing the current transmission" << endl;
         schedulePenalty = true;
-
     }
 }
 

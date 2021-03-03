@@ -1362,9 +1362,10 @@ def iid_grafici():
 
 
 def scavetool():
+    for m in monitoring_
     for X in malus:
-        os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-'
-                  + str(X) + '-*.vec -o ./csv/pool_classico_vario_X/Lognormal-capacity-' +
+        os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
+                  + str(X) + '-*.vec -o ./csv/pool_classico_vario_m_X/Exponential-capacity-' +
                   str(X) + '.csv')
 
 
@@ -1509,9 +1510,9 @@ def unibin_ci_plot( attr ):
 
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
-    unibin_ci_plot("responseTime")
+    # unibin_ci_plot("responseTime")
 
-    # scavetool()
+    scavetool()
     # plot_mean_vectors()
 
     # plot_response_time_various_X_k()
