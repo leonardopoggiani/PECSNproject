@@ -16,6 +16,7 @@ void LinkSelector::initialize()
     computeMeanMalus_ = registerSignal("computeMeanMalus");
     computeServiceTime_ = registerSignal("computeServiceTime");
     computeResponseTime_ = registerSignal("computeResponseTime");
+    packetDelivered_ = registerSignal("packetDelivered");
 
     size = getAncestorPar("s").doubleValue(); // la dimensione di un pacchetto
 
@@ -60,6 +61,7 @@ void LinkSelector::handleMessage(cMessage* msg){
 
 void LinkSelector::sendPacketToDataLink(cMessage* msg){
     AircraftPacket* ap = check_and_cast<AircraftPacket*>(msg);
+    emit(packetDelivered_,1);
     emit(computeResponseTime_, simTime() - ap->getArrival());
     EV << "responseTime: " << simTime() - ap->getArrival() << endl;
 
