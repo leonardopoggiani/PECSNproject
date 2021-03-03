@@ -223,17 +223,9 @@ def aggregate_users_signals(data, signal, datalinks=range(0, NUM_DATA_LINK)):
 
 def scalar_stats(data, attr=None, datalinks=range(0, NUM_DATA_LINK)):
     stats = pd.DataFrame()
-    attributes = data.name.unique() if attr is None else attr
 
     # STATS FOR EACH SIGNAL
-    for attr in attributes:
-        stats[attr] = data[data.name == attr].value.describe(percentiles=[.25, .50, .75, .95])
-
-    # Aggregate dynamic stats (one signal per user):
-    stats['meanResponseTime'] = aggregate_users_signals(data, 'responseTime', datalinks)
-    stats['meanThroughput'] = aggregate_users_signals(data, 'tptUser', datalinks)
-    stats['meanCQI'] = aggregate_users_signals(data, 'CQI', datalinks)
-    stats['meanNumberRBs'] = aggregate_users_signals(data, 'numberRBs', datalinks)
+    stats[attr] = data[data.name == attr].value.describe(percentiles=[.25, .50, .75, .95])
 
     # Transpose...
     stats = stats.T
@@ -1371,8 +1363,8 @@ def iid_grafici():
 
 def scavetool():
     for X in malus:
-        os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Exponential-capacity-'
-                  + str(X) + '-*.vec -o ./csv/pool_classico_vario_X/Exponential-capacity-' +
+        os.system('/home/leonardo/omnetpp-5.6.2/bin/scavetool x ./simulations/results/Lognormal-capacity-'
+                  + str(X) + '-*.sca -o ./csv/pool_classico_vario_X/Lognormal-capacity-' +
                   str(X) + '.csv')
 
 
@@ -1387,6 +1379,7 @@ malus = [0.01,0.05, 0.5, 1, 2, 10]
 def plot_response_time_various_X_k():
     dataframe = pd.DataFrame()
     index = []
+    error = []
 
     for k in interarrival_time:
         index.append(f"k={k}s")
@@ -1399,20 +1392,27 @@ def plot_response_time_various_X_k():
             meanResponseTime = []
 
             for k in interarrival_time:
+                ci = 99
+                attr = "responseTime"
                 df = scalar_df_parse(
-                    f"./csv/pool_classico_variano_X_k/m={m}s/{modes[0]}{k},{X}.csv")
-                response = df[df.name == "queueLength"]
+                    f"./csv/pool_classico_variano_X_k/m={m}s/{modes[1]}{k},{X}.csv")
+                response = df[df.name == "responseTime"]
+                stats = scalar_stats(df, "responseTime")
                 meanResponseTime.append(response.value.mean())
 
-            plt.plot(index,meanResponseTime,label=f"X={X}s")
+                error.append(np.array(
+                    [response.value.mean() - stats['ci' + str(ci) + '_l'][attr], stats['ci' + str(ci) + '_h'][attr] -
+                     response.value.mean()]).reshape(2, 1))
 
+            plt.plot(index,meanResponseTime,label=f"X={X}s")
+            plt.errorbar(index,  meanResponseTime, yerr=error[0], label='Line1')
         # plt.xticks(x_pos, index)
         # plt.xticks([k for k in range(len(index))], [k for k in index])
         plt.xlabel("Value of k")
-        plt.ylabel("Queue length")
+        plt.ylabel("Response time")
         plt.title(f"Comparison of various values of X, m={m}s")
         plt.legend(loc='best')
-        plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
+        # plt.savefig(f"./analysis/Experiment2/Queue Length Xvario-mfisso exponential_m{m}.png")
         plt.show()
 
 def plot_response_time_various_X():
@@ -1428,7 +1428,7 @@ def plot_response_time_various_X():
 
     for X in malus:
         df = scalar_df_parse(
-            f"./csv/pool_classico_vario_X/{modes[0]}{X}.csv")
+            f"./csv/pool_classico_vario_X/{modes[1]}{X}.csv")
         response = df[df.name == "queueLength"]
         meanResponseTime.append(response.value.mean())
 
@@ -1506,13 +1506,13 @@ def unibin_ci_plot( attr, bin_mode='bin', ci=95, save=False):
 def main():
     pprint.pprint("Performance Evaluation - Python Data Analysis")
 
-    # scavetool()
+    scavetool()
 
-    plot_response_time_various_X_k()
+    # plot_response_time_various_X_k()
 
     # unibin_ci_plot("responseTime")
 
-    # plot_response_time_various_X()
+    plot_response_time_various_X()
 
     # plot_response_time_various_X()
     # iid_grafici()
