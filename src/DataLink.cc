@@ -12,7 +12,6 @@ void DataLink::initialize()
 
    operationMode = getAncestorPar("operationMode");
    transmitting = false;
-   malusPenalty = false;
    scheduleMalus = false;
    t = getAncestorPar("t").doubleValue(); // il valore della media per lognormal ed exponential
    dimPoolMax = getAncestorPar("dimPoolMax"); // massima capacita del DL
@@ -23,6 +22,7 @@ void DataLink::initialize()
    lastCapacityTime = 0; // tempo in cui si e' effettuato l'ultimo aggiornamento della capacita'
 
    int tempLast = 0;
+
    // Li ordino per trovare actualCapacity
    if(lastCapacity > nextCapacity) {
        tempLast = lastCapacity;
@@ -32,7 +32,6 @@ void DataLink::initialize()
 
    actualCapacity = uniform(lastCapacity,nextCapacity,1); // capacita' attuale del DL, la prima va estratta, poi variera' linearmente
    emit(computeActualCapacity_,actualCapacity);
-   EV <<"Capacita' attuale " << actualCapacity << endl;
    tDistribution = getAncestorPar("tDistribution").stdstringValue(); // il tipo di distribuzione che si intende usare
 
    cMessage * msg = new cMessage("setNextCapacity");
@@ -58,8 +57,6 @@ void DataLink::handleSetNextCapacity(cMessage *msg)
     lastCapacity = nextCapacity; // l'ultima capacita' viene aggiornata, se sto estraendo ho raggiunto la capacita' estratta precedentemente
     nextCapacity = uniform(dimPoolMin,dimPoolMax,1); // estratta la capacita da raggiungere tra t_
     lastCapacityTime = simTime(); // tempo dell'ultimo aggiornamento di capacita', ora
-    EV << "ATTUALE " << lastCapacity << ", DA RAGGIUNGERE " << nextCapacity << endl;
-    EV << "next capacity " << getFullName() << ", " << nextCapacity << endl;
     scheduleSetNextCapacity(msg);
 }
 
@@ -85,23 +82,32 @@ void DataLink::scheduleSetNextCapacity(cMessage *msg)
     }
 }
 
+/*
+* Ritorna la capacitá attuale del datalink che varia linearmente nel tempo tra due estremi.
+* Ogni t secondi (t é una variabile casuale) viene estratta una nuova capacitá da un pool
+* che va da dimPoolMin a dimPoolMax. Il monitoraggio viene fatto ogni m secondi e la funzione
+* ritorna il valore della capacità attuale, calcolata come variazione lineare della vecchia
+* capacitá per raggiungere quella nuova
+*/
 int DataLink::getCapacity()
 {
-    bool discesa = false; // se sto diminuendo la capacita' rispetto a quella precedente
+    int ret = 0;
+    bool descending = false; // se sto diminuendo la capacita' rispetto a quella precedente
+    double ratio = 0.0;
+    double increment = 0.0;
     simtime_t timeInterval = simTime() - lastCapacityTime;
     int deltaCapacity = nextCapacity - lastCapacity;
 
     if(deltaCapacity < 0) {
         int tmp = abs(deltaCapacity);
         deltaCapacity = tmp;
-        discesa = true;
+        descending = true;
     }
 
-    double ratio = (timeInterval.dbl()/interval);
-    double increment = ratio*deltaCapacity;
+    ratio = (timeInterval.dbl()/interval);
+    increment = ratio*deltaCapacity;
 
-    int ret = 0;
-    if(discesa){
+    if(descending){
         ret = lastCapacity - increment;
     } else {
         ret = lastCapacity + increment;

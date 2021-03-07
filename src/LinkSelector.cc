@@ -36,7 +36,7 @@ void LinkSelector::initialize()
 
 void LinkSelector::handleMessage(cMessage* msg){
     if(msg->isSelfMessage()){
-        //Monitoraggio prima volta
+        // Monitoraggio prima volta
        if ( strcmp(msg->getName(), "setMaxIndexCapacity") == 0 ){
             getMaxIndexCapacity();
             delete msg;
@@ -74,8 +74,6 @@ void LinkSelector::handlePacketArrival(cMessage* msg) {
         // qui mi e' arrivato il pacchetto da packetGenerator, adesso inoltro verso il DL scelto
         AircraftPacket* pa = check_and_cast<AircraftPacket*>(msg);
         pa->setArrival(simTime().dbl());
-        EV << "arrival: " << simTime()<< endl;
-
         pa->setName("packetToSend");
         queue.insert(pa);
 
@@ -92,9 +90,7 @@ void LinkSelector::sendPacket() {
     if ( !queue.isEmpty() && !penalty ) {
         // la coda non e' vuota e non sto scontando una  penalita'
         AircraftPacket* ap = (AircraftPacket*) queue.front();
-
         queue.pop();
-        EV << "WaitingTime: " << simTime() - ap->getArrival() << endl; // tempo attuale - tempo in cui il pacchetto e' entrato in coda
         emit(computeWaitingTime_, simTime() - ap->getArrival());
         emit(computeQueueLength_, queue.getLength());
 
@@ -103,17 +99,19 @@ void LinkSelector::sendPacket() {
         cModule* temp =  gate("out",maxCapacityDataLinkIndex)->getPathEndGate()->getOwnerModule();
         DataLink* dl = check_and_cast<DataLink*> (temp);
         double ac = dl->getCapacity();
-
         double serviceTime = s/ac;
 
         emit(computeServiceTime_, serviceTime);
-        EV <<"Service time is: " << serviceTime << ",size: " << size << ", actualCapacity: " << ac << endl;
 
         ap->setName("serviceTimeElapsed");
         scheduleAt(simTime() + serviceTime, ap);
         transmitting = true; // sto trasmettendo
     }
 }
+
+/*
+* Ritorna l'indice del datalink a capacitá maggiore.
+*/
 
 void LinkSelector::getMaxIndexCapacity(){
     // monitoring
@@ -129,7 +127,6 @@ void LinkSelector::getMaxIndexCapacity(){
         temp =  gate("out",i)->getPathEndGate()->getOwnerModule();
         dl = check_and_cast<DataLink*> (temp);
         actualCapacity = dl->getCapacity();
-        EV_INFO << dl << ", la sua actualCapacity: " << actualCapacity << endl;
         capacities.push_back(actualCapacity);
     }
 
@@ -137,11 +134,8 @@ void LinkSelector::getMaxIndexCapacity(){
     maxCapacityDataLinkIndex = std::max_element(capacities.begin(),capacities.end()) - capacities.begin();
     MaxIndexActualCapacity = capacities.at(maxCapacityDataLinkIndex);
     // faccio partire il malus perchï¿½ ho monitorato
-    EV << "monitoraggio: " << maxCapacityDataLinkIndex << ", capacita " << MaxIndexActualCapacity << endl;
-
 
     handleStartMalusPenalty();
-
 }
 
 void LinkSelector::scheduleCheckCapacity(){
@@ -156,26 +150,20 @@ void LinkSelector::handleServiceTimeElapsed(cMessage* msg){
     sendPacketToDataLink(msg);
 
     if (schedulePenalty) {
-       EV_INFO << "Penalty started, "<< simTime() << endl;
-       EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
        scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
     }
 }
 
 void LinkSelector::handleStartMalusPenalty() {
     if ( !transmitting ) {
-        EV_INFO << "Penalty started, "<< simTime() << endl;
-        EV_INFO << "Penalty should end at " << simTime().dbl() + malusX << endl;
         scheduleAt(simTime() + malusX, new cMessage("malusElapsed"));
         schedulePenalty = false;
     } else {
-        EV_INFO << "Penalty starting after finishing the current transmission" << endl;
         schedulePenalty = true;
     }
 }
 
 void LinkSelector::handleMalusElapsed() {
-    EV_INFO << "PenaltyTimeElapsed: handover completed, transmissions restored, "<< simTime() << endl;
     emit(computeMeanMalus_, malusX);
     penalty = false;
     sendPacket();
