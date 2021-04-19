@@ -1,7 +1,7 @@
 package aerocomsystemproject.simulations;
 
-import aerocomsystemproject.Aircraft;
 import aerocomsystemproject.ControlTower;
+import aerocomsystemproject.Aircraft;
 
 network Aerocom
 {

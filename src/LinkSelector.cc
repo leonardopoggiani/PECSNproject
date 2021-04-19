@@ -110,7 +110,7 @@ void LinkSelector::sendPacket() {
 }
 
 /*
-* Ritorna l'indice del datalink a capacitá maggiore.
+* Ritorna l'indice del datalink a capacitï¿½ maggiore.
 */
 
 void LinkSelector::getMaxIndexCapacity(){

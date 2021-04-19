@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from AircraftPacket.msg.
+// Generated file, do not edit! Created by nedtool 6.0 from AircraftPacket.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -26,6 +26,8 @@
 
 #include <iostream>
 #include <sstream>
+#include <memory>
+#include <type_traits>
 #include "AircraftPacket_m.h"
 
 namespace omnetpp {
@@ -67,7 +69,7 @@ void doParsimUnpacking(omnetpp::cCommBuffer *buffer, std::list<T,A>& l)
 {
     int n;
     doParsimUnpacking(buffer, n);
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
         l.push_back(T());
         doParsimUnpacking(buffer, l.back());
     }
@@ -87,7 +89,7 @@ void doParsimUnpacking(omnetpp::cCommBuffer *buffer, std::set<T,Tr,A>& s)
 {
     int n;
     doParsimUnpacking(buffer, n);
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
         T x;
         doParsimUnpacking(buffer, x);
         s.insert(x);
@@ -110,7 +112,7 @@ void doParsimUnpacking(omnetpp::cCommBuffer *buffer, std::map<K,V,Tr,A>& m)
 {
     int n;
     doParsimUnpacking(buffer, n);
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
         K k; V v;
         doParsimUnpacking(buffer, k);
         doParsimUnpacking(buffer, v);
@@ -148,14 +150,43 @@ void doParsimUnpacking(omnetpp::cCommBuffer *, T& t)
 
 }  // namespace omnetpp
 
+namespace {
+template <class T> inline
+typename std::enable_if<std::is_polymorphic<T>::value && std::is_base_of<omnetpp::cObject,T>::value, void *>::type
+toVoidPtr(T* t)
+{
+    return (void *)(static_cast<const omnetpp::cObject *>(t));
+}
+
+template <class T> inline
+typename std::enable_if<std::is_polymorphic<T>::value && !std::is_base_of<omnetpp::cObject,T>::value, void *>::type
+toVoidPtr(T* t)
+{
+    return (void *)dynamic_cast<const void *>(t);
+}
+
+template <class T> inline
+typename std::enable_if<!std::is_polymorphic<T>::value, void *>::type
+toVoidPtr(T* t)
+{
+    return (void *)static_cast<const void *>(t);
+}
+
+}
+
 
 // forward
 template<typename T, typename A>
 std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec);
 
+// Template rule to generate operator<< for shared_ptr<T>
+template<typename T>
+inline std::ostream& operator<<(std::ostream& out,const std::shared_ptr<T>& t) { return out << t.get(); }
+
 // Template rule which fires if a struct or class doesn't have operator<<
 template<typename T>
-inline std::ostream& operator<<(std::ostream& out,const T&) {return out;}
+inline typename std::enable_if<!std::is_base_of<omnetpp::cObject, T>::value, std::ostream&>::type
+operator<<(std::ostream& out,const T&) {return out.operator<<(omnetpp::opp_typename(typeid(T)));}
 
 // operator<< for std::vector<T>
 template<typename T, typename A>
@@ -170,7 +201,7 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
         out << *it;
     }
     out.put('}');
-    
+
     char buf[32];
     sprintf(buf, " (size=%u)", (unsigned int)vec.size());
     out.write(buf, strlen(buf));
@@ -179,11 +210,8 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
 
 Register_Class(AircraftPacket)
 
-AircraftPacket::AircraftPacket(const char *name, short kind) : ::omnetpp::cPacket(name,kind)
+AircraftPacket::AircraftPacket(const char *name, short kind) : ::omnetpp::cPacket(name, kind)
 {
-    this->aircraftID = 0;
-    this->sendTime = 0;
-    this->arrival = 0;
 }
 
 AircraftPacket::AircraftPacket(const AircraftPacket& other) : ::omnetpp::cPacket(other)
@@ -197,7 +225,7 @@ AircraftPacket::~AircraftPacket()
 
 AircraftPacket& AircraftPacket::operator=(const AircraftPacket& other)
 {
-    if (this==&other) return *this;
+    if (this == &other) return *this;
     ::omnetpp::cPacket::operator=(other);
     copy(other);
     return *this;
@@ -236,22 +264,22 @@ void AircraftPacket::setAircraftID(int aircraftID)
     this->aircraftID = aircraftID;
 }
 
-::omnetpp::simtime_t AircraftPacket::getSendTime() const
+omnetpp::simtime_t AircraftPacket::getSendTime() const
 {
     return this->sendTime;
 }
 
-void AircraftPacket::setSendTime(::omnetpp::simtime_t sendTime)
+void AircraftPacket::setSendTime(omnetpp::simtime_t sendTime)
 {
     this->sendTime = sendTime;
 }
 
-::omnetpp::simtime_t AircraftPacket::getArrival() const
+omnetpp::simtime_t AircraftPacket::getArrival() const
 {
     return this->arrival;
 }
 
-void AircraftPacket::setArrival(::omnetpp::simtime_t arrival)
+void AircraftPacket::setArrival(omnetpp::simtime_t arrival)
 {
     this->arrival = arrival;
 }
@@ -260,6 +288,11 @@ class AircraftPacketDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
+    enum FieldConstants {
+        FIELD_aircraftID,
+        FIELD_sendTime,
+        FIELD_arrival,
+    };
   public:
     AircraftPacketDescriptor();
     virtual ~AircraftPacketDescriptor();
@@ -275,18 +308,20 @@ class AircraftPacketDescriptor : public omnetpp::cClassDescriptor
     virtual const char **getFieldPropertyNames(int field) const override;
     virtual const char *getFieldProperty(int field, const char *propertyname) const override;
     virtual int getFieldArraySize(void *object, int field) const override;
+    virtual void setFieldArraySize(void *object, int field, int size) const override;
 
     virtual const char *getFieldDynamicTypeString(void *object, int field, int i) const override;
     virtual std::string getFieldValueAsString(void *object, int field, int i) const override;
-    virtual bool setFieldValueAsString(void *object, int field, int i, const char *value) const override;
+    virtual void setFieldValueAsString(void *object, int field, int i, const char *value) const override;
 
     virtual const char *getFieldStructName(int field) const override;
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
+    virtual void setFieldStructValuePointer(void *object, int field, int i, void *ptr) const override;
 };
 
 Register_ClassDescriptor(AircraftPacketDescriptor)
 
-AircraftPacketDescriptor::AircraftPacketDescriptor() : omnetpp::cClassDescriptor("AircraftPacket", "omnetpp::cPacket")
+AircraftPacketDescriptor::AircraftPacketDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(AircraftPacket)), "omnetpp::cPacket")
 {
     propertynames = nullptr;
 }
@@ -333,11 +368,11 @@ unsigned int AircraftPacketDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
+        FD_ISEDITABLE,    // FIELD_aircraftID
+        0,    // FIELD_sendTime
+        0,    // FIELD_arrival
     };
-    return (field>=0 && field<3) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 3) ? fieldTypeFlags[field] : 0;
 }
 
 const char *AircraftPacketDescriptor::getFieldName(int field) const
@@ -353,16 +388,16 @@ const char *AircraftPacketDescriptor::getFieldName(int field) const
         "sendTime",
         "arrival",
     };
-    return (field>=0 && field<3) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldNames[field] : nullptr;
 }
 
 int AircraftPacketDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0]=='a' && strcmp(fieldName, "aircraftID")==0) return base+0;
-    if (fieldName[0]=='s' && strcmp(fieldName, "sendTime")==0) return base+1;
-    if (fieldName[0]=='a' && strcmp(fieldName, "arrival")==0) return base+2;
+    if (fieldName[0] == 'a' && strcmp(fieldName, "aircraftID") == 0) return base+0;
+    if (fieldName[0] == 's' && strcmp(fieldName, "sendTime") == 0) return base+1;
+    if (fieldName[0] == 'a' && strcmp(fieldName, "arrival") == 0) return base+2;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -375,11 +410,11 @@ const char *AircraftPacketDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",
-        "simtime_t",
-        "simtime_t",
+        "int",    // FIELD_aircraftID
+        "omnetpp::simtime_t",    // FIELD_sendTime
+        "omnetpp::simtime_t",    // FIELD_arrival
     };
-    return (field>=0 && field<3) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **AircraftPacketDescriptor::getFieldPropertyNames(int field) const
@@ -422,6 +457,22 @@ int AircraftPacketDescriptor::getFieldArraySize(void *object, int field) const
     }
 }
 
+void AircraftPacketDescriptor::setFieldArraySize(void *object, int field, int size) const
+{
+    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
+    if (basedesc) {
+        if (field < basedesc->getFieldCount()) {
+            basedesc->setFieldArraySize(object, field, size);
+            return;
+        }
+        field -= basedesc->getFieldCount();
+    }
+    AircraftPacket *pp = (AircraftPacket *)object; (void)pp;
+    switch (field) {
+        default: throw omnetpp::cRuntimeError("Cannot set array size of field %d of class 'AircraftPacket'", field);
+    }
+}
+
 const char *AircraftPacketDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
@@ -446,27 +497,27 @@ std::string AircraftPacketDescriptor::getFieldValueAsString(void *object, int fi
     }
     AircraftPacket *pp = (AircraftPacket *)object; (void)pp;
     switch (field) {
-        case 0: return long2string(pp->getAircraftID());
-        case 1: return simtime2string(pp->getSendTime());
-        case 2: return simtime2string(pp->getArrival());
+        case FIELD_aircraftID: return long2string(pp->getAircraftID());
+        case FIELD_sendTime: return simtime2string(pp->getSendTime());
+        case FIELD_arrival: return simtime2string(pp->getArrival());
         default: return "";
     }
 }
 
-bool AircraftPacketDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+void AircraftPacketDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->setFieldValueAsString(object,field,i,value);
+        if (field < basedesc->getFieldCount()) {
+            basedesc->setFieldValueAsString(object, field, i, value);
+            return;
+        }
         field -= basedesc->getFieldCount();
     }
     AircraftPacket *pp = (AircraftPacket *)object; (void)pp;
     switch (field) {
-        case 0: pp->setAircraftID(string2long(value)); return true;
-        case 1: pp->setSendTime(string2simtime(value)); return true;
-        case 2: pp->setArrival(string2simtime(value)); return true;
-        default: return false;
+        case FIELD_aircraftID: pp->setAircraftID(string2long(value)); break;
+        default: throw omnetpp::cRuntimeError("Cannot set field %d of class 'AircraftPacket'", field);
     }
 }
 
@@ -497,4 +548,19 @@ void *AircraftPacketDescriptor::getFieldStructValuePointer(void *object, int fie
     }
 }
 
+void AircraftPacketDescriptor::setFieldStructValuePointer(void *object, int field, int i, void *ptr) const
+{
+    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
+    if (basedesc) {
+        if (field < basedesc->getFieldCount()) {
+            basedesc->setFieldStructValuePointer(object, field, i, ptr);
+            return;
+        }
+        field -= basedesc->getFieldCount();
+    }
+    AircraftPacket *pp = (AircraftPacket *)object; (void)pp;
+    switch (field) {
+        default: throw omnetpp::cRuntimeError("Cannot set field %d of class 'AircraftPacket'", field);
+    }
+}
 
