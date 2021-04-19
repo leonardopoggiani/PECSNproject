@@ -22,10 +22,10 @@ module Aircraft
 
     submodules:
         packetGenerator: PacketGenerator {
-            @display("p=390.825,96.5;i=device/pc4");
+            @display("p=390.825,96.5;");
         }
         linkSelector: LinkSelector {
-            @display("p=260.55,79.13;i=abstract/router");
+            @display("p=260.55,79.13;");
         }
         dataLink[nDL]: DataLink {
         }

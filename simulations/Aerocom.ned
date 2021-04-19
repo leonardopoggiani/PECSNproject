@@ -11,10 +11,10 @@ network Aerocom
 
     submodules:
         aircraft[nA]: Aircraft {
-            @display("p=111,94;b=9,9,rect;is=n;i=icons/airplane");
+            @display("p=111,94;b=9,9,rect;is=n;");
         }
         controlTower: ControlTower {
-            @display("p=329,233;i=icons/control-tower");
+            @display("p=329,233;");
         }
 
 
