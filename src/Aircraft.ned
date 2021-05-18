@@ -3,17 +3,17 @@ package aerocomsystemproject;
 module Aircraft
 {
     parameters:
-        double t @unit(s); // Ogni quanto il DL seleziona la nuova capacità target
-        int dimPoolMax; //Estremo superiore capacità target
-        int dimPoolMin; //Estremo inferiore capacità target
+        double t @unit(s); // Ogni quanto il DL seleziona la nuova capacitï¿½ target
+        int dimPoolMax; //Estremo superiore capacitï¿½ target
+        int dimPoolMin; //Estremo inferiore capacitï¿½ target
         int operationMode; //0 o 1
         double X @unit(s); //Malus dovuto al monitoraggio
         double s @unit(byte); //Dimensione pacchetto
         string tDistribution = default("exponential");
         int nDL = default(2); //Numero di datalink
         double k @unit(s); // Ogni quanto genera i pacchetti 
-        double m @unit(s); //Tempo di monitoraggio della capacità dei datalink
-        int DLMaxCapacity; //Id del datalink con capacità maggiore
+        double m @unit(s); //Tempo di monitoraggio della capacitï¿½ dei datalink
+        int DLMaxCapacity; //Id del datalink con capacitï¿½ maggiore
         bool trasmitting; //Il datalink sta trasmettendo oppure no
 
         @display("bgb=461,189");
@@ -22,13 +22,12 @@ module Aircraft
 
     submodules:
         packetGenerator: PacketGenerator {
-            @display("p=390.825,96.5;i=device/pc4");
+            @display("p=390.825,96.5;");
         }
         linkSelector: LinkSelector {
-            @display("p=260.55,79.13;i=abstract/router");
+            @display("p=260.55,79.13;");
         }
-        dataLink[nDL]: DataLink {
-        }
+        dataLink[nDL]: DataLink { }
     connections:
         for j=0..nDL-1 {
             linkSelector.out[j] --> dataLink[j].in;

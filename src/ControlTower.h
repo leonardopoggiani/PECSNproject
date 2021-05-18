@@ -1,5 +1,5 @@
-#ifndef __AEROCOMSYSTEMPROJECT_CONTROLTOWER_H_
-#define __AEROCOMSYSTEMPROJECT_CONTROLTOWER_H_
+#ifndef CONTROLTOWER_H_
+#define CONTROLTOWER_H_
 
 #include <omnetpp.h>
 
@@ -16,4 +16,4 @@ class ControlTower : public cSimpleModule
 
 };
 
-#endif /* __AEROCOMSYSTEMPROJECT_CONTROLTOWER_H_ */
+#endif

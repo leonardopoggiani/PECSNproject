@@ -79,6 +79,8 @@ void DataLink::scheduleSetNextCapacity(cMessage *msg)
         interval = exponential(t,2);
         scheduleAt(simTime() + interval, msg);
         emit(computeTDistribution_,  interval);
+    } else {
+        delete msg;
     }
 }
 
