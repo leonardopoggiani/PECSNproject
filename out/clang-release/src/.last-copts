@@ -1,1 +1,0 @@
--O3 -DNDEBUG=1   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_PARSIM -DWITH_NETBUILDER -DOMNETPPLIBS_IMPORT   -I/home/leonardo/Downloads/omnetpp-6.0pre10-src-linux/omnetpp-6.0pre10/include

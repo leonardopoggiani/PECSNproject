@@ -1,10 +1,10 @@
 [General]
-last-configname=Nonmonitoring-exponential
+last-configname=Lognormal-capacity
 last-runnumber=68
 
 [RunModeProfiles]
 fast-max-animation-speed=nan
-fast-max-playback-speed=1e+06
+fast-max-playback-speed=1e+6
 fast-min-animation-speed=nan
 fast-min-playback-speed=1
 fast-playback-speed=1000
